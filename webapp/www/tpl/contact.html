@@ -22,17 +22,18 @@
 	<input type="hidden" name="type" value="contact" />
 	
 	<div class="container-fluid">
-		<div  class="row">
-                    <h1 rel="name"></h1> <h2 rel ="firstname"> </h2>
-                        <div rel="Home phone"></div>
-                        <div rel="Professonnal phone"></div>
-                        <div rel="Mobile phone"></div>
-			<div rel="address"></div>
-			<div>
-				<span rel="zip"></span>
-				&nbsp;&nbsp;<span rel="town"></span>
-                        </div>
-		</div>
+            <div  class="row">
+                <div>
+                    <h1> 
+                        <span rel="name"></span> 
+                        &nbsp;&nbsp; 
+                        <span rel ="firstname"></span> 
+                    </h1>
+                </div>
+                <div rel="homephone"></div>
+                <div rel="professionalphone"></div>
+                <div rel="mobilephone"></div>
+            </div>
 	</div>
 	
 	<a data-toggle="tab" href="#contact-card-edit" class="link_edit move_tab">
@@ -87,21 +88,21 @@
 				</div>
 				
 				<!-- Phone-->
-				<label for="phone" class="col-sm-2 control-label"><langs trans="Home phone"></langs></label>
+				<label for="homephone" class="col-sm-2 control-label"><langs trans="Home phone"></langs></label>
 				<div class="col-sm-10" >
-					<input type="text" class="form-control" name="phone"/>
+					<input type="text" class="form-control" name="homephone"/>
 				</div>
                                 
                                 <!-- Phone-->
-				<label for="phone" class="col-sm-2 control-label"><langs trans="Professonal phone"></langs></label>
+				<label for="professionalphone" class="col-sm-2 control-label"><langs trans="Professonal phone"></langs></label>
 				<div class="col-sm-10" >
-					<input type="text" class="form-control" name="phone"/>
+					<input type="text" class="form-control" name="professionalphone"/>
 				</div>
                                 
                                 <!-- Phone-->
-				<label for="phone" class="col-sm-2 control-label"><langs trans="Mobile phone"></langs></label>
+				<label for="mobilephone" class="col-sm-2 control-label"><langs trans="Mobile phone"></langs></label>
 				<div class="col-sm-10" >
-					<input type="text" class="form-control" name="phone"/>
+					<input type="text" class="form-control" name="mobilephone"/>
 				</div>
 							
 				<!-- Permet d'éviter le chevauchement du dernier input sous les boutons d'actions en bas de l'écran -->
@@ -138,7 +139,7 @@
                                 <!-- Prénom -->
 				<label for="firstname" class="col-sm-2 control-label"><langs trans="First name"></langs></label>
 				<div class="col-sm-10">
-					<input type="text" class="form-control" name="name" placeholder="" />
+					<input type="text" class="form-control" name="firstname" placeholder="" />
 				</div>
 				
 				<!-- Town -->
@@ -148,7 +149,7 @@
 				</div>
 				
                                 <!-- Code Postal-->
-				<label for="cp" class="col-sm-2 control-label"><langs trans="Zip Code"></langs></label>
+				<label for="zip" class="col-sm-2 control-label"><langs trans="Zip Code"></langs></label>
 				<div class="col-sm-10" >
 					<input type="text" class="form-control" name="zip"/>
 				</div>
@@ -165,22 +166,22 @@
 					<input type="text" class="form-control" name="email"/>
 				</div>
 				
-								<!-- Phone-->
-				<label for="phone" class="col-sm-2 control-label"><langs trans="Home phone"></langs></label>
+                                <!-- homephone-->
+				<label for="homephone" class="col-sm-2 control-label"><langs trans="Home phone"></langs></label>
 				<div class="col-sm-10" >
-					<input type="text" class="form-control" name="phone"/>
+					<input type="text" class="form-control" name="homephone"/>
 				</div>
                                 
-                                <!-- Phone-->
-				<label for="phone" class="col-sm-2 control-label"><langs trans="Professonal phone"></langs></label>
+                                <!-- professionalphone-->
+				<label for="professionalphone" class="col-sm-2 control-label"><langs trans="Professional phone"></langs></label>
 				<div class="col-sm-10" >
-					<input type="text" class="form-control" name="phone"/>
+					<input type="text" class="form-control" name="professionalphone"/>
 				</div>
                                 
-                                <!-- Phone-->
-				<label for="phone" class="col-sm-2 control-label"><langs trans="Mobile phone"></langs></label>
+                                <!-- mobilephone-->
+				<label for="mobilephone" class="col-sm-2 control-label"><langs trans="Mobile phone"></langs></label>
 				<div class="col-sm-10" >
-					<input type="text" class="form-control" name="phone"/>
+					<input type="text" class="form-control" name="mobilephone"/>
 				</div>
 							
 				<!-- Permet d'éviter le chevauchement du dernier input sous les boutons d'actions en bas de l'écran -->

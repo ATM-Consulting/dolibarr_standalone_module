@@ -11,13 +11,13 @@ item = {
   ,desc:"Bizuland"  
 };
 
-DB.createItem('product', item, showAll);
+DB.createItem('contact', item, showAll);
 
 }
 
 function showAll(item) {
     console.log('item',item);
-    DB.getAllItem('product',logAll);
+    DB.getAllItem('contact',logAll);
 }
 
 function logAll(data) {
