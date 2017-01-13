@@ -1,4 +1,3 @@
-
 function _checkOnline()
 {
     var online = navigator.onLine;
@@ -17,7 +16,7 @@ function _checkOnline()
 function load_tpl()
 {
     var TTpl = [
-        ['tpl/nav.html', 'body']
+                ['tpl/nav.html', 'body']
                 , ['tpl/config.html', '#container']
                 , ['tpl/home.html', '#container']
                 , ['tpl/product.html', '#container']
@@ -30,7 +29,11 @@ function load_tpl()
 
     tpl_append(TTpl);
 }
-
+/*
+ * ???
+ * @param {type} TTpl  list of container
+ * @returns {undefined}
+ */
 function tpl_append(TTpl)
 {
     if (TTpl.length > 0)
@@ -47,7 +50,11 @@ function tpl_append(TTpl)
         init();
     }
 }
-
+/*
+ * use varaible localstorage to test if already exist connexion information and if it's true copy it in their input
+ * 
+ * @returns {undefined}
+ */
 function init()
 {
     if (localStorage.interface_url)
@@ -397,7 +404,7 @@ function createItem($container, type) {
             var callback = showProposal;
             break;
     }
-    doliDb.createItem(type, id, TValue, callback);
+    doliDb.createItem(type, TValue, callback);
 }
 
 function updateItem($container, type)
@@ -426,10 +433,10 @@ function updateItem($container, type)
             break;
     }
 
-    doliDb.updateItem(type, id, TValue, callback);
+    doliDb.updateItem(type, TValue, callback);
 }
 
-function addItem($container, type)
+/*function addItem($container, type)
 {
     var id = $container.children('input[name=id]').val();
     var TInput = $container.find('form').find('input, textarea'); // TODO liste à faire évoluer si on ajouter des select ou autres
@@ -455,8 +462,8 @@ function addItem($container, type)
             break;
     }
 
-    doliDb.addItem(type, id, TValue, callback);
-}
+    doliDb.addItem(type, TValue, callback);
+}*/
 
 
 
@@ -466,7 +473,7 @@ function addLine() {
      * On crée un tableau propal_lignes auquel on ajoute la ligne
      * On ajoute ensuite chaque ligne au <ul> sur la fiche d'édition de propale  
      */
-    var line;
+    }
 
 function createItem($container, type){
 	var id = $container.children('input[name=id]').val();
@@ -516,7 +523,7 @@ function addBoutons() {
     /*
      * insert dans la liste des produits pour la propal des boutons afin de les selectionner pour savoir ceux à ajouter, on sélectionne la quantité a posteriori
      */
-    $('#product-list-propal ul.list_product li.list-group-item').append('<span class="AddListBtn" style="float:right;"><button class="btn-circle btn btn-warning" type="button" onclick="toggleSelect(this)" value=0><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span></button></span>');
+    $('#product-list-propal ul.list_product li.list-group-item').append('<span class="AddListBtn" href="#proposal-card-edit" style="float:right;"><button class="btn-circle btn btn-warning" type="button" onclick="addItemToPropal(this)"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span></button></span>');
 }
 
 function toggleSelect(object) {
@@ -532,46 +539,18 @@ function toggleSelect(object) {
 
 }
 
-function TestWhichItemIsSelected() {
-    var ListCheckedProduct = [];
+
+function addItemToPropal(object) {
     StringList=''
-    
-    $liList = $('#product-list-propal ul.list_product li.list-group-item.checked');
-    $liList.each(function (i,item) {
-    
-        var product = {};
-        
-        $li = $(item);
-        
-        product.name=$li.attr('label');
-        product.description='';
-        product.prixU=10;
-
-        ListCheckedProduct.push(product);
-        /*StringList=StringList+product.name+","+product.description+","+product.prixU+";";
-        console.log(StringList);*/
-
-
-    });
-    
-    console.log(ListCheckedProduct);
-    
-    document.cookie=StringList;
-    console.log(ListCheckedProduct[0]);
-            console.log(ListCheckedProduct[1]);
-            console.log(ListCheckedProduct[2]);
-    //return ListCheckedProduct;
+    $li = $(object).closest('li');    
+    var product = {};
+           
+    product.name=$li.attr('label');
+    product.description='';
+    product.prixU=10;
+    console.log(product);
 }
 
-function addItemToPropal() {
-    /*ListeOfProduct=TestWhichItemIsSelected();
-    length=ListeOfProduct.length;
-    StringList=''
-    for(i=0;i<length;i++){
-        StringList+=ListeOfProduct[i]['name']+","+ListeOfProduct[i]['description']+","+ListeOfProduct[i]['prixU']+";";
-    }*/
-    TestWhichItemIsSelected();
-}
 /**
  * Fonction de communication crossdomain
  */

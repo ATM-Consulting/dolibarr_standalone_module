@@ -31,7 +31,7 @@ var DoliDb = function () {};
 
             try {
                 DoliDb.prototype.db.deleteObjectStore("thirdparty");
-            } catch (e) { 1 conflict 
+            } catch (e) {
                 console.log(e);
             }
 

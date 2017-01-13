@@ -56,6 +56,7 @@ function editProposal(item) {
     $container.children('input[name=id]').val(item.id_dolibarr);
 
     for (var x in item) {
+        console.log('item '+ x +'-->',$container.find('[name=' + x + ']'));
         $container.find('[name=' + x + ']').val(item[x]);
     }
 }

@@ -1,0 +1,127 @@
+<div id="proposal-card-edit" class="tab-pane">
+	<input type="hidden" name="id" value="" />
+	<input type="hidden" name="fk_soc" value="" />
+	
+	<div class="container-fluid">
+
+		<form class="form-horizontal">
+			<div class="form-group">
+				
+				<!-- ref -->
+				<label for="ref" class="col-sm-2 control-label"><langs trans="ProposalRef"></langs></label>
+				<div class="col-sm-10">
+					<h1 rel="ref"></h1>
+				</div>
+				
+				
+				<!-- Date -->
+				<label for="date" class="col-sm-2 control-label"><langs trans="ProposalDate"></langs></label>
+				<div class="col-sm-10 date">
+					<input class="form-control" type="date" name="date"/>
+				</div>
+
+				<!-- Durée de validité -->
+				<label for="refClient" class="col-sm-2 control-label"><langs trans="ProposalValidite"></langs></label>
+				<div class="col-sm-10">
+					<input class="form-control" type="text" name="duree_validite">jours</input>
+				</div>
+				
+				<!-- Conditions de reglement -->
+				<label for="refClient" class="col-sm-2 control-label"><langs trans="ProposalReglement"></langs></label>
+				<div class="col-sm-10">
+					<select class="form-control" name="cond_reglement">
+						<option value="1">
+							A reception
+						</option>
+						<option value="2">
+							30 jours
+						</option>
+						<option value="3">
+							30 jours fin de mois
+						</option>
+						<option value="4">
+							60 jours
+						</option>
+						<option value="5">
+							60 jours fin de mois
+						</option>
+						<option value="6">
+							A commande
+						</option>
+						<option value="7">
+							A livraison
+						</option>
+						<option value="8">
+							50/50
+						</option>
+						
+					</select>
+				</div>
+				
+				<!-- Mode de reglement -->
+				<label for="refClient" class="col-sm-2 control-label"><langs trans="ProposalReglement"></langs></label>
+				<div class="col-sm-10">
+					<select class="form-control" name="mode_reglement">
+						<option value="0">
+							
+						</option>
+						<option value="6">
+							Carte bancaire
+						</option>
+						<option value="7">
+							Chèque
+						</option>
+						<option value="4">
+							Espèce
+						</option>
+						<option value="3">
+							Prélèvement
+						</option>
+						<option value="2">
+							Virement
+						</option>
+						
+					</select>
+				</div>
+				
+				<label for="listeProduits" class="col-sm-2 control-label"><langs trans="ProposalLines"></langs></label>
+				<div class="col-sm-10" id="listeProduits">
+					<textarea></textarea> <!-- TODO Remplacer ceci par un ul qui sera rempli par addLinePropale-->
+				</div>
+				
+				
+				<label for="selectionProduit" class="col-sm-2 control-label"><langs trans="ProposalSelectProduct"></langs></label>
+				<div id="product-list-proposal-card-edit" class="tab-pane">
+					<div class="container-fluid">
+						<div  class="row">
+							<div class="input-group">
+								<input type="text" class="form-control" placeholder="Product" onchange="doliDb.getItemOnKey('product', this.value, ['label', 'id', 'ref'], refreshProductList, '#product-list-proposal-card-edit');" />
+								<span class="input-group-btn">
+									<button class="btn btn-default" type="button">
+										<langs trans="Go"></langs>
+									</button> </span>
+							</div>
+						</div>
+				
+						<div class="row">
+							<ul class="list-group list_product">
+				
+							</ul>
+						</div>
+				
+					</div>
+				</div>
+
+				
+				
+				
+
+				<!-- Permet d'éviter le chevauchement du dernier input sous les boutons d'actions en bas de l'écran -->
+				<div>&nbsp;</div>
+				<div>&nbsp;</div>
+				<div>&nbsp;</div>
+			</div>
+			
+		</form>
+		
+	</div>
