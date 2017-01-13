@@ -468,9 +468,47 @@ function addLine() {
      */
     var line;
 
+function createItem($container, type){
+	var id = $container.children('input[name=id]').val();
+	var TInput = $container.find('form').find('input, text');
+	var TValue = {};
+	
+	for (var i=0; i<TInput.length; i++){
+		TValue[TInput[i].name] = TInput[i].value;
+	}
+	
+	switch (type){
+		case 'product':
+			var callback = showProduct;
+			break;
+		case 'thirdparty':
+			var callback = showThirdParty;
+			break;
+		case 'proposal':
+			var callback = showProposal;
+			break;
+                case 'contact' :
+                        var callback = showContact;
+			break;
+                        
+	}
+	doliDb.createItem(type, id, TValue, callback);
 }
 
 
+
+function createContact()
+{
+    doliDb.createContact($('#thirdparty-card').children('input[name=id]').val(), $('#thirdparty-card').children('input[name=id_dolibarr]').val());
+}
+
+function addLine(){
+	/*
+	 *TODO au clic sur un <li> de la propal, on ajoute la ligne comme proposal_line.
+	 * On crée un tableau propal_lignes auquel on ajoute la ligne
+	 * On ajoute ensuite chaque ligne au <ul> sur la fiche d'édition de propale  
+	*/
+  }
 //----------My Function--------
 
 

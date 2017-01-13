@@ -1,5 +1,7 @@
 /* Pseudo class DB */
-var DoliDb = function () {
+var DoliDb = function () {};
+
+            
 
     DoliDb.prototype.indexedDB = window.indexedDB || window.mozIndexedDB || window.webkitIndexedDB || window.msIndexedDB;
     DoliDb.prototype.IDBTransaction = window.IDBTransaction || window.webkitIDBTransaction || window.msIDBTransaction;
@@ -8,7 +10,7 @@ var DoliDb = function () {
     DoliDb.prototype.db = {};
     DoliDb.prototype.dbName = 'dolibarr';
 
-    DoliDb.prototype.open = function () {
+    DoliDb.prototype.open = function (callback) {
 
         if (!this.indexedDB) {
             showMessage('Warning', 'Votre navigateur ne supporte pas une version stable d\'IndexedDB', 'warning');
@@ -29,7 +31,7 @@ var DoliDb = function () {
 
             try {
                 DoliDb.prototype.db.deleteObjectStore("thirdparty");
-            } catch (e) {
+            } catch (e) { 1 conflict 
                 console.log(e);
             }
 
@@ -79,7 +81,12 @@ var DoliDb = function () {
 
         request.onsuccess = function (event) {
             DoliDb.prototype.db = event.target.result;
-            console.log("open db success");
+            console.log("open db success",DoliDb.prototype.db);
+            
+            if(typeof callback != "undefined") {
+               callback();
+           }
+
         };
 
         request.onerror = function () {
@@ -91,6 +98,28 @@ var DoliDb = function () {
             showMessage('Error', 'Database locked', 'danger');
         };
 
+           
+    };
+
+    DoliDb.prototype.createItem = function (storename, item, callback) {
+  console.log(this.db);      
+        var transaction = this.db.transaction(storename, "readwrite");
+        var objectStore = transaction.objectStore(storename);
+
+            
+            //item = DoliDb.prototype.prepareItem(storename, item, 'add');
+            item.update_by_indexedDB = 1;
+            res=objectStore.add(item);
+            //item.id = res.result;   
+               
+            console.log('Create', 'The current record has been created', 'success');
+            if (typeof callback != 'undefined') {
+                callback(item);
+            }
+            else {
+                return item;               
+            }
+        //};
     };
 
     DoliDb.prototype.getAllItem = function (type, callback, arg1) {
@@ -203,47 +232,6 @@ var DoliDb = function () {
         };
     };
 
-    DoliDb.prototype.getItemOnKey = function (storename, keyword, TKey, callback, arg1) {
-        keyword = keyword.toLowerCase();
-        var TItem = new Array;
-
-        var transaction = this.db.transaction(storename, "readonly");
-        var objectStore = transaction.objectStore(storename);
-
-        var cursorRequest = objectStore.openCursor();
-        cursorRequest.onsuccess = function (event) {
-            var cursor = event.target.result;
-            if (cursor)
-            {
-                for (var i in TKey)
-                               if (cursor.value[TKey[i]].toString().toLowerCase().indexOf(keyword) !== -1) // search as "%keyword%"
-                        {
-                            TItem.push(cursor.value);
-         {
-                    if (typeof cursor.value[TKey[i]] != 'undefined')
-                    {
-                        if (cursor.value[TKey[i]].toString().toLowerCase().indexOf(keyword) !== -1) // search as "%keyword%"
-                        {
-                            TItem.push(cursor.value);
-                            break;
-                        }
-                    } else
-                    {
-                        console.log('WARNING attribute [' + TKey[i] + '] not exists in object store [' + storename + ']', cursor.value);
-                    }
-                }
-
-                cursor.continue();
-            } else
-            {
-                if (typeof callback !== 'undefined')
-                    callback(TItem, arg1);
-                return false; // de toute manière c'est de l'asynchrone, donc ça sert à rien de return TItem
-            }
-        };
-
-    };
-
 
     DoliDb.prototype.createProposal = function (id_object, fk_soc) {
 
@@ -284,8 +272,9 @@ var DoliDb = function () {
 
     };
 
-    DoliDb.prototype.createContact = function (id_object, fk_soc) {
 
+
+    DoliDb.prototype.createContact = function (id_object, fk_soc) {
         if (typeof fk_soc == 'undefined' || !fk_soc) {
             showMessage('Warning', 'Can\'t create a contact without thirdparty id', 'warning');
             return;
@@ -354,23 +343,6 @@ var DoliDb = function () {
 
     };
 
-    DoliDb.prototype.addItem = function (storename, item, callbackfct) {
-        var trans = this.db.transaction(storename, "readwrite");
-        var store = trans.objectStore([storename]);
-        
-        store.delete(item.id);
-        var request = store.put(item);
-
-        request.oncomplete = function (e) {
-            item.update_by_indexedDB = 1;
-            showMessage('Add', "Item is inserted", 'success');
-            callbackfct(item);
-        };
-
-        request.onerror = function (e) {
-            console.log(e.value);
-        };
-    };
 
     // TODO à refondre : voir fonction sendData() dans app.js
     DoliDb.prototype.sendAllUpdatedInLocal = function (TDataToSend) {
@@ -564,8 +536,48 @@ var DoliDb = function () {
 
 
     };
+    
+    DoliDb.prototype.getItemOnKey = function (storename, keyword, TKey, callback, arg1) {
+        keyword = keyword.toLowerCase();
+        var TItem = new Array;
 
-};
+        var transaction = this.db.transaction(storename, "readonly");
+        var objectStore = transaction.objectStore(storename);
+
+        var cursorRequest = objectStore.openCursor();
+        cursorRequest.onsuccess = function (event) {
+            var cursor = event.target.result;
+            if (cursor)
+            {
+                for (var i in TKey) {
+                    if (cursor.value[TKey[i]].toString().toLowerCase().indexOf(keyword) !== -1) // search as "%keyword%"
+                        
+                    TItem.push(cursor.value);
+                    if (typeof cursor.value[TKey[i]] != 'undefined')
+                    {
+                        if (cursor.value[TKey[i]].toString().toLowerCase().indexOf(keyword) !== -1) // search as "%keyword%"
+                        {
+                            TItem.push(cursor.value);
+                            break;
+                        }
+                    } else
+                    {
+                        console.log('WARNING attribute [' + TKey[i] + '] not exists in object store [' + storename + ']', cursor.value);
+                    }
+                }
+
+                cursor.continue();
+            } else
+            {
+                if (typeof callback !== 'undefined')
+                    callback(TItem, arg1);
+                return false; // de toute manière c'est de l'asynchrone, donc ça sert à rien de return TItem
+            }
+        };
+
+    };
+
+
 
 
 /*
@@ -842,4 +854,7 @@ var DoliDb = function () {
  console.log("Couldn't delete database due to the operation being blocked");
  };
  */
- };
+
+
+
+

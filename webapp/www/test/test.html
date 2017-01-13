@@ -1,0 +1,38 @@
+<html>
+<body>
+<script type="text/javascript" src="../indexdb.js"></script>
+<script src="../jq/jquery.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+function toto() {
+    
+    console.log('too',DB.db)    ;
+item = {
+  name:"test de ouf"  
+  ,desc:"Bizuland"  
+};
+
+DB.createItem('product', item, showAll);
+
+}
+
+function showAll(item) {
+    console.log('item',item);
+    DB.getAllItem('product',logAll);
+}
+
+function logAll(data) {
+    
+    console.log(data);
+}
+
+var DB = new DoliDb;
+
+DB.open(toto);
+console.log(DB );
+
+
+
+</script>
+
+</body>
+</html>
