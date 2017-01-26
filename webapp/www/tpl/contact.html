@@ -1,0 +1,201 @@
+<div id="contact-list" class="tab-pane">
+	<div class="container-fluid">
+		<div  class="row">
+
+			<div class="input-group">
+				<input type="text" id="search-contact" class="form-control" placeholder="contact" onchange="doliDb.getItemOnKey('contact', this.value, ['name', 'id'], refreshcontactList);" />
+			</div><!-- /input-group -->
+		</div>
+
+		<div class="row">
+			<ul class="list-group">
+
+			</ul>
+		</div>
+
+	</div>
+</div>
+
+<div id="contact-card"  class="tab-pane">
+	<input type="hidden" name="id" value="" />
+	<input type="hidden" name="id_dolibarr" value="" />
+	<input type="hidden" name="type" value="contact" />
+	
+	<div class="container-fluid">
+            <div  class="row">
+                <div>
+                    <h1> 
+                        <span rel="name"></span> 
+                        &nbsp;&nbsp; 
+                        <span rel ="firstname"></span> 
+                    </h1>
+                </div>
+                <div rel="homephone"></div>
+                <div rel="professionalphone"></div>
+                <div rel="mobilephone"></div>
+            </div>
+	</div>
+	
+	<a data-toggle="tab" href="#contact-card-edit" class="link_edit move_tab">
+		<button type="button" class="btn btn-primary btn-circle btn-lg btn-edit" onclick="showItem('contact', $('#contact-card input[name=id]').val(), editContact);">
+			<i class="glyphicon glyphicon-pencil"></i>
+		</button>
+	</a>
+</div>
+
+<div id="contact-card-edit" class="tab-pane">
+	<input type="hidden" name="id" value="" />
+	
+	<div class="container-fluid">
+
+		<form class="form-horizontal">
+			<div class="form-group">
+				
+				<!-- Nom -->
+				<label for="name" class="col-sm-2 control-label"><langs trans="Name"></langs></label>
+				<div class="col-sm-10">
+					<input type="text" class="form-control" name="name" placeholder="" />
+				</div>
+                                
+                                <!-- Prénom -->
+				<label for="firstname" class="col-sm-2 control-label"><langs trans="First name"></langs></label>
+				<div class="col-sm-10">
+					<input type="text" class="form-control" name="name" placeholder="" />
+				</div>
+				
+				<!-- Town -->
+				<label for="town" class="col-sm-2 control-label"><langs trans="Town"></langs></label>
+				<div class="col-sm-10">
+					<input type="text" class="form-control" name="town"/>
+				</div>
+				
+                                <!-- Code Postal-->
+				<label for="cp" class="col-sm-2 control-label"><langs trans="Zip Code"></langs></label>
+				<div class="col-sm-10" >
+					<input type="text" class="form-control" name="zip"/>
+				</div>
+                                
+				<!-- Adresse -->
+				<label for="address" class="col-sm-2 control-label"><langs trans="Address"></langs></label>
+				<div class="col-sm-10">
+					<textarea class="form-control" rows="5" name="address"></textarea>
+				</div>
+				
+				<!-- Mail-->
+				<label for="mail" class="col-sm-2 control-label"><langs trans="Mail"></langs></label>
+				<div class="col-sm-10" >
+					<input type="text" class="form-control" name="email"/>
+				</div>
+				
+				<!-- Phone-->
+				<label for="homephone" class="col-sm-2 control-label"><langs trans="Home phone"></langs></label>
+				<div class="col-sm-10" >
+					<input type="text" class="form-control" name="homephone"/>
+				</div>
+                                
+                                <!-- Phone-->
+				<label for="professionalphone" class="col-sm-2 control-label"><langs trans="Professonal phone"></langs></label>
+				<div class="col-sm-10" >
+					<input type="text" class="form-control" name="professionalphone"/>
+				</div>
+                                
+                                <!-- Phone-->
+				<label for="mobilephone" class="col-sm-2 control-label"><langs trans="Mobile phone"></langs></label>
+				<div class="col-sm-10" >
+					<input type="text" class="form-control" name="mobilephone"/>
+				</div>
+							
+				<!-- Permet d'éviter le chevauchement du dernier input sous les boutons d'actions en bas de l'écran -->
+				<div>&nbsp;</div>
+				<div>&nbsp;</div>
+				<div>&nbsp;</div>
+			</div>
+			
+		</form>
+		
+	</div>
+	
+	<div class="row navbar-fixed-bottom">
+		<a data-toggle="tab" href="#contact-card" class="btn btn-default col-xs-6 move_tab"><langs trans="Cancel"></langs></a>
+		<a data-toggle="tab" href="#contact-card" onclick="updateItem($('#contact-card-edit'), 'contact');" class="btn btn-success col-xs-6 move_tab"><langs trans="Update"></langs></a>
+	</div>	
+</div>
+
+
+<div id="contact-card-add" class="tab-pane">
+	<input type="hidden" name="id" value="" />
+	
+	<div class="container-fluid">
+
+		<form class="form-horizontal">
+			<div class="form-group">
+				
+				<!-- Nom -->
+				<label for="name" class="col-sm-2 control-label"><langs trans="Name"></langs></label>
+				<div class="col-sm-10">
+					<input type="text" class="form-control" name="name" placeholder="" />
+				</div>
+                                
+                                <!-- Prénom -->
+				<label for="firstname" class="col-sm-2 control-label"><langs trans="First name"></langs></label>
+				<div class="col-sm-10">
+					<input type="text" class="form-control" name="firstname" placeholder="" />
+				</div>
+				
+				<!-- Town -->
+				<label for="town" class="col-sm-2 control-label"><langs trans="Town"></langs></label>
+				<div class="col-sm-10">
+					<input type="text" class="form-control" name="town"/>
+				</div>
+				
+                                <!-- Code Postal-->
+				<label for="zip" class="col-sm-2 control-label"><langs trans="Zip Code"></langs></label>
+				<div class="col-sm-10" >
+					<input type="text" class="form-control" name="zip"/>
+				</div>
+                                
+				<!-- Adresse -->
+				<label for="address" class="col-sm-2 control-label"><langs trans="Address"></langs></label>
+				<div class="col-sm-10">
+					<textarea class="form-control" rows="5" name="address"></textarea>
+				</div>
+				
+				<!-- Mail-->
+				<label for="mail" class="col-sm-2 control-label"><langs trans="Mail"></langs></label>
+				<div class="col-sm-10" >
+					<input type="text" class="form-control" name="email"/>
+				</div>
+				
+                                <!-- homephone-->
+				<label for="homephone" class="col-sm-2 control-label"><langs trans="Home phone"></langs></label>
+				<div class="col-sm-10" >
+					<input type="text" class="form-control" name="homephone"/>
+				</div>
+                                
+                                <!-- professionalphone-->
+				<label for="professionalphone" class="col-sm-2 control-label"><langs trans="Professional phone"></langs></label>
+				<div class="col-sm-10" >
+					<input type="text" class="form-control" name="professionalphone"/>
+				</div>
+                                
+                                <!-- mobilephone-->
+				<label for="mobilephone" class="col-sm-2 control-label"><langs trans="Mobile phone"></langs></label>
+				<div class="col-sm-10" >
+					<input type="text" class="form-control" name="mobilephone"/>
+				</div>
+							
+				<!-- Permet d'éviter le chevauchement du dernier input sous les boutons d'actions en bas de l'écran -->
+				<div>&nbsp;</div>
+				<div>&nbsp;</div>
+				<div>&nbsp;</div>
+			</div>
+			
+		</form>
+		
+	</div>
+	
+	<div class="row navbar-fixed-bottom">
+		<a data-toggle="tab" href="#contact-card" class="btn btn-default col-xs-6 move_tab"><langs trans="Cancel"></langs></a>
+		<a data-toggle="tab" href="#contact-card" onclick="createItem($('#contact-card-add'), 'contact');" class="btn btn-success col-xs-6 move_tab"><langs trans="Add contact"></langs></a>
+	</div>
+</div>

@@ -1,0 +1,19 @@
+<div id="product-list-propal" class="tab-pane">
+    <div class="container-fluid">
+        <div  class="row">
+            <div class="input-group">
+                <input type="text" id="search-product" class="form-control" placeholder="Product" onchange="doliDb.getItemOnKey('product', this.value, ['label', 'id', 'ref'], refreshProductList, '#product-list');" />
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="button">
+                        <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                    </button> </span>
+            </div>
+        </div>
+
+        <div class="row">
+            <ul class="list-group list_product">
+
+            </ul>
+        </div>
+    </div>
+</div>

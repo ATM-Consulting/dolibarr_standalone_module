@@ -27,11 +27,11 @@
 				<li class="dropdown">
 					<a data-toggle="dropdown" href="#" class="dropdown-toggle col-xs-12" ><langs trans="Products"></langs>&nbsp;<span class="caret"></span></a>
 					<ul class="dropdown-menu text-xs-center">
-						<li class="hidden">
+						<li class="visible">
 							<a id="last-product" href="#product-card" role="tab" data-toggle="tab" class="col-xs-12 navbar-inverse last_item">Product</a>
 						</li>
 						<li>
-							<a data-toggle="tab" href="#product-list" onclick="javascript:showList('product', refreshProductList, '#product-list');" class="col-xs-12 navbar-inverse"><langs trans="SearchProduct"></langs></a>
+                                                    <a data-toggle="tab" href="#product-list" onclick="javascript:showList('product', refreshProductList, '#product-list');" class="col-xs-12 navbar-inverse"><langs trans="SearchProduct"></langs></a>
 						</li>
 					</ul>
 				</li>
@@ -41,7 +41,7 @@
 					<a data-toggle="dropdown" href="#" class="dropdown-toggle col-xs-12"><langs trans="Thirdparties"></langs>&nbsp;<span class="caret"></span></a>
 					<ul class="dropdown-menu text-xs-center">
 						<!-- Définition lien "Dernier client consulté" -->
-						<li class="hidden">
+						<li class="visible">
 							<a id="last-thirdparty" href="#thirdparty-card" role="tab" data-toggle="tab" class="col-xs-12 navbar-inverse last_item">Customer</a>
 						</li>
 						<li>
@@ -54,8 +54,6 @@
 				</li>
 				
 				<!-- Définition du sous menu "Proposals" -->
-				
-				<!--
 				<li class="dropdown">
 					<a data-toggle="dropdown" href="#" class="dropdown-toggle col-xs-12"><langs trans="Proposals"></langs>&nbsp;<span class="caret"></span></a>
 					<ul class="dropdown-menu text-xs-center">
@@ -66,12 +64,12 @@
 							<a data-toggle="tab" href="#proposal-list" onclick="javascript:showList('proposal', refreshProposalList);" class="col-xs-12 navbar-inverse"><langs trans="SearchProposal"></langs></a>
 						</li>
 						<li>
-							<a data-toggle="tab" href="#proposal-card" class="col-xs-12 navbar-inverse create_item"><langs trans="CreateProposal"></langs></a>
+							<a data-toggle="tab" href="#proposal-card-edit" class="col-xs-12 navbar-inverse create_item"><langs trans="CreateProposal"></langs></a>
 						</li>
 						
 					</ul>
 				</li>
-				-->
+				
 				
 				
 				<!-- Définition du sous menu "Configuration" -->

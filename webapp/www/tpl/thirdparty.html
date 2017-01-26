@@ -6,7 +6,7 @@
 				<input type="text" id="search-thirdparty" class="form-control" placeholder="Thirdparty" onchange="doliDb.getItemOnKey('thirdparty', this.value, ['name', 'id'], refreshThirdpartyList);" />
 				<span class="input-group-btn">
 					<button class="btn btn-default" type="button">
-						<langs trans="Go"></langs>
+						<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
 					</button> </span>
 			</div><!-- /input-group -->
 		</div>
@@ -32,15 +32,26 @@
 			<div>
 				<span rel="zip"></span>
 				&nbsp;&nbsp;<span rel="town"></span>
-			</div>
-
+                        </div>
+                        <div rel="Phone"></div>
+                      
+		</div>
+                            
+                <div>
+                    <h4 align="center">Create a new : </h4>
+                </div>
+                                                
+		<div class="row">
+			<a data-toggle="tab" href="#proposal-card-add" type="button" class="btn btn-default move_tab col-xs-3 btn" onclick="doliDb.createProposal($('#thirdparty-card').children('input[name=id]').val(), $('#thirdparty-card').children('input[name=id_dolibarr]').val());">Proposal</a>
+                        <a data-toggle="tab" href="#order-card-edit" type="button" class="btn btn-default move_tab col-xs-3 btn" onclick="doliDb.createOrder($('#thirdparty-card').children('input[name=id]').val(), $('#thirdparty-card').children('input[name=id_dolibarr]').val());">Order</a>
+                        <a data-toggle="tab" href="#bill-card-edit" type="button" class="btn btn-default move_tab col-xs-3 btn" onclick="doliDb.createBill($('#thirdparty-card').children('input[name=id]').val(), $('#thirdparty-card').children('input[name=id_dolibarr]').val());">Bill</a>
+                        <a data-toggle="tab" href="#contact-card-add" type="button" class="btn btn-default move_tab col-xs-3 btn" onclick="createContact();">Contact</a>
 		</div>
 		
-		<div class="">
-			<a data-toggle="tab" href="#proposal-card-edit" type="button" class="btn btn-default move_tab" onclick="doliDb.createProposal($('#thirdparty-card').children('input[name=id]').val(), $('#thirdparty-card').children('input[name=id_dolibarr]').val());">CreateProposal</a>
-			
-		</div>
-		
+                <div>
+                    <h4 align="center">Existing : </h4>
+                </div>
+            
 		<div class="doc_associate">
 			
 			<ul class="nav navbar-nav text-xs-center alternate list-group" role="tablist">
@@ -67,6 +78,14 @@
 						
 					</ul>
 				</li>
+                                
+                                <!-- Liste des contacts associés au client -->
+				<li class="dropdown clearfix btn-default">
+					<a data-toggle="dropdown" href="#" class="dropdown-toggle col-xs-12 btn" ><langs trans="Contacts"></langs>&nbsp;<span class="caret"></span></a>
+					<ul class="dropdown-menu text-xs-center doc_associate_contacts">
+						
+					</ul>
+				</li>
 			</ul>
 		</div>
 
@@ -88,46 +107,45 @@
 			<div class="form-group">
 				
 				<!-- Nom -->
-				<label for="name" class="col-sm-2 control-label"><langs trans="ThirdpartyName"></langs></label>
+				<label for="name" class="col-sm-2 control-label"><langs trans="Name"></langs></label>
 				<div class="col-sm-10">
 					<input type="text" class="form-control" name="name" placeholder="" />
 				</div>
 				
 				<!-- Town -->
-				<label for="town" class="col-sm-2 control-label"><langs trans="ThirdpartyAddress"></langs></label>
+				<label for="town" class="col-sm-2 control-label"><langs trans="Town"></langs></label>
 				<div class="col-sm-10">
 					<input type="text" class="form-control" name="town"/>
 				</div>
 				
+                                <!-- Code Postal-->
+				<label for="cp" class="col-sm-2 control-label"><langs trans="Zip Code"></langs></label>
+				<div class="col-sm-10" >
+					<input type="text" class="form-control" name="zip"/>
+				</div>
+                                
 				<!-- Adresse -->
-				<label for="address" class="col-sm-2 control-label"><langs trans="ThirdpartyAddress"></langs></label>
+				<label for="address" class="col-sm-2 control-label"><langs trans="Address"></langs></label>
 				<div class="col-sm-10">
 					<textarea class="form-control" rows="5" name="address"></textarea>
 				</div>
 				
-				<!-- Code Postal-->
-				<label for="cp" class="col-sm-2 control-label"><langs trans="ThirdpartyCodePostal"></langs></label>
-				<div class="col-sm-10" >
-					<input type="text" class="form-control" name="zip"/>
-				</div>
-				
-				
 				<!-- Mail-->
-				<label for="mail" class="col-sm-2 control-label"><langs trans="ThirdpartyMail"></langs></label>
+				<label for="mail" class="col-sm-2 control-label"><langs trans="Mail"></langs></label>
 				<div class="col-sm-10" >
 					<input type="text" class="form-control" name="email"/>
 				</div>
 				
 				<!-- Phone-->
-				<label for="phone" class="col-sm-2 control-label"><langs trans="ThirdpartyMail"></langs></label>
+				<label for="phone" class="col-sm-2 control-label"><langs trans="Phone"></langs></label>
 				<div class="col-sm-10" >
 					<input type="text" class="form-control" name="phone"/>
 				</div>
 				
 				<!-- Prospect/Client -->
-				<label for="prospect" class="col-sm-2 control-label"><langs trans="ThirdpartyProspect"></langs></label>
+				<label for="Type" class="col-sm-2 control-label"><langs trans="Type"></langs></label>
 				<div class="col-sm-10">
-					<select class="form-control" name="prospect">
+					<select class="form-control" name="Type">
 						<option value="-1">
 							
 						</option>
@@ -135,30 +153,30 @@
 							Prospect
 						</option>
 						<option value="3">
-							Prospect / Client
+							Prospect / Customer
 						</option>
 						<option value="1">
-							Client
+							Customer
 						</option>
 						<option value="0">
-							Ni client, ni prospect
+							Not a customer, not a prospect
 						</option>
 						
 					</select>
 				</div>
 				
 				<!-- Fournisseur -->
-				<label for="fournisseur" class="col-sm-2 control-label"><langs trans="ThirdpartyFournisseur"></langs></label>
+				<label for="fournisseur" class="col-sm-2 control-label"><langs trans="Supplier"></langs></label>
 				<div class="col-sm-10">
 					<select class="form-control" name="fournisseur">
 						<option>
 							
 						</option>
 						<option>
-							oui
+							Yes
 						</option>
 						<option>
-							non
+							No
 						</option>
 						
 					</select>
@@ -178,8 +196,8 @@
 	</div>
 	
 	<div class="row navbar-fixed-bottom">
-		<a data-toggle="tab" href="#thirdparty-card" class="btn btn-default col-xs-6 move_tab"><langs trans="Cancel"></langs></a>
-		<a data-toggle="tab" href="#thirdparty-card" onclick="updateItem($('#thirdparty-card-edit'), 'thirdparty');" class="btn btn-success col-xs-6 move_tab"><langs trans="Update"></langs></a>
+		<a data-toggle="tab" href="#thirdparty-card-edit" class="btn btn-default col-xs-6 move_tab"><langs trans="Cancel"></langs></a>
+		<a data-toggle="tab" href="#thirdparty-card-edit" onclick="updateItem($('#thirdparty-card-edit'), 'thirdparty');" class="btn btn-success col-xs-6 move_tab"><langs trans="Update"></langs></a>
 	</div>
 	
 </div>
