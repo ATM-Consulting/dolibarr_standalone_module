@@ -7,8 +7,8 @@ function toto() {
     
     console.log('too',DB.db)    ;
 item = {
-  name:"test de ouf"  
-  ,desc:"Bizuland"  
+  name:"deusiemetest"  
+  ,desc:":)"  
 };
 
 DB.createItem('contact', item, showAll);
@@ -26,8 +26,10 @@ function logAll(data) {
 }
 
 var DB = new DoliDb;
-
+//DB.dropDatabase();
 DB.open(toto);
+
+
 console.log(DB );
 
 

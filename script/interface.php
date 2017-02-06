@@ -55,6 +55,14 @@
 			else __out(_getListItem($get));
 			
 			break;
+                        
+                case 'contact':
+			$id = GETPOST('id','int');
+			
+			if($id) __out(_getItem($get, $id));
+			else __out(_getListItem($get));
+			
+			break;
 			
 	}	
 
@@ -82,6 +90,14 @@
 			$TProposal = json_decode($TProposal);
 			
 			$response = updateDolibarr($user, $TProposal, 'Proposal');
+			__out($response);
+			break;
+                    
+                case 'contact':
+			$TContact = GETPOST('TItem');
+			$TContact = json_decode($TContact);
+			
+			$response = updateDolibarr($user, $TContact, 'Contact');
 			__out($response);
 			break;
 	}

@@ -379,13 +379,13 @@ function setItemInHTML($container, item)
         value = item[x];
         $container.find('[rel=' + x + ']').html(value);
     }
-}²
+}
 
 
 //-------Item Function----------
 
-²²²²²²²²²²²²function createItem($container, type) {
-    var id = $containe.children('input[name=id]').val();
+function createItem($container, type) {
+    var id = $container.children('input[name=id]').val();
     var TInput = $container.find('form').find('input, text');
     var TValue = {};
 
@@ -438,36 +438,6 @@ function updateItem($container, type)
 
     doliDb.updateItem(type, TValue, callback);
 }
-
-function createItem($container, type){
-	var id = $container.children('input[name=id]').val();
-	var TInput = $container.find('form').find('input, text');
-	var TValue = {};
-	
-	for (var i=0; i<TInput.length; i++){
-		TValue[TInput[i].name] = TInput[i].value;
-	}
-	
-	switch (type){
-		case 'product':
-			var callback = showProduct;
-			break;
-		case 'thirdparty':
-			var callback = showThirdParty;
-			break;
-		case 'proposal':
-			var callback = showProposal;
-			break;
-                case 'contact' :
-                        var callback = showContact;
-			break;
-                        
-	}
-
-    doliDb.createItem(type, TValue, callback);
-}
-
-
 
 function createContact()
 {
