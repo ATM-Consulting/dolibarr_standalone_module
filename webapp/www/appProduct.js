@@ -12,6 +12,7 @@ function refreshProductList(TItem, container, from)
     var x = 0;
     ulcontainer = $(container).find('.list_product');
     ulcontainer.empty();
+    
     for (var i in TItem)
     {
         switch (from) {
@@ -19,31 +20,34 @@ function refreshProductList(TItem, container, from)
                 var $li = $('<li label="' + TItem[i].label + '" class="list-group-item"><a data-toggle="tab" href="#product-card" onclick="javascript:addItem(\'product\', ' + TItem[i].id + ')">' + TItem[i].label + '</a></li>');
                 break;
             default:
-                var $li = $('<li label="' + TItem[i].label + '" class="list-group-item"><a data-toggle="tab" href="#product-card" onclick="javascript:showItem(\'product\', ' + TItem[i].id + ', showProduct)">' + TItem[i].label + '</a></li>');
+                if (container == '#product-list-propal') {
+                    var $li = $('<li label="' + TItem[i].label + '" class="list-group-item"><a data-toggle="tab" href="#product-card" onclick="javascript:showItem(\'product\', ' + TItem[i].id + ', showProduct)">' + TItem[i].label + '</a><button type="button" class="btn btn-warning btn-circle" onclick="addItemToList(this)"><span class="glyphicon glyphicon-plus"/></button></li>');
+                }
+                else{
+                    var $li = $('<li label="' + TItem[i].label + '" class="list-group-item"><a data-toggle="tab" href="#product-card" onclick="javascript:showItem(\'product\', ' + TItem[i].id + ', showProduct)">' + TItem[i].label + '</a></li>');
+                }
                 break;
         }
 
         $(ulcontainer).append($li);
-
-        if (x > 20)
+        if (x > 20){
             return;
+        }
         else
             x++;
     }
-    if (container == '#product-list-propal') {
-        addBoutons();
-    }
+    
+    
 
     addEventListenerOnItemLink();
 }
-
 /*
  * call to function setItemInHTML in app.js
  */
 function showProduct(item)
 {
     setItemInHTML($('#product-card'), item);
-}
+} addEventListenerOnItemLink();
 
 function editProduct(item)
 {

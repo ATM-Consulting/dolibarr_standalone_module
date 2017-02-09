@@ -51,7 +51,6 @@ function refreshAssociateProposalList($container, TPropal)
 }
 
 function editProposal(item) {
-
     var $container = $('#proposal-card-edit');
     $container.children('input[name=id]').val(item.id_dolibarr);
 

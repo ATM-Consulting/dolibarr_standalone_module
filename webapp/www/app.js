@@ -338,6 +338,7 @@ function showItem(type, id, callback, args)
 {
     if (typeof callback != 'undefined')
     {
+        
         doliDb.getItem(type, id, callback, args);
     } else
     {
@@ -452,13 +453,23 @@ function addLine(){
 	*/
   }
 //----------My Function--------
+var propalProductList=[];
 
-
-function addBoutons() {
-    /*
-     * insert dans la liste des produits pour la propal des boutons afin de les selectionner pour savoir ceux à ajouter, on sélectionne la quantité a posteriori
-     */
-    $('#product-list-propal ul.list_product li.list-group-item').append('<span class="AddListBtn" href="#proposal-card-edit" style="float:right;"><button class="btn-circle btn btn-warning" type="button" onclick="addItemToPropal(this)"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span></button></span>');
+function addItemToList(ThisElement) {
+    currentPropal=document.getElementById("proposal-card-edit");
+    currentPropalId=document.getElementById("propalid").value;
+    if(!currentPropalId){
+        //fonction pour add l'item dans la lsite des propals non connu de la bd
+        propalProductList.push({'libelle':ThisElement.parentNode.getAttribute("label"),'prix':10});
+        majTableau();
+    }
+    else{
+        //propalProductList.push({'nom':$(this).label,})
+        propalProductList.push({'libelle':ThisElement.parentNode.getAttribute("label"),'prix':10});
+        majTableau();
+    }  
+    document.getElementById("product-list-propal").className="tab-pane"
+    currentPropal.className="tab-pane active"
 }
 
 function toggleSelect(object) {
@@ -517,3 +528,29 @@ if (window.addEventListener)
     window.attachEvent("onmessage", ReceiveMessage);
 }
 
+function test(){
+    console.log("clicked");
+}
+
+function majTableau(){
+    $('#tableListeProduitsBody').append('<tr>'+
+        '<td>nom</td>'+
+        '<td id=pUprod>10</td>'+
+        '<td id=nbprod><input type="number" value="0" onChange="console.log("test")></input></td>'+
+    '</tr>');
+    
+    updatetotal();
+}
+
+function updatetotal(){
+    
+    var total=0;
+    
+    $('#tableListeProduitsBody > tr ').each(function(){ //parcours tout les element 'tr' de #tableListeProduitsBody puis trouve les quantité et les pU pour calculer le total
+        pU = parseInt($(this).children('td[id="pUprod"]').text());
+        quantite = parseInt($(this).find('input').val());
+        total=total+(pU*quantite);
+    });
+    
+    $('#totaltable').val(total); //modifier valeur du total dans le champ input
+}

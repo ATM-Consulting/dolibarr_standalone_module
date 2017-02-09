@@ -172,6 +172,7 @@ var DoliDb = function () {};
             } else
             {
                 if (typeof callback !== 'undefined')
+                    console.log("dans get all item pour "+type);
                     callback(TItem, arg1);
                 return false; // de toute manière c'est de l'asynchrone, donc ça sert à rien de return TItem
             }
