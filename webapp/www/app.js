@@ -386,7 +386,11 @@ function setItemInHTML($container, item)
 //-------Item Function----------
 
 function createItem($container, type) {
+<<<<<<< HEAD
     var id = $containe.children('input[name=id]').val();
+=======
+    var id = $container.children('input[name=id]').val();
+>>>>>>> 60375413552e38ac4675b9168a64322cda6ad9b4
     var TInput = $container.find('form').find('input, text');
     var TValue = {};
 
@@ -439,36 +443,6 @@ function updateItem($container, type)
 
     doliDb.updateItem(type, TValue, callback);
 }
-
-function createItem($container, type){
-	var id = $container.children('input[name=id]').val();
-	var TInput = $container.find('form').find('input, text');
-	var TValue = {};
-	
-	for (var i=0; i<TInput.length; i++){
-		TValue[TInput[i].name] = TInput[i].value;
-	}
-	
-	switch (type){
-		case 'product':
-			var callback = showProduct;
-			break;
-		case 'thirdparty':
-			var callback = showThirdParty;
-			break;
-		case 'proposal':
-			var callback = showProposal;
-			break;
-                case 'contact' :
-                        var callback = showContact;
-			break;
-                        
-	}
-
-    doliDb.createItem(type, TValue, callback);
-}
-
-
 
 function createContact()
 {

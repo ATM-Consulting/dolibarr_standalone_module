@@ -17,15 +17,22 @@
 </div>
 
 <div id="contact-card"  class="tab-pane">
-	<input type="hidden" name="id" value="" />
-	<input type="hidden" name="id_dolibarr" value="" />
+	<input type="visible" name="id" id ="id" value='rel="id"' />
+	<input type="visible" name="id_dolibarr" id ='id_dolibarr' value="'rel=id'" />
 	<input type="hidden" name="type" value="contact" />
+        
+        <div>   
+            <script> console.log('test',document.getElementById('id_spann').rel); </script>
+            <a data-toggle="tab" type="button" href="#thirdparty-card" onclick="showItem('thirdparty', document.getElementById('id').value , showThirdparty);">Go to thirdparty </a>
+        </div>
 	
 	<div class="container-fluid">
             <div  class="row">
                 <div>
-                    <h1> 
-                        <span rel="name"></span> 
+                    <h1>  
+                        <span rel="name"></span>
+                        <span id='id_spann' rel='id'></span>
+                        
                         &nbsp;&nbsp; 
                         <span rel ="firstname"></span> 
                     </h1>

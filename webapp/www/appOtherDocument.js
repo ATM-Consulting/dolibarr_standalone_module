@@ -33,7 +33,7 @@ function refreshAssociateOrderList($container, TOrder)
     $container.empty();
     for (var i in TOrder)
     {
-        var $li = $('<li><a data-toggle="tab" href="#proposal-card" onclick="javascript:showItem(\'order\', ' + TOrder[i].id + ', showOrder)">' + TOrder[i].ref + '</a></li>');
+        var $li = $('<li><a data-toggle="tab" href="#order-card" onclick="javascript:showItem(\'order\', ' + TOrder[i].id + ', showOrder)">' + TOrder[i].ref + '</a></li>');
         $container.append($li);
 
         if (x > 10)
@@ -49,7 +49,24 @@ function refreshAssociateBillList($container, TBill)
     $container.empty();
     for (var i in TBill)
     {
-        var $li = $('<li><a data-toggle="tab" href="#proposal-card" onclick="javascript:showItem(\'bill\', ' + TBill[i].id + ', showBill)">' + TBill[i].ref + '</a></li>');
+        var $li = $('<li><a data-toggle="tab" href="#bill-card" onclick="javascript:showItem(\'bill\', ' + TBill[i].id + ', showBill)">' + TBill[i].ref + '</a></li>');
+        $container.append($li);
+
+        if (x > 10)
+            return;
+        else
+            x++;
+    }
+}
+
+function refreshAssociateContactList($container, TContact)
+{
+    var x = 0;
+    $container.empty();
+
+    for (var i in TContact)
+    {
+        var $li = $('<li><a data-toggle="tab" href="#contact-card" onclick="javascript:showItem(\'contact\', ' + TContact[i].id + ', showContact)">' + TContact[i].firstname + '     ' + TContact[i].name + '</a></li>');
         $container.append($li);
 
         if (x > 10)
