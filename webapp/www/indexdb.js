@@ -314,7 +314,7 @@ var DoliDb = function () {};
             return;
         }
         
-        fk_thirdparty = parseInt(fk_soc);
+        fk_thirdparty = fk_soc;
          
          /*
         var obj = {
