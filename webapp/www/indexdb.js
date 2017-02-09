@@ -124,7 +124,7 @@ var DoliDb = function () {};
         item.update_by_indexedDB = 1;
         res=objectStore.add(item); 
 
-        showMessage('Create', 'The current record has been created', 'success');
+        console.log('Create', 'The current record has been created', 'success');
         if (typeof callback != 'undefined') {
             callback(item);
         }
@@ -153,6 +153,7 @@ var DoliDb = function () {};
             } else
             {
                 if (typeof callback !== 'undefined')
+                    console.log("dans get all item pour "+type);
                     callback(TItem, arg1);
                 return false; // de toute manière c'est de l'asynchrone, donc ça sert à rien de return TItem
             }

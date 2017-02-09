@@ -7,11 +7,11 @@ function toto() {
     
     console.log('too',DB.db)    ;
 item = {
-  name:"test de ouf"  
-  ,desc:"Bizuland"  
+  name:"propo"  
+  ,desc:"descpropo"  
 };
 
-DB.createItem('contact', item, showAll);
+DB.createItem('product', item, showAll);
 
 }
 
@@ -28,11 +28,33 @@ function logAll(data) {
 var DB = new DoliDb;
 
 DB.open(toto);
-console.log(DB );
+//console.log(DB );
 
+var text = '{"employees":[' +
+'{"IdProduit":"1","Libelle":"prod1","PrixUnitaire":"4","Quantite":"0" },' +
+'{"IdProduit":"2","Libelle":"prod2","PrixUnitaire":"20","Quantite":"2" },' +
+'{"IdProduit":"3","Libelle":"prod3","PrixUnitaire":"3","Quantite":"15" }]}';
+obj = JSON.parse(text);
+testjson();
+function testjson(){
+    
+    Tabsize=obj.employees.length;
+    string="";
+    for(i=0;i<Tabsize;i++){
+        string+="idprod->"+obj.employees[i].IdProduit+"; libelle->"+obj.employees[i].Libelle+"; PrixUnitaire->"+obj.employees[i].PrixUnitaire+"; Quantite->"+obj.employees[i].Quantite+" /-/ ";
+    }
+    console.log(string);
+}
 
-
+testjson();
+function changeQuantity(){
+    value=document.getElementById("QuantiteArea").value;
+    console.log(value);
+    obj.employees[0].Quantite=value;
+    testjson();
+}
 </script>
-
+<input id="QuantiteArea" type="number" value=""/>
+<input id="btnValid" type="button" value="validez" onClick="changeQuantity()"/>
 </body>
 </html>
