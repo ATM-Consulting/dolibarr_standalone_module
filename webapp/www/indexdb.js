@@ -129,14 +129,9 @@ var DoliDb = function () {};
             case 'contact' : item.fk_thirdparty = fk_thirdparty;
         }
         res=objectStore.add(item); 
-<<<<<<< HEAD
-
-        console.log('Create', 'The current record has been created', 'success');
-=======
         //res.onsuccess = fonction (event) {
         //else{
         showMessage('Create', 'The current record has been created', 'success');    
->>>>>>> 60375413552e38ac4675b9168a64322cda6ad9b4
         if (typeof callback != 'undefined') {
             callback(item);
         }

@@ -386,11 +386,7 @@ function setItemInHTML($container, item)
 //-------Item Function----------
 
 function createItem($container, type) {
-<<<<<<< HEAD
-    var id = $containe.children('input[name=id]').val();
-=======
     var id = $container.children('input[name=id]').val();
->>>>>>> 60375413552e38ac4675b9168a64322cda6ad9b4
     var TInput = $container.find('form').find('input, text');
     var TValue = {};
 
