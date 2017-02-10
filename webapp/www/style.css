@@ -83,8 +83,17 @@ li span.fournisseur {
     width: 100%;
     text-align: center;
 }
-#tableListeProduits > tbody > tr,#tableListeProduits > tbody > tr > td,#tableListeProduits > thead > tr,#tableListeProduits > thead > tr > th,#tableListeProduits > tfoot > tr,#tableListeProduits > tfoot > tr > td{
+#tableListeProduits{
+    width : 100%;
+}
+#tableListeProduits > thead > tr,
+#tableListeProduits > thead > tr > th,
+#tableListeProduits > tbody > tr,
+#tableListeProduits > tbody > tr > td,
+#tableListeProduits > tfoot > tr,
+#tableListeProduits > tfoot > tr > td{
     border: solid white 2px;
+    padding: 5px;
 }
 
 .glyphicon-remove{

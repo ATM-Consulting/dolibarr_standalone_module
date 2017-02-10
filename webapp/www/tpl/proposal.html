@@ -123,7 +123,7 @@
 				
                                 <!-- Description -->
 				<label for="listeProduits"><langs trans="Liste des produits"></langs></label>
-				<div id="listeProduits">
+				<div id="listeProduits" class>
                                     <table id="tableListeProduits">
                                         <thead>
                                             <tr>
@@ -152,7 +152,7 @@
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td colspan="3">
+                                                <td colspan="4">
                                                     <input type="text" id="totaltable" value="" disabled="disabled" />
                                                 </td>
                                             </tr>
@@ -276,29 +276,40 @@
                                 <!-- Description -->
 				<label for="listeProduits"><langs trans="Liste des produits"></langs></label>
 				<div id="listeProduits">
-					 <!-- <table id="tableListeProduits" style="border:solid 1px; width:100%;">
+                                    <table id="tableListeProduits">
+                                        <thead>
                                             <tr>
-                                              <th>Nom du produit</th>
-                                              <th>Description</th>
-                                              <th>Quantité</th>
-                                              <th>Prix</th>
+                                                <th>Nom</th>
+                                                <th>prix</th>
+                                                <th>quantite</th>
+                                                <th> <span class="glyphicon glyphicon-remove"></span></th>
                                             </tr>
-                                            <?php $listProduit ?>
-                                        </table> TODO Remplacer ceci par un ul qui sera rempli par addLinePropale-->
-                                        <div id="prod-list" class="tab-pane">
-                                            <div class="container-fluid">
-                                                <div  class="row">
-                                                    <div class="input-group">
-                                                                <input type="text" id="search-product" class="form-control" placeholder="Product" onchange="doliDb.getItemOnKey('product', this.value, ['label', 'id', 'ref'], refreshProductList, '#product-list-propal');" />
-                                                                <span class="input-group-btn">
-                                                                        <button class="btn btn-default" type="button">
-                                                                                <span class="glyphicon glyphicon-align-left" aria-hidden="true"></span>
-                                                                        </button> 
-                                                                </span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                        </thead>
+                                        <tbody id="tableListeProduitsBody">
+
+                                        </tbody>
+                                        <tfoot>
+                                            <tr id="unexistProduct">
+                                                <td>
+                                                    <input type="text" id="name">
+                                                </td>
+                                                <td>
+                                                    <input type="number" min="1" id="pUprod">
+                                                </td>
+                                                <td>
+                                                    <input type="number" min="0" id="nbprod">
+                                                </td>
+                                                <td>
+                                                    <span class="glyphicon glyphicon-ok" onClick='addUnExistProduct()'>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="4">
+                                                    <input type="text" id="totaltable" value="" disabled="disabled" />
+                                                </td>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
                                 </div>
 				
 				
