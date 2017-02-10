@@ -459,12 +459,12 @@ function addItemToList(ThisElement) {
     currentPropalId=document.getElementById("propalid").value;
     if(!currentPropalId){
         //fonction pour add l'item dans la lsite des propals non connu de la bd
-        propalProductList.push({'libelle':ThisElement.parentNode.getAttribute("label"),'prix':10});
+        propalProductList.push({'libelle':ThisElement.parentNode.getAttribute("label"),'prix':10, 'quantite':1});
         majTableau();
     }
     else{
         //propalProductList.push({'nom':$(this).label,})
-        propalProductList.push({'libelle':ThisElement.parentNode.getAttribute("label"),'prix':10});
+        propalProductList.push({'libelle':ThisElement.parentNode.getAttribute("label"),'prix':10, 'quantite':1});
         majTableau();
     }  
     document.getElementById("product-list-propal").className="tab-pane"
@@ -528,20 +528,32 @@ if (window.addEventListener)
 }
 
 function test(){
-    console.log("clicked");
+    //testa=$( "tr" ).parent().parent().index( this );
+    console.log("fff=");
 }
 
 function majTableau(){
-    $('#tableListeProduitsBody').append('<tr>'+
-        '<td>nom</td>'+
-        '<td id=pUprod>10</td>'+
-        '<td id=nbprod><input type="number" value="0" onChange="console.log("test")></input></td>'+
+    majQuantity();
+    $('#tableListeProduitsBody').empty();
+    propalProductList.forEach(function(element){
+        $('#tableListeProduitsBody').append('<tr>'+
+        '<td>'+element.libelle+'</td>'+
+        '<td id=pUprod>'+element.prix+'</td>'+
+        '<td id=nbprod><input class="inputQu" type="number" min="1" value="'+element.quantite+'" onChange=updatetotal(this) ></td>'+
+        '<td><span class="glyphicon glyphicon-remove" onClick=test()></span></td>'+
     '</tr>');
-    
+    });
     updatetotal();
 }
 
-function updatetotal(){
+function majQuantity(){
+    $('#tableListeProduitsBody').each
+    $("#tableListeProduitsBody").each(function(i, e){
+        console.log($(this).children());
+    });
+}
+
+function updatetotal(test){
     
     var total=0;
     
@@ -568,4 +580,20 @@ function editContact(item)
 function dropItem(storename, id, callback) 
 {
     doliDb.dropItem(storename, id, callback);
+}
+
+function addUnExistProduct(){
+    name=$('#unexistProduct').find('input[id="name"]').val();
+    prix=$('#unexistProduct').find('input[id="pUprod"]').val();
+    quantite=$('#unexistProduct').find('input[id="nbprod"]').val();
+    if (name!="" && prix!="" && quantite!="" ){
+        propalProductList.push({'libelle':name,'prix':prix,'quantite':quantite});
+        $('#unexistProduct').find('input[id="name"]').val("");
+        $('#unexistProduct').find('input[id="pUprod"]').val("");
+        $('#unexistProduct').find('input[id="nbprod"]').val("");
+        majTableau();
+    }
+    else{
+        alert("Some field are empty !");
+    }
 }

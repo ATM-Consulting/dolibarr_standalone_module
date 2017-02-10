@@ -130,14 +130,29 @@
                                                 <th>Nom</th>
                                                 <th>prix</th>
                                                 <th>quantite</th>
+                                                <th> <span class="glyphicon glyphicon-remove"></span></th>
                                             </tr>
                                         </thead>
                                         <tbody id="tableListeProduitsBody">
 
                                         </tbody>
                                         <tfoot>
-                                            <tr>
+                                            <tr id="unexistProduct">
                                                 <td>
+                                                    <input type="text" id="name">
+                                                </td>
+                                                <td>
+                                                    <input type="number" min="1" id="pUprod">
+                                                </td>
+                                                <td>
+                                                    <input type="number" min="0" id="nbprod">
+                                                </td>
+                                                <td>
+                                                    <span class="glyphicon glyphicon-ok" onClick='addUnExistProduct()'>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="3">
                                                     <input type="text" id="totaltable" value="" disabled="disabled" />
                                                 </td>
                                             </tr>

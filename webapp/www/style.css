@@ -78,8 +78,19 @@ li span.fournisseur {
 	line-height:48px !important;
 }
 
-#tableListeProduits, thead, tbody, tfoot, tr, th, td{
-    border: solid white 1px;
+#tableListeProduits{
+    border: solid white 2px;
+    width: 100%;
+    text-align: center;
+}
+#tableListeProduits > tbody > tr,#tableListeProduits > tbody > tr > td,#tableListeProduits > thead > tr,#tableListeProduits > thead > tr > th,#tableListeProduits > tfoot > tr,#tableListeProduits > tfoot > tr > td{
+    border: solid white 2px;
+}
+
+.glyphicon-remove{
+    color: red;
+    font-size:18px;
+    float:right;
 }
 
 .text-xs-left { text-align: left; }
