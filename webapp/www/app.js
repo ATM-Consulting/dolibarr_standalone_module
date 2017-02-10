@@ -338,7 +338,6 @@ function showItem(type, id, callback, args)
 {
     if (typeof callback != 'undefined')
     {
-        
         doliDb.getItem(type, id, callback, args);
     } else
     {
@@ -437,7 +436,7 @@ function updateItem($container, type)
             break;
     }
 
-    doliDb.updateItem(type, TValue, callback);
+    doliDb.updateItem(type, id, TValue, callback);
 }
 
 function createContact()
@@ -553,4 +552,20 @@ function updatetotal(){
     });
     
     $('#totaltable').val(total); //modifier valeur du total dans le champ input
+}
+
+function editContact(item)
+{
+    var $container = $('#contact-card-edit');
+    $container.children('input[name=id]').val(item.id_dolibarr);
+
+    for (var x in item)
+    {
+        $container.find('[name=' + x + ']').val(item[x]);
+    }
+}
+
+function dropItem(storename, id, callback) 
+{
+    doliDb.dropItem(storename, id, callback);
 }

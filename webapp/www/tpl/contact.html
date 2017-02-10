@@ -31,7 +31,6 @@
                 <div>
                     <h1>  
                         <span rel="name"></span>
-                        <span id='id_fk_thirdparthy' rel='fk_thirdparty'></span>
                         &nbsp;&nbsp; 
                         <span rel ="firstname"></span> 
                     </h1>
@@ -62,7 +61,7 @@
 				<div class="col-sm-10">
 					<input type="text" class="form-control" name="name" placeholder="" />
 				</div>
-                                
+
                                 <!-- Prénom -->
 				<label for="firstname" class="col-sm-2 control-label"><langs trans="First name"></langs></label>
 				<div class="col-sm-10">
@@ -110,12 +109,24 @@
 				<div class="col-sm-10" >
 					<input type="text" class="form-control" name="mobilephone"/>
 				</div>
-							
+                                							
 				<!-- Permet d'éviter le chevauchement du dernier input sous les boutons d'actions en bas de l'écran -->
+				
+                                <div>
+                                    <a data-toggle="tab" href="#thirdparty-card" class="link_edit move_tab">
+                                        <button type="button" class="btn btn-primary btn-circle btn-lg btn-edit" onclick="dropItem('contact',document.getElementById('id').value)">
+                                            <i class="glyphicon glyphicon-pencil"></i>
+                                        </button>
+                                    </a>
+                                </div>
+                                <div>&nbsp;</div>
+                                <div>&nbsp;</div>
 				<div>&nbsp;</div>
-				<div>&nbsp;</div>
-				<div>&nbsp;</div>
-			</div>
+                                
+
+                                
+                        </div>
+
 			
 		</form>
 		

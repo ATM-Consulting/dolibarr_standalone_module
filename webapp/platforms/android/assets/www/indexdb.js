@@ -125,7 +125,7 @@ var DoliDb = function() {
 			var item = event.target.result;
 			if (item) 
 			{
-				if (storename == 'thirdparty' || storename == 'proposal')
+				if (storename == 'thirdparty' || storename == 'proposal' || storename == 'contact')
 				{
 					DoliDb.prototype.getChildren(storename, item, false, callback, args);
 				}
@@ -151,14 +151,14 @@ var DoliDb = function() {
 						//,{storename: 'order', key_test: 'fk_soc', array_to_push: 'TOrder'}
 						//,{storename: 'bill', key_test: 'fk_soc', array_to_push: 'TBill'}
 					];
-					
 					break;
+                                        
 				case 'proposal':
 					var TChild = [
 						{storename: 'proposal_line', key_test: 'fk_propal', array_to_push: 'TLine'}
 					];
-					
 					break;
+                                        
 			}
 	}
 	

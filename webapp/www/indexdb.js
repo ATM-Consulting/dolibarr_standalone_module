@@ -124,6 +124,7 @@ var DoliDb = function () {};
         item.id_dolibarr = 0;
         item.create_by_indexedDB = 0;
         item.update_by_indexedDB = 1;
+        console.log('item',item);
         switch(storename)
         {
             case 'contact' : item.fk_thirdparty = fk_thirdparty;
@@ -140,11 +141,15 @@ var DoliDb = function () {};
         }
     };
 
-    DoliDb.prototype.dropItem = function (storename, id, callbackfct) {
+    DoliDb.prototype.dropItem = function (storename, id, callback) {
+        console.log('id',id);
         var transaction = this.db.transaction(storename, "readwrite");
         var store = transaction.objectStore(storename);
-        store.delete(id);
-        /*transaction.onsuccess = function (e) {*/
+        
+        /*var res = store.delete(id);
+        console.log('res', res.onsuccess);*/
+        
+        /*res.onsuccess = function (e) {*/
             console.log('Delete', 'The current record has been deleted', 'success');
             showMessage('Delete', 'The current record has been deleted', 'success');
        // };
@@ -172,7 +177,6 @@ var DoliDb = function () {};
             } else
             {
                 if (typeof callback !== 'undefined')
-                    console.log("dans get all item pour "+type);
                     callback(TItem, arg1);
                 return false; // de toute manière c'est de l'asynchrone, donc ça sert à rien de return TItem
             }
@@ -309,50 +313,19 @@ var DoliDb = function () {};
 
     var fk_thirdparty;
 
-     DoliDb.prototype.createContact = function (fk_soc) {
+    DoliDb.prototype.createContact = function (fk_soc) {
         if (typeof fk_soc == 'undefined' || !fk_soc) {
             showMessage('Warning', 'Can\'t create a contact without thirdparty id', 'warning');
             return;
         }
         
         fk_thirdparty = fk_soc;
-         
-         /*
-        var obj = {
-            fk_thirdparty: fk_soc
-            , id_dolibarr: 0
-            , name: ''
-            , create_by_indexedDB: 1
-            , update_by_indexedDB: 0
-        };    
-        
-        var transaction = this.db.transaction('contact', "readwrite");
-        transaction.oncomplete = function (event) {
-            console.log('Transaction completed: database modification finished.', event);
-        };
-        transaction.onerror = function (event) {
-            console.log('Transaction not opened due to error. Duplicate items not allowed.', event);
-        };
-
-        var objectStore = transaction.objectStore('contact');
-
-        var add_request = objectStore.add(obj);
-        add_request.onsuccess = function (event) {
-            var id = event.target.result;
-            console.log('id generated = ', id);
-            showItem('contact', id, showContact, {container: $('#contact-card-edit')});
-        };
-
-        add_request.onerror = function (event) {
-            showMessage('Error', event.target.error.name + ' : ' + event.target.error.message, 'danger');
-        };
-        */
-
     };
 
 
 
     DoliDb.prototype.updateItem = function (storename, id, TValue, callback) {
+        
         var transaction = this.db.transaction(storename, "readwrite");
         var objectStore = transaction.objectStore(storename);
 
@@ -365,7 +338,6 @@ var DoliDb = function () {};
             if (item)
             {
                 $.extend(true, item, TValue);
-                item = DoliDb.prototype.prepareItem(storename, item, 'update');
                 item.update_by_indexedDB = 1; // ne pas utiliser la valeur true, indexedDb gère mal la recherche par boolean
 
                 objectStore.put(item);
@@ -380,7 +352,6 @@ var DoliDb = function () {};
                 showMessage('Warning', 'Item not found', 'warning');
             }
         };
-
     };
 
 
