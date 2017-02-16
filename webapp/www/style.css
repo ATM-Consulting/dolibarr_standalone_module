@@ -84,13 +84,18 @@ li span.fournisseur {
     text-align: center;
 }
 
-#tableListeProduits > tfoot > tr,
+#tableListeProduits{
+    width : 100%;
+}
+
 #tableListeProduits > thead > tr,
 #tableListeProduits > thead > tr > th,
 #tableListeProduits > tbody > tr,
 #tableListeProduits > tbody > tr > td,
+#tableListeProduits > tfoot > tr,
 #tableListeProduits > tfoot > tr > td{
     border: solid white 2px;
+    padding: 5px;
 }
 
 .glyphicon-remove{
