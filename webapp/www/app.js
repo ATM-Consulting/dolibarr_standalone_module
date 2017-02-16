@@ -336,6 +336,9 @@ function addEventListenerOnItemLink()
  */
 function showItem(type, id, callback, args)
 {
+    
+    console.log('showItem',type, id, callback, args);
+    
     if (typeof callback != 'undefined')
     {
         doliDb.getItem(type, id, callback, args);
@@ -377,7 +380,21 @@ function setItemInHTML($container, item)
     for (var x in item)
     {
         value = item[x];
-        $container.find('[rel=' + x + ']').html(value);
+        $container.find('[rel=' + x + ']').each(function(i,item) {
+           
+            $item = $(item);
+            
+            if($item.attr('type')) {
+                $item.val(value);
+            }
+            else{
+                $item.html(value);
+                
+            }
+            
+        });
+                
+                
     }
 }
 
@@ -385,13 +402,18 @@ function setItemInHTML($container, item)
 //-------Item Function----------
 
 function createItem($container, type) {
+    console.log('container', $container);
     var id = $container.children('input[name=id]').val();
-    var TInput = $container.find('form').find('input, text');
+    var $TInput = $container.find('form').find('input, textarea');
     var TValue = {};
 
-    for (var i = 0; i < TInput.length; i++) {
-        TValue[TInput[i].name] = TInput[i].value;
-    }
+    $TInput.each(function(i,input) {
+        $input = $(input);
+        
+        TValue[$input.attr('name')] = $input.val();
+        
+    });
+
 
     switch (type) {
         case 'product':
@@ -442,6 +464,11 @@ function updateItem($container, type)
 function createContact()
 {
     doliDb.createContact($('#thirdparty-card').children('input[name=id]').val(), $('#thirdparty-card').children('input[name=id_dolibarr]').val());
+}
+
+function createProposal()
+{
+    doliDb.createProposal($('#thirdparty-card').children('input[name=id]').val(), $('#thirdparty-card').children('input[name=id_dolibarr]').val());
 }
 
 function addLine(){

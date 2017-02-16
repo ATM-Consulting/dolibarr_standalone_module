@@ -122,8 +122,8 @@ var DoliDb = function () {};
         var transaction = this.db.transaction(storename, "readwrite");
         var objectStore = transaction.objectStore(storename);
         item.id_dolibarr = 0;
-        item.create_by_indexedDB = 0;
-        item.update_by_indexedDB = 1;
+        item.create_by_indexedDB = 1;
+        item.update_by_indexedDB = 0;
         console.log('item',item);
         switch(storename)
         {
@@ -142,17 +142,16 @@ var DoliDb = function () {};
     };
 
     DoliDb.prototype.dropItem = function (storename, id, callback) {
-        console.log('id',id);
+        console.log('dropItem:id',id);
         var transaction = this.db.transaction(storename, "readwrite");
         var store = transaction.objectStore(storename);
         
-        /*var res = store.delete(id);
-        console.log('res', res.onsuccess);*/
-        
-        /*res.onsuccess = function (e) {*/
+        var res = store.delete(id);
+      
+        res.onsuccess = function (e) {
             console.log('Delete', 'The current record has been deleted', 'success');
             showMessage('Delete', 'The current record has been deleted', 'success');
-       // };
+        };
      
 };
  
@@ -277,7 +276,7 @@ var DoliDb = function () {};
             showMessage('Warning', 'Can\'t create a proposal without thirdparty id', 'warning');
             return;
         }
-        
+        /*
         var obj = {
             ref: '(PROV' + ($.now()) + ')'
             , socid: fk_soc
@@ -307,7 +306,7 @@ var DoliDb = function () {};
         add_request.onerror = function (event) {
             console.log('event',event);
             showMessage('Error', event.target.error.name + ' : ' + event.target.error.message, 'danger');
-        };
+        };*/
 
     };
 
