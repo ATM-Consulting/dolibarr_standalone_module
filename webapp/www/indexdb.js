@@ -81,7 +81,7 @@ var DoliDb = function () {};
             var objectStore = DoliDb.prototype.db.createObjectStore("proposal", {keyPath: "id", autoIncrement: true});
             objectStore.createIndex("id", "id", {unique: true});
             objectStore.createIndex("id_dolibarr", "id_dolibarr", {unique: false});
-            objectStore.createIndex("ref", "ref", {unique: true});
+            objectStore.createIndex("ref", "ref", {unique: true});//lines tableau 
             objectStore.createIndex("socid", "socid", {unique: false});
             objectStore.createIndex("create_by_indexedDB", "create_by_indexedDB", {unique: false});
             objectStore.createIndex("update_by_indexedDB", "update_by_indexedDB", {unique: false});

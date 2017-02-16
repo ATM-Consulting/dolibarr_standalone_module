@@ -2,6 +2,12 @@
  * appPropal.js contain all function has been in app.js which refer to Propal
  */
 
+/*
+ * An array which contain a list of product associed with current propal
+ * @type Array
+ */
+var propalProductList=[];
+
 function refreshProposalList(TItem)
 {
     var x = 0;

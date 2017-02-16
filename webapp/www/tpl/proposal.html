@@ -52,6 +52,12 @@
 		<form class="form-horizontal">
 			<div class="form-group">
 				
+                                <!-- Id du client -->
+				<label for="reference"><langs trans="Id du client"></langs></label>
+				<div id="id_client">
+					<input class="form-control" type="text" name="id_client" value=""/>
+				</div>
+                                
 				<!-- ref -->
 				<label for="reference"><langs trans="Reference"></langs></label>
 				<div id="reference">
@@ -192,157 +198,5 @@
 	<div class="row navbar-fixed-bottom">
 		<a data-toggle="tab" href="#proposal-card" class="btn btn-default col-xs-6 move_tab"><langs trans="Cancel"></langs></a>
 		<a data-toggle="tab" href="#proposal-card" onclick="updateItem($('#proposal-card-edit'), 'proposal');" class="btn btn-success col-xs-6 move_tab"><langs trans="Update"></langs></a>
-	</div>
-</div>
-
-<div id="proposal-card-add" class="tab-pane">
-	<input type="hidden" name="id" value="" />
-	<input type="hidden" name="fk_soc" value="" />
-	
-	<div class="container-fluid">
-
-		<form class="form-horizontal">
-			<div class="form-group">
-				
-				<!-- ref -->
-				<label for="reference"><langs trans="Reference"></langs></label>
-				<div id="reference">
-					<input class="form-control" type="text" name="date"/>
-				</div>
-				
-				<!-- Date -->
-				<label for="date"><langs trans="DateDeCreation"></langs></label>
-				<div id="date">
-					<input class="form-control" type="text" name="date"/>
-				</div>
-				
-				<!-- Durée de validité --><!-- Conditions de reglement -->
-				<label for="DateValidite"><langs trans="DateDeValidite"></langs></label>
-				<div id="DateValidite">
-					<select class="form-control" name="duree_validite">
-                                                <option value="" disabled selected>Choisir la duree de validite</option>
-						<option value="1">
-                                                        A la reception
-						</option>
-						<option value="2">
-							30 jours
-						</option>
-						<option value="3">
-							30 jours fin de mois
-						</option>
-						<option value="4">
-							60 jours
-						</option>
-						<option value="5">
-							60 jours fin de mois
-						</option>
-						<option value="6">
-							A la commande
-						</option>
-						<option value="7">
-							A la livraison
-						</option>
-						<option value="8">
-							50/50
-						</option>
-						
-					</select>
-				</div>
-				
-				<!-- Mode de reglement -->
-				<label for="ModeReglement"><langs trans="ProposalReglement"></langs></label>
-				<div id="ModeReglement">
-					<select class="form-control" name="mode_reglement">
-						<option value="" disabled selected>Choisir le mode de paiement</option>
-                                                <option value="1">
-							Carte bancaire
-						</option>
-						<option value="2">
-							Chèque
-						</option>
-						<option value="3">
-							Espèce
-						</option>
-						<option value="4">
-							Prélèvement
-						</option>
-						<option value="5">
-							Virement
-						</option>
-						
-					</select>
-				</div>
-				
-                                <!-- Description -->
-				<label for="listeProduits"><langs trans="Liste des produits"></langs></label>
-				<div id="listeProduits">
-                                    <table id="tableListeProduits">
-                                        <thead>
-                                            <tr>
-                                                <th>Nom</th>
-                                                <th>prix</th>
-                                                <th>quantite</th>
-                                                <th> <span class="glyphicon glyphicon-remove"></span></th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="tableListeProduitsBody">
-
-                                        </tbody>
-                                        <tfoot>
-                                            <tr id="unexistProduct">
-                                                <td>
-                                                    <input type="text" id="name">
-                                                </td>
-                                                <td>
-                                                    <input type="number" min="1" id="pUprod">
-                                                </td>
-                                                <td>
-                                                    <input type="number" min="0" id="nbprod">
-                                                </td>
-                                                <td>
-                                                    <span class="glyphicon glyphicon-ok" onClick='addUnExistProduct()'>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td colspan="4">
-                                                    <input type="text" id="totaltable" value="" disabled="disabled" />
-                                                </td>
-                                            </tr>
-                                        </tfoot>
-                                    </table>
-                                </div>
-				
-				
-				<label for="selectionProduit"><langs trans="Selectionner des produits"></langs></label>
-				<div id="selectionProduit">
-					<div class="container-fluid">
-						<div  class="row">
-							<div class="input-group">
-                                                            <input type="text" class="form-control" placeholder="Categorie des produits" /><!--onchange="doliDb.getItemOnKey('product', this.value, ['label', 'id', 'ref'], refreshProductList, '#product-list-proposal-card-edit');"-->
-								<span class="input-group-btn">
-                                                                    <a data-toggle="tab" href="#product-list-propal" class="btn btn-warning" onclick="javascript:showList('product', refreshProductList, '#product-list-propal');"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></a>
-                                                                </span>
-							</div>
-						</div>		
-					</div>
-				</div>
-
-				
-				
-				
-
-				<!-- Permet d'éviter le chevauchement du dernier input sous les boutons d'actions en bas de l'écran -->
-				<div>&nbsp;</div>
-				<div>&nbsp;</div>
-				<div>&nbsp;</div>
-			</div>
-			
-		</form>
-		
-	</div>
-	
-	<div class="row navbar-fixed-bottom">
-            <a data-toggle="tab" href="#proposal-card" class="btn btn-default col-xs-6 move_tab"><langs trans="Cancel"></langs></a>
-            <a data-toggle="tab" href="#proposal-card" onclick="createItem($('#proposal-card-add'), 'proposal');" class="btn btn-success col-xs-6 move_tab"><langs trans="Add item"></langs></a>
 	</div>
 </div>

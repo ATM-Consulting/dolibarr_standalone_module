@@ -1,4 +1,4 @@
-<div id="proposal-card-edit" class="tab-pane">
+<div id="proposal-card-add" class="tab-pane">
 	<input type="hidden" name="id" value="" />
 	<input type="hidden" name="fk_soc" value="" />
 	
@@ -8,30 +8,24 @@
 			<div class="form-group">
 				
 				<!-- ref -->
-				<label for="ref" class="col-sm-2 control-label"><langs trans="ProposalRef"></langs></label>
-				<div class="col-sm-10">
-					<h1 rel="ref"></h1>
+				<label for="reference"><langs trans="Reference"></langs></label>
+				<div id="reference">
+					<input class="form-control" type="text" name="date"/>
 				</div>
-				
 				
 				<!-- Date -->
-				<label for="date" class="col-sm-2 control-label"><langs trans="ProposalDate"></langs></label>
-				<div class="col-sm-10 date">
-					<input class="form-control" type="date" name="date"/>
-				</div>
-
-				<!-- Durée de validité -->
-				<label for="refClient" class="col-sm-2 control-label"><langs trans="ProposalValidite"></langs></label>
-				<div class="col-sm-10">
-					<input class="form-control" type="text" name="duree_validite">jours</input>
+				<label for="date"><langs trans="DateDeCreation"></langs></label>
+				<div id="date">
+					<input class="form-control" type="text" name="date"/>
 				</div>
 				
-				<!-- Conditions de reglement -->
-				<label for="refClient" class="col-sm-2 control-label"><langs trans="ProposalReglement"></langs></label>
-				<div class="col-sm-10">
-					<select class="form-control" name="cond_reglement">
+				<!-- Durée de validité --><!-- Conditions de reglement -->
+				<label for="DateValidite"><langs trans="DateDeValidite"></langs></label>
+				<div id="DateValidite">
+					<select class="form-control" name="duree_validite">
+                                                <option value="" disabled selected>Choisir la duree de validite</option>
 						<option value="1">
-							A reception
+                                                        A la reception
 						</option>
 						<option value="2">
 							30 jours
@@ -46,10 +40,10 @@
 							60 jours fin de mois
 						</option>
 						<option value="6">
-							A commande
+							A la commande
 						</option>
 						<option value="7">
-							A livraison
+							A la livraison
 						</option>
 						<option value="8">
 							50/50
@@ -59,56 +53,80 @@
 				</div>
 				
 				<!-- Mode de reglement -->
-				<label for="refClient" class="col-sm-2 control-label"><langs trans="ProposalReglement"></langs></label>
-				<div class="col-sm-10">
+				<label for="ModeReglement"><langs trans="ProposalReglement"></langs></label>
+				<div id="ModeReglement">
 					<select class="form-control" name="mode_reglement">
-						<option value="0">
-							
-						</option>
-						<option value="6">
+						<option value="" disabled selected>Choisir le mode de paiement</option>
+                                                <option value="1">
 							Carte bancaire
 						</option>
-						<option value="7">
+						<option value="2">
 							Chèque
 						</option>
-						<option value="4">
+						<option value="3">
 							Espèce
 						</option>
-						<option value="3">
+						<option value="4">
 							Prélèvement
 						</option>
-						<option value="2">
+						<option value="5">
 							Virement
 						</option>
 						
 					</select>
 				</div>
 				
-				<label for="listeProduits" class="col-sm-2 control-label"><langs trans="ProposalLines"></langs></label>
-				<div class="col-sm-10" id="listeProduits">
-					<textarea></textarea> <!-- TODO Remplacer ceci par un ul qui sera rempli par addLinePropale-->
-				</div>
+                                <!-- Description -->
+				<label for="listeProduits"><langs trans="Liste des produits"></langs></label>
+				<div id="listeProduits">
+                                    <table id="tableListeProduits">
+                                        <thead>
+                                            <tr>
+                                                <th>Nom</th>
+                                                <th>prix</th>
+                                                <th>quantite</th>
+                                                <th> <span class="glyphicon glyphicon-remove"></span></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="tableListeProduitsBody">
+
+                                        </tbody>
+                                        <tfoot>
+                                            <tr id="unexistProduct">
+                                                <td>
+                                                    <input type="text" id="name">
+                                                </td>
+                                                <td>
+                                                    <input type="number" min="1" id="pUprod">
+                                                </td>
+                                                <td>
+                                                    <input type="number" min="0" id="nbprod">
+                                                </td>
+                                                <td>
+                                                    <span class="glyphicon glyphicon-ok" onClick='addUnExistProduct()'>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td colspan="4">
+                                                    <input type="text" id="totaltable" value="" disabled="disabled" />
+                                                </td>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
 				
 				
-				<label for="selectionProduit" class="col-sm-2 control-label"><langs trans="ProposalSelectProduct"></langs></label>
-				<div id="product-list-proposal-card-edit" class="tab-pane">
+				<label for="selectionProduit"><langs trans="Selectionner des produits"></langs></label>
+				<div id="selectionProduit">
 					<div class="container-fluid">
 						<div  class="row">
 							<div class="input-group">
-								<input type="text" class="form-control" placeholder="Product" onchange="doliDb.getItemOnKey('product', this.value, ['label', 'id', 'ref'], refreshProductList, '#product-list-proposal-card-edit');" />
+                                                            <input type="text" class="form-control" placeholder="Categorie des produits" /><!--onchange="doliDb.getItemOnKey('product', this.value, ['label', 'id', 'ref'], refreshProductList, '#product-list-proposal-card-edit');"-->
 								<span class="input-group-btn">
-									<button class="btn btn-default" type="button">
-										<langs trans="Go"></langs>
-									</button> </span>
+                                                                    <a data-toggle="tab" href="#product-list-propal" class="btn btn-warning" onclick="javascript:showList('product', refreshProductList, '#product-list-propal');"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span></a>
+                                                                </span>
 							</div>
-						</div>
-				
-						<div class="row">
-							<ul class="list-group list_product">
-				
-							</ul>
-						</div>
-				
+						</div>		
 					</div>
 				</div>
 
@@ -120,6 +138,22 @@
 				<div>&nbsp;</div>
 				<div>&nbsp;</div>
 				<div>&nbsp;</div>
-			</div>	
-		</form>		
-        </div>
+			</div>
+			
+		</form>
+		
+	</div>
+	
+	<div class="row navbar-fixed-bottom">
+            <a data-toggle="tab" href="#proposal-card" class="btn btn-default col-xs-6 move_tab"><langs trans="Cancel"></langs></a>
+            <a data-toggle="tab" href="#proposal-card" onclick="createItem($('#proposal-card-add'), 'proposal');" class="btn btn-success col-xs-6 move_tab"><langs trans="Add item"></langs></a>
+	</div>
+</div>
+
+
+doliDb.createProposal(
+    $('#thirdparty-card').children('input[name=id]').val(),
+    $('#thirdparty-card').children('input[name=id_dolibarr]').val()
+);
+
+onclick="doliDb.createProposal($('#thirdparty-card').children('input[name=id]').val(), $('#thirdparty-card').children('input[name=id_dolibarr]').val());"

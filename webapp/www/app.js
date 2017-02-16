@@ -452,18 +452,20 @@ function addLine(){
 	*/
   }
 //----------My Function--------
-var propalProductList=[];
+
 
 function addItemToList(ThisElement) {
     currentPropal=document.getElementById("proposal-card-edit");
     currentPropalId=document.getElementById("propalid").value;
     if(!currentPropalId){
         //fonction pour add l'item dans la lsite des propals non connu de la bd
+        console.log("unknow");
         propalProductList.push({'libelle':ThisElement.parentNode.getAttribute("label"),'prix':10, 'quantite':1});
         majTableau();
     }
     else{
         //propalProductList.push({'nom':$(this).label,})
+        console.log("know");
         propalProductList.push({'libelle':ThisElement.parentNode.getAttribute("label"),'prix':10, 'quantite':1});
         majTableau();
     }  
