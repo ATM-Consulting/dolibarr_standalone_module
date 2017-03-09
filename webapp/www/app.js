@@ -196,6 +196,7 @@ function synchronize(set_one_finish)
             {type: 'product', container: '#synchronize-page .sync-info', msg_start: 'Sending products...', msg_end: 'Done'}
             , {type: 'thirdparty', container: '#synchronize-page .sync-info', msg_start: 'Sending thirdparties...', msg_end: 'Done'}
             , {type: 'proposal', container: '#synchronize-page .sync-info', msg_start: 'Sending proposals...', msg_end: 'Done'}
+            , {type: 'contact', container: '#synchronize-page .sync-info', msg_start: 'Sending contact...', msg_end: 'Done'}
         ];
 
         // le callback synchronize sera appelé avec un paramètre à true pour passer dans le "else" (récupération des données)
@@ -207,6 +208,7 @@ function synchronize(set_one_finish)
             {type: 'product', container: '#synchronize-page .sync-info', msg_start: 'Fetching products...', msg_end: 'Done'}
             , {type: 'thirdparty', container: '#synchronize-page .sync-info', msg_start: 'Fetching thirdparties...', msg_end: 'Done'}
             , {type: 'proposal', container: '#synchronize-page .sync-info', msg_start: 'Fetching proposals...', msg_end: 'Done'}
+            , {type: 'contact', container: '#synchronize-page .sync-info', msg_start: 'Fetching contact...', msg_end: 'Done'}
         ];
 
         getData(TObjToSync);
@@ -242,6 +244,9 @@ function getData(TObjToSync)
             case 'proposal':
                 var date_last_sync = localStorage.date_last_sync_proposal || 0;
                 break;
+            case 'contact':
+                var date_last_sync = localStorage.date_last_sync_contact || 0;
+                break;
         }
 
         $(TObjToSync[0].container).append('<blockquote><span class="text-info">' + TObjToSync[0].msg_start + '</span></blockquote>'); // show info : start fetching
@@ -258,6 +263,7 @@ function getData(TObjToSync)
                 , entity: 1
             }
             , success: function (data) {
+
                 _update_date_sync(TObjToSync[0].type, $.now());
                 doliDb.updateAllItem(TObjToSync[0].type, data);
 
@@ -269,7 +275,7 @@ function getData(TObjToSync)
             , error: function (xhr, ajaxOptions, thrownError) {
                 // TODO téchniquement on tombera jamais dans le error car pas de timeout défini, sauf qu'on peux pas le définir sinon on risque d'interrompre la récupération des données
                 showMessage('Synchronization error', 'Sorry, we meet an error pending synchronization', 'danger');
-                $(TObjToSync[0].container).append('<blockquote><span class="text-error" style="color:red">Error sync with "' + TObjToSync[0].type + '"</span></blockquote>');
+                 $(TObjToSync[0].container).append('<blockquote><span class="text-error" style="color:red">Error sync with "' + TObjToSync[0].type + '"</span></blockquote>');
             }
         });
     } else
@@ -290,6 +296,9 @@ function _update_date_sync(type, date)
             break;
         case 'proposal':
             localStorage.date_last_sync_proposal = date;
+            break;
+        case 'contact':
+            localStorage.date_last_sync_contact = date;
             break;
     }
 }

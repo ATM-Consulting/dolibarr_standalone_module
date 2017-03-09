@@ -157,12 +157,3 @@ doliDb.createProposal(
 );
 
 onclick="doliDb.createProposal($('#thirdparty-card').children('input[name=id]').val(), $('#thirdparty-card').children('input[name=id_dolibarr]').val());"
-
-
-default.properties
-gen
-assets/www/phonegap.js
-local.properties
-framework/phonegap.jar
-framework/bin
-framework/assets/www/.DS_Store

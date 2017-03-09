@@ -46,12 +46,15 @@
 			<i class="glyphicon glyphicon-pencil"></i>
 		</button>
             </a>
-            <a data-toggle="tab" href="#thirdparty-card" class="link_edit move_tab">
+        </div>
+    
+        <div>
+            <a data-toggle="tab" href="#thirdparty-card" class="move_tab">
                 <button type="button" class="btn btn-primary btn-circle btn-lg btn-edit" onclick="dropItem('contact',$('#fk_contact').val())">
                     <i class="glyphicon glyphicon-remove"></i>
                 </button>
             </a>
-        </div>
+        </div>  
         
 </div>
 
@@ -159,23 +162,23 @@
 				<div class="col-sm-10">
 					<input type="text" class="form-control" name="firstname" placeholder="" />
 				</div>
-				
-				<!-- Town -->
-				<label for="town" class="col-sm-2 control-label"><langs trans="Town"></langs></label>
+                                
+                                <!-- Adresse -->
+				<label for="address" class="col-sm-2 control-label"><langs trans="Address"></langs></label>
 				<div class="col-sm-10">
-					<input type="text" class="form-control" name="town"/>
+					<textarea class="form-control" rows="5" name="address"></textarea>
 				</div>
-				
+                                
                                 <!-- Code Postal-->
 				<label for="zip" class="col-sm-2 control-label"><langs trans="Zip Code"></langs></label>
 				<div class="col-sm-10" >
 					<input type="text" class="form-control" name="zip"/>
 				</div>
-                                
-				<!-- Adresse -->
-				<label for="address" class="col-sm-2 control-label"><langs trans="Address"></langs></label>
+				
+				<!-- Town -->
+				<label for="town" class="col-sm-2 control-label"><langs trans="Town"></langs></label>
 				<div class="col-sm-10">
-					<textarea class="form-control" rows="5" name="address"></textarea>
+					<input type="text" class="form-control" name="town"/>
 				</div>
 				
 				<!-- Mail-->
