@@ -65,11 +65,17 @@ function editProposal(item) {
         $container.find('[name=' + x + ']').val(item[x]);
     }
 }
-function majTableau(){
+function majTableau(bodyWillUpdated){
+    if(bodyWillUpdated=="add"){
+        bodyUpdated=$('#tableListeProduitsBodyAdd')
+    }
+    else{
+        bodyUpdated=$('#tableListeProduitsBodyEdit')
+    }
     majQuantity();
-    $('#tableListeProduitsBody').empty();
+    bodyUpdated.empty();
     propalProductList.forEach(function(element){
-        $('#tableListeProduitsBody').append('<tr>'+
+        bodyUpdated.append('<tr>'+
         '<td>'+element.libelle+'</td>'+
         '<td id=pUprod>'+element.prix+'</td>'+
         '<td id=nbprod><input class="inputQu" type="number" min="1" size="5" value="'+element.quantite+'" onChange=majQuantity()></td>'+
@@ -79,25 +85,44 @@ function majTableau(){
     updatetotal();
 }
 
-function majQuantity(){
-    test=$("#tableListeProduitsBody").find("input[class=inputQu]")
-    test.each(function(i,e){
-      propalProductList[i].quantite=e.value;
-    });
+function majQuantity(bodyWillUpdated){
+    if(bodyWillUpdated=="add"){
+        quantity=$("#tableListeProduitsBodyAdd").find("input[class=inputQu]");
+        quantity.each(function(i,e){
+            propalProductList[i].quantite=e.value;
+        });
+    }
+    else{
+        quantity=$("#tableListeProduitsBodyEdit").find("input[class=inputQu]");
+        quantity.each(function(i,e){
+            propalProductList[i].quantite=e.value;
+        });
+    }
     updatetotal();
 }
 
-function updatetotal(){
+function updatetotal(bodyWillUpdated){
     
     var total=0;
     
-    $('#tableListeProduitsBody > tr ').each(function(){ //parcours tout les element 'tr' de #tableListeProduitsBody puis trouve les quantité et les pU pour calculer le total
-        pU = parseInt($(this).children('td[id="pUprod"]').text());
-        quantite = parseInt($(this).find('input').val());
-        total=total+(pU*quantite);
+    if(bodyWillUpdated=="add"){
+        $('#tableListeProduitsBodyAdd > tr ').each(function(){ //parcours tout les element 'tr' de #tableListeProduitsBody puis trouve les quantité et les pU pour calculer le total
+            pU = parseInt($(this).children('td[id="pUprod"]').text());
+            quantite = parseInt($(this).find('input').val());
+            total=total+(pU*quantite);
+        });
+    
+        $('#totaltableAdd').val(total);
+    }
+    else{
+        $('#tableListeProduitsBodyEdit > tr ').each(function(){ //parcours tout les element 'tr' de #tableListeProduitsBody puis trouve les quantité et les pU pour calculer le total
+            pU = parseInt($(this).children('td[id="pUprod"]').text());
+            quantite = parseInt($(this).find('input').val());
+            total=total+(pU*quantite);
     });
     
-    $('#totaltable').val(total); //modifier valeur du total dans le champ input
+        $('#totaltableEdit').val(total); //modifier valeur du total dans le champ input
+    }
 }
 
 function addUnExistProduct(){

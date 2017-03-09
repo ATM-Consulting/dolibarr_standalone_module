@@ -482,22 +482,21 @@ function addLine(){
 
 
 function addItemToList(ThisElement) {
-    currentPropal=document.getElementById("proposal-card-edit");
-    currentPropalId=document.getElementById("propalid").value;
-    if(!currentPropalId){
-        //fonction pour add l'item dans la lsite des propals non connu de la bd
+    if($("#proposal-card-edit > input[id=propalid]").val()==""){
         console.log("unknow");
+        
+        currentPropal=$("#proposal-card-add");
         propalProductList.push({'libelle':ThisElement.parentNode.getAttribute("label"),'prix':10, 'quantite':1});
-        majTableau();
+        majTableau("add");
     }
     else{
-        //propalProductList.push({'nom':$(this).label,})
+        currentPropal=$("#proposal-card-edit");
         console.log("know");
         propalProductList.push({'libelle':ThisElement.parentNode.getAttribute("label"),'prix':10, 'quantite':1});
-        majTableau();
-    }  
-    document.getElementById("product-list-propal").className="tab-pane"
-    currentPropal.className="tab-pane active"
+        majTableau("update");
+    }
+    $("#product-list-propal").attr('class','tab-pane');
+    currentPropal.attr('class','tab-pane active');
 }
 
 function toggleSelect(object) {
