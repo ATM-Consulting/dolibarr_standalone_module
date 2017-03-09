@@ -129,7 +129,7 @@ var DoliDb = function () {};
         {
             case 'contact' : item.fk_thirdparty = fk_thirdparty;
         }
-        res=objectStore.add(item); 
+        res=objectStore.add(item);
         //res.onsuccess = fonction (event) {
         //else{
         showMessage('Create', 'The current record has been created', 'success');    

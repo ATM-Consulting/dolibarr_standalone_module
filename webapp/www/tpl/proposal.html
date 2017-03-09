@@ -46,6 +46,7 @@
 <div id="proposal-card-edit" class="tab-pane">
 	<input type="hidden" name="id" id="propalid" value="" />
 	<input type="hidden" name="fk_soc" value="" />
+        <input type="hidden" id="id_client" name="id_client" value=""/>
 	
 	<div class="container-fluid">
 
@@ -53,15 +54,15 @@
 			<div class="form-group">
 				
                                 <!-- Id du client -->
-				<label for="reference"><langs trans="Id du client"></langs></label>
-				<div id="id_client">
-					<input class="form-control" type="text" name="id_client" value=""/>
+				<label for="Client"><langs trans="Id du client"></langs></label>
+				<div id="nom_client">
+					<input id="nom-client" class="form-control" type="text"  value=""/>
 				</div>
                                 
 				<!-- ref -->
 				<label for="reference"><langs trans="Reference"></langs></label>
 				<div id="reference">
-					<input class="form-control" type="text" name="date"/>
+					<input class="form-control" type="text" name="date" value=""/>
 				</div>
 				
 				<!-- Date -->
@@ -139,7 +140,7 @@
                                                 <th> <span class="glyphicon glyphicon-remove"></span></th>
                                             </tr>
                                         </thead>
-                                        <tbody id="tableListeProduitsBody">
+                                        <tbody id="tableListeProduitsBodyEdit">
 
                                         </tbody>
                                         <tfoot>
@@ -159,7 +160,7 @@
                                             </tr>
                                             <tr>
                                                 <td colspan="4">
-                                                    <input type="text" id="totaltable" value="" disabled="disabled" />
+                                                    <input type="text" id="totaltableEdit" value="" disabled="disabled" />
                                                 </td>
                                             </tr>
                                         </tfoot>
@@ -204,12 +205,18 @@
 <div id="proposal-card-add" class="tab-pane">
 	<input type="hidden" name="id" id="propalid" value="" />
 	<input type="hidden" name="fk_soc" value="" />
+        <input type="hidden" id="id_client" name="id_client" value=""/>
 	
 	<div class="container-fluid">
 
 		<form class="form-horizontal">
 			<div class="form-group">
 				
+                                <label for="Client"><langs trans="Id du client"></langs></label>
+				<div id="nom_client">
+					<input id="nom-client" class="form-control" type="text"  value=""/>
+				</div>
+                            
 				<!-- ref -->
 				<label for="reference"><langs trans="Reference"></langs></label>
 				<div id="reference">
@@ -291,7 +298,7 @@
                                                 <th> <span class="glyphicon glyphicon-remove"></span></th>
                                             </tr>
                                         </thead>
-                                        <tbody id="tableListeProduitsBody">
+                                        <tbody id="tableListeProduitsBodyAdd">
 
                                         </tbody>
                                         <tfoot>
@@ -311,7 +318,7 @@
                                             </tr>
                                             <tr>
                                                 <td colspan="3">
-                                                    <input type="text" id="totaltable" value="" disabled="disabled" />
+                                                    <input type="text" id="totaltableAdd" value="" disabled="disabled" />
                                                 </td>
                                             </tr>
                                         </tfoot>
