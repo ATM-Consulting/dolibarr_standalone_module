@@ -86,7 +86,7 @@ function majTableau(bodyWillUpdated){
 }
 
 function majQuantity(bodyWillUpdated){
-    if(bodyWillUpdated=="add"){
+    if(!bodyWillUpdated=="add"){
         quantity=$("#tableListeProduitsBodyAdd").find("input[class=inputQu]");
         quantity.each(function(i,e){
             propalProductList[i].quantite=e.value;
@@ -125,18 +125,35 @@ function updatetotal(bodyWillUpdated){
     }
 }
 
-function addUnExistProduct(){
-    name=$('#unexistProduct').find('input[id="name"]').val();
-    prix=$('#unexistProduct').find('input[id="pUprod"]').val();
-    quantite=$('#unexistProduct').find('input[id="nbprod"]').val();
-    if (name!="" && prix!="" && quantite!="" ){
-        propalProductList.push({'libelle':name,'prix':prix,'quantite':quantite});
-        $('#unexistProduct').find('input[id="name"]').val("");
-        $('#unexistProduct').find('input[id="pUprod"]').val("");
-        $('#unexistProduct').find('input[id="nbprod"]').val("");
-        majTableau();
+function addUnExistProduct(bodyWillUpdated){
+    if(bodyWillUpdated=="add"){
+        name=$('#unexistProductAdd').find('input[id="name"]').val();
+        prix=$('#unexistProductAdd').find('input[id="pUprod"]').val();
+        quantite=$('#unexistProductAdd').find('input[id="nbprod"]').val();
+        if (name!="" && prix!="" && quantite!="" ){
+            propalProductList.push({'libelle':name,'prix':prix,'quantite':quantite});
+            $('#unexistProductAdd').find('input[id="name"]').val("");
+            $('#unexistProductAdd').find('input[id="pUprod"]').val("");
+            $('#unexistProductAdd').find('input[id="nbprod"]').val("");
+            majTableau("add");
+        }
+        else{
+            alert("Some field are empty !");
+        }
     }
     else{
-        alert("Some field are empty !");
+        name=$('#unexistProductEdit').find('input[id="name"]').val();
+        prix=$('#unexistProductEdit').find('input[id="pUprod"]').val();
+        quantite=$('#unexistProductEdit').find('input[id="nbprod"]').val();
+        if (name!="" && prix!="" && quantite!="" ){
+            propalProductList.push({'libelle':name,'prix':prix,'quantite':quantite});
+            $('#unexistProductEdit').find('input[id="name"]').val("");
+            $('#unexistProductEdit').find('input[id="pUprod"]').val("");
+            $('#unexistProductEdit').find('input[id="nbprod"]').val("");
+            majTableau();
+        }
+        else{
+            alert("Some field are empty !");
+        }
     }
 }

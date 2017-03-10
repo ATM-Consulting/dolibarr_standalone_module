@@ -458,6 +458,7 @@ var DoliDb = function() {
 						request.onsuccess = function() 
 						{
 							var item = request.result;
+                                                        
 							if (item) item = DoliDb.prototype.postItem(storename, item);
 							// TODO le postItem est là pour ajouter des infos ou les modifier si nécessaire, à voir plus tard si on en a besoin
 							//objectStore.put(item);

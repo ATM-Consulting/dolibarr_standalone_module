@@ -35,7 +35,10 @@ function refreshThirdpartyList(TItem)
 
 function showThirdparty(item)
 {
-    doliDb.getAllItem('proposal',logAll);
+    //doliDb.getAllItem('thirdparty',logAll);
+    
+    console.log('showThirdparty',item);
+    
     setItemInHTML($('#thirdparty-card'), item);
     refreshAssociateContactList($('#thirdparty-card .doc_associate_contacts'), item.TContact);
     refreshAssociateProposalList($('#thirdparty-card .doc_associate_proposals'), item.TProposal);

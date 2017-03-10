@@ -208,7 +208,7 @@ function synchronize(set_one_finish)
             {type: 'product', container: '#synchronize-page .sync-info', msg_start: 'Fetching products...', msg_end: 'Done'}
             , {type: 'thirdparty', container: '#synchronize-page .sync-info', msg_start: 'Fetching thirdparties...', msg_end: 'Done'}
             , {type: 'proposal', container: '#synchronize-page .sync-info', msg_start: 'Fetching proposals...', msg_end: 'Done'}
-            , {type: 'contact', container: '#synchronize-page .sync-info', msg_start: 'Fetching contact...', msg_end: 'Done'}
+            //, {type: 'contact', container: '#synchronize-page .sync-info', msg_start: 'Fetching contact...', msg_end: 'Done'}
         ];
 
         getData(TObjToSync);
@@ -244,9 +244,9 @@ function getData(TObjToSync)
             case 'proposal':
                 var date_last_sync = localStorage.date_last_sync_proposal || 0;
                 break;
-            case 'contact':
+            /*case 'contact':
                 var date_last_sync = localStorage.date_last_sync_contact || 0;
-                break;
+                break;*/
         }
 
         $(TObjToSync[0].container).append('<blockquote><span class="text-info">' + TObjToSync[0].msg_start + '</span></blockquote>'); // show info : start fetching
@@ -265,8 +265,9 @@ function getData(TObjToSync)
             , success: function (data) {
 
                 _update_date_sync(TObjToSync[0].type, $.now());
+                
                 doliDb.updateAllItem(TObjToSync[0].type, data);
-
+                
                 $(TObjToSync[0].container + ' blockquote:last-child').append('<small class="text-info">' + TObjToSync[0].msg_end + '</small>'); // show info : done
 
                 TObjToSync.splice(0, 1);
@@ -274,7 +275,7 @@ function getData(TObjToSync)
             }
             , error: function (xhr, ajaxOptions, thrownError) {
                 // TODO téchniquement on tombera jamais dans le error car pas de timeout défini, sauf qu'on peux pas le définir sinon on risque d'interrompre la récupération des données
-                showMessage('Synchronization error', 'Sorry, we meet an error pending synchronization', 'danger');
+                showMessage('Synchronization error', 'Sorry, we met an error pending synchronization', 'danger');
                  $(TObjToSync[0].container).append('<blockquote><span class="text-error" style="color:red">Error sync with "' + TObjToSync[0].type + '"</span></blockquote>');
             }
         });
@@ -413,7 +414,7 @@ function setItemInHTML($container, item)
 function createItem($container, type) {
     console.log('container', $container);
     var id = $container.children('input[name=id]').val();
-    var $TInput = $container.find('form').find('input, textarea');
+    var $TInput = $container.find('form').find('input, textarea, select');
     var TValue = {};
 
     $TInput.each(function(i,input) {
@@ -439,6 +440,7 @@ function createItem($container, type) {
             break;
     }
     doliDb.createItem(type, TValue, callback);
+    propalProductList = [];
 }
 
 function updateItem($container, type)
@@ -468,6 +470,7 @@ function updateItem($container, type)
     }
 
     doliDb.updateItem(type, id, TValue, callback);
+    propalProductList = [];
 }
 
 function createContact()

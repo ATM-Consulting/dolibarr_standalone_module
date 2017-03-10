@@ -56,7 +56,7 @@
                                 <!-- Id du client -->
 				<label for="Client"><langs trans="Id du client"></langs></label>
 				<div id="nom_client">
-					<input id="nom-client" class="form-control" type="text"  value=""/>
+					<input name="nom-client" class="form-control" type="text"  value="" disabled/>
 				</div>
                                 
 				<!-- ref -->
@@ -76,28 +76,28 @@
 				<div id="DateValidite">
 					<select class="form-control" name="duree_validite">
                                                 <option value="" disabled selected>Choisir la duree de validite</option>
-						<option value="1">
+						<option value="A la reception">
                                                         A la reception
 						</option>
-						<option value="2">
+						<option value="30 jours">
 							30 jours
 						</option>
-						<option value="3">
+						<option value="30 jours fin de mois">
 							30 jours fin de mois
 						</option>
-						<option value="4">
+						<option value="60 jours">
 							60 jours
 						</option>
-						<option value="5">
+						<option value="60 jours fin de mois">
 							60 jours fin de mois
 						</option>
-						<option value="6">
+						<option value="A la commande">
 							A la commande
 						</option>
-						<option value="7">
+						<option value="A la livraison">
 							A la livraison
 						</option>
-						<option value="8">
+						<option value="50/50">
 							50/50
 						</option>
 						
@@ -109,19 +109,19 @@
 				<div id="ModeReglement">
 					<select class="form-control" name="mode_reglement">
 						<option value="" disabled selected>Choisir le mode de paiement</option>
-                                                <option value="1">
+                                                <option value="Carte bancaire">
 							Carte bancaire
 						</option>
-						<option value="2">
+						<option value="Chèque">
 							Chèque
 						</option>
-						<option value="3">
+						<option value="Espèce">
 							Espèce
 						</option>
-						<option value="4">
+						<option value="Prélèvement">
 							Prélèvement
 						</option>
-						<option value="5">
+						<option value="Virement">
 							Virement
 						</option>
 						
@@ -144,7 +144,7 @@
 
                                         </tbody>
                                         <tfoot>
-                                            <tr id="unexistProduct">
+                                            <tr id="unexistProductEdit">
                                                 <td>
                                                     <input type="text" id="name">
                                                 </td>
@@ -202,7 +202,7 @@
 	</div>
 </div>
 
-<div id="proposal-card-add" class="tab-pane">
+        <div id="proposal-card-add" class="tab-pane">
 	<input type="hidden" name="id" id="propalid" value="" />
 	<input type="hidden" name="fk_soc" value="" />
         <input type="hidden" id="id_client" name="id_client" value=""/>
@@ -214,7 +214,7 @@
 				
                                 <label for="Client"><langs trans="Id du client"></langs></label>
 				<div id="nom_client">
-					<input id="nom-client" class="form-control" type="text"  value=""/>
+					<input name="nom-client" class="form-control" type="text"  value="" disabled/>
 				</div>
                             
 				<!-- ref -->
@@ -234,31 +234,30 @@
 				<div id="DateValidite">
 					<select class="form-control" name="duree_validite">
                                                 <option value="" disabled selected>Choisir la duree de validite</option>
-						<option value="1">
+						<option value="A la reception">
                                                         A la reception
 						</option>
-						<option value="2">
+						<option value="30 jours">
 							30 jours
 						</option>
-						<option value="3">
+						<option value="30 jours fin de mois">
 							30 jours fin de mois
 						</option>
-						<option value="4">
+						<option value="60 jours">
 							60 jours
 						</option>
-						<option value="5">
+						<option value="60 jours fin de mois">
 							60 jours fin de mois
 						</option>
-						<option value="6">
+						<option value="A la commande">
 							A la commande
 						</option>
-						<option value="7">
+						<option value="A la livraison">
 							A la livraison
 						</option>
-						<option value="8">
+						<option value="50/50">
 							50/50
 						</option>
-						
 					</select>
 				</div>
 				
@@ -267,19 +266,19 @@
 				<div id="ModeReglement">
 					<select class="form-control" name="mode_reglement">
 						<option value="" disabled selected>Choisir le mode de paiement</option>
-                                                <option value="1">
+                                                <option value="Carte bancaire">
 							Carte bancaire
 						</option>
-						<option value="2">
+						<option value="Chèque">
 							Chèque
 						</option>
-						<option value="3">
+						<option value="Espèce">
 							Espèce
 						</option>
-						<option value="4">
+						<option value="Prélèvement">
 							Prélèvement
 						</option>
-						<option value="5">
+						<option value="Virement">
 							Virement
 						</option>
 						
@@ -302,7 +301,7 @@
 
                                         </tbody>
                                         <tfoot>
-                                            <tr id="unexistProduct">
+                                            <tr id="unexistProductAdd">
                                                 <td>
                                                     <input type="text" id="name">
                                                 </td>
@@ -313,7 +312,7 @@
                                                     <input type="number" min="0" id="nbprod">
                                                 </td>
                                                 <td>
-                                                    <span class="glyphicon glyphicon-ok" onClick='addUnExistProduct()'>
+                                                    <span class="glyphicon glyphicon-ok" onClick='addUnExistProduct("add")'>
                                                 </td>
                                             </tr>
                                             <tr>
