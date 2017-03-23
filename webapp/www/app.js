@@ -482,13 +482,30 @@ function createItem($container, type) {
             var callback = showProposal;
             break;
         case 'contact' :
-            var callback = showContact;
+          //  var callback = showContact;
+          
+            var fk_soc = $('#thirdparty-card input[name=id]').val();
+          
+            doliDb.getItem('thirdparty',fk_soc, addContact, TValue);
+          
+   
+            return true;
+          
             break;
     }
     doliDb.createItem(type, TValue, callback);
     propalProductList = [];
+    
 }
 
+function addContact(item, contact) {
+    console.log('addContact', item, contact);
+    
+    var k = item.TContact.length;
+    item.TContact.push(contact);
+    
+     doliDb.updateItem('thirdparty', item.id, item, showThirdParty);
+}
 
 function updateItem($container, type)
 {
