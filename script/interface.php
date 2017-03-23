@@ -56,14 +56,14 @@
 			
 			break;
                         
-                case 'contact':
+                /*case 'contact':
 			$id = GETPOST('id','int');
 			
 			if($id) __out(_getItem($get, $id));
 			else __out(_getListItem($get));
 			
 			break;
-			
+		*/	
 	}	
 
 	switch ($put) {
@@ -121,7 +121,9 @@ function _getItem($type, $id)
 	
 	$o=new $className($db);
 	$o->fetch($id);
-	
+        /*var_dump($o);
+        exit("o");
+	*/
         if($type=='thirdparty') {
             
             $TContact = $o->contact_array_objects();
@@ -170,7 +172,7 @@ function _updateDolibarr(&$user, &$TObject, $classname)
 		$objDolibarr = new $classname($db);
 		// TODO Pour un gain de performance ça serait intéressant de ne pas faire de fetch, mais actuellement nécessaire pour éviter un retour d'erreur non géré pour le moment
 		$resFetch = $objDolibarr->fetch($objStd->id);
-	//	$objDolibarr->array_options = array(); // TODO pas encore géré
+                // $objDolibarr->array_options = array(); // TODO pas encore géré
 		
 		foreach ($objStd as $attr => $value)
 		{

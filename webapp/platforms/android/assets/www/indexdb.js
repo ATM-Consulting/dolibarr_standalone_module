@@ -123,9 +123,10 @@ var DoliDb = function() {
 		request.onsuccess = function(event) 
 		{
 			var item = event.target.result;
+                        console.log('getItem',storename,item);
 			if (item) 
 			{
-				if (storename == 'thirdparty' || storename == 'proposal' || storename == 'contact')
+				if (storename == 'proposal' || storename == 'thirdparty')
 				{
 					DoliDb.prototype.getChildren(storename, item, false, callback, args);
 				}
@@ -332,8 +333,9 @@ var DoliDb = function() {
 				item = DoliDb.prototype.prepareItem(storename, item, 'update');
 				item.update_by_indexedDB = 1; // ne pas utiliser la valeur true, indexedDb gère mal la recherche par boolean
 				
+                                doliDb.dropItem(storename, id);
 				objectStore.put(item);
-				
+				console.log('afterput', item);
 				showMessage('Update', 'The current record has been updated', 'success');
 				if (typeof callback != 'undefined') callback(item);
 				else return item;

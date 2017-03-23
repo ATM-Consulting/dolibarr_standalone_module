@@ -196,7 +196,7 @@ function synchronize(set_one_finish)
             {type: 'product', container: '#synchronize-page .sync-info', msg_start: 'Sending products...', msg_end: 'Done'}
             , {type: 'thirdparty', container: '#synchronize-page .sync-info', msg_start: 'Sending thirdparties...', msg_end: 'Done'}
             , {type: 'proposal', container: '#synchronize-page .sync-info', msg_start: 'Sending proposals...', msg_end: 'Done'}
-            , {type: 'contact', container: '#synchronize-page .sync-info', msg_start: 'Sending contact...', msg_end: 'Done'}
+            //, {type: 'contact', container: '#synchronize-page .sync-info', msg_start: 'Sending contact...', msg_end: 'Done'}
         ];
 
         // le callback synchronize sera appelé avec un paramètre à true pour passer dans le "else" (récupération des données)
@@ -358,6 +358,52 @@ function showItem(type, id, callback, args)
         showMessage('Information', 'The item display is not implemented yet', 'info');
     }
 }
+
+
+/*
+ * 
+ * @param {type} item
+ * @returns {undefined}
+ */
+function getOneItem(type, id,id_dolibarr, callback) {
+    
+    
+        $.ajax({
+            url: localStorage.interface_url
+            , dataType: 'jsonp'
+            , data: {
+                get: type
+                ,id:id_dolibarr
+                , jsonp: 1
+                , date_last_sync: 0
+                , login: localStorage.dolibarr_login
+                , passwd: localStorage.dolibarr_password
+                , entity: 1
+            }
+            , success: function (data) {
+                console.log('getOnItem : ', type, id, id_dolibarr, data);
+                doliDb.updateItem(type,id,data,callback);
+
+                /*_update_date_sync(TObjToSync[0].type, $.now());
+                
+                doliDb.updateAllItem(TObjToSync[0].type, data);
+                
+                $(TObjToSync[0].container + ' blockquote:last-child').append('<small class="text-info">' + TObjToSync[0].msg_end + '</small>'); // show info : done
+
+                TObjToSync.splice(0, 1);
+                getData(TObjToSync); // next sync*/
+            }
+            , error: function (xhr, ajaxOptions, thrownError) {
+                    
+                    window.alert('Dommage, vous êtes pas connecté');
+            
+            }
+        });
+    
+    
+}
+
+
 /*
  * call the function getAllItem en indexdb.js
  * @param {type} type
@@ -442,6 +488,7 @@ function createItem($container, type) {
     doliDb.createItem(type, TValue, callback);
     propalProductList = [];
 }
+
 
 function updateItem($container, type)
 {

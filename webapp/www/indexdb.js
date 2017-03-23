@@ -222,7 +222,7 @@ var DoliDb = function () {};
                 case 'thirdparty':
                     var TChild = [
                          {storename: 'proposal', key_test: 'socid', array_to_push: 'TProposal'}
-                        ,{storename: 'contact', key_test: 'fk_thirdparty', array_to_push: 'TContact'}
+                        //,{storename: 'contact', key_test: 'fk_thirdparty', array_to_push: 'TContact'}
                         //,{storename: 'order', key_test: 'fk_thirdparty', array_to_push: 'TOrder'}
                         //,{storename: 'bill', key_test: 'fk_thirdparty', array_to_push: 'TBill'}
                        
@@ -334,13 +334,16 @@ var DoliDb = function () {};
         request.onsuccess = function (event)
         {
             var item = event.target.result;
+            item.update_by_indexedDB = 1;
+
             if (item)
             {
                 $.extend(true, item, TValue);
                 item.update_by_indexedDB = 1; // ne pas utiliser la valeur true, indexedDb gère mal la recherche par boolean
 
+                console.log('beforeput', item);
                 objectStore.put(item);
-
+                
                 showMessage('Update', 'The current record has been updated', 'success');
                 if (typeof callback != 'undefined')
                     callback(item);
