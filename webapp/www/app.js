@@ -474,12 +474,15 @@ function createItem($container, type) {
     switch (type) {
         case 'product':
             var callback = showProduct;
+            doliDb.createItem(type, TValue, callback);
             break;
         case 'thirdparty':
             var callback = showThirdParty;
+            doliDb.createItem(type, TValue, callback);
             break;
         case 'proposal':
             var callback = showProposal;
+            doliDb.createItem(type, TValue, callback);
             break;
         case 'contact' :
           //  var callback = showContact;
@@ -487,13 +490,11 @@ function createItem($container, type) {
             var fk_soc = $('#thirdparty-card input[name=id]').val();
           
             doliDb.getItem('thirdparty',fk_soc, addContact, TValue);
-          
-   
             return true;
           
             break;
     }
-    doliDb.createItem(type, TValue, callback);
+    
     propalProductList = [];
     
 }
@@ -503,8 +504,9 @@ function addContact(item, contact) {
     
     var k = item.TContact.length;
     item.TContact.push(contact);
-    
-     doliDb.updateItem('thirdparty', item.id, item, showThirdParty);
+    console.log("id",item.id);
+    doliDb.updateItem('thirdparty', item.id, item);
+    showItem('thirdparty', item.id , showThirdparty)
 }
 
 function updateItem($container, type)
