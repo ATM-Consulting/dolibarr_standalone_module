@@ -125,7 +125,7 @@ var DoliDb = function () {};
         item.id_dolibarr = 0;
         item.create_by_indexedDB = 1;
         item.update_by_indexedDB = 0;
-        console.log('item',item);
+        console.log('passe dans le createItem d\'indexdb.js');
         switch(storename)
         {
             case 'contact' : item.fk_thirdparty = fk_thirdparty;

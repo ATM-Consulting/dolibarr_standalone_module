@@ -348,7 +348,13 @@ function showItem(type, id, callback, args)
 {   
     if (typeof callback != 'undefined')
     {
-        doliDb.getItem(type, id, callback, args);
+        if(type=='contact') {
+            doliDb.getItem('thirdparty', args.fk_thirdparty, callback, args);
+        }
+        else {
+            doliDb.getItem(type, id, callback, args);
+        }
+        
     } else
     {
         console.log('Callback non défini');
@@ -483,7 +489,6 @@ function createItem($container, type) {
     var id = $container.children('input[name=id]').val();
     var $TInput = $container.find('form').find('input, textarea, select');
     var TValue = {};
-
     $TInput.each(function(i,input) {
         $input = $(input);
 
@@ -505,13 +510,9 @@ function createItem($container, type) {
             var callback = showProposal;
             doliDb.createItem(type, TValue, callback);
             break;
-
-
+        case 'contact' :
             var fk_soc = $('#thirdparty-card input[name=id]').val();
-
             doliDb.getItem('thirdparty',fk_soc, addContact, TValue);
-            return true;
-
             break;
     }
 
@@ -549,7 +550,7 @@ function updateItem($container, type)
         case 'proposal':
             var callback = showProposal;
             break;
-        case 'contact' :
+        case 'contact' : //on ne passe probablement jamais dans ce cas la
             var callback = showContact;
             break;
     }
