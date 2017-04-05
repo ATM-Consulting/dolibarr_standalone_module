@@ -60,14 +60,15 @@ var DoliDb = function () {};
             objectStore.createIndex("name", "keyname", {unique: false});
             objectStore.createIndex("create_by_indexedDB", "create_by_indexedDB", {unique: false});
             objectStore.createIndex("update_by_indexedDB", "update_by_indexedDB", {unique: false});
-
-            var objectStore = DoliDb.prototype.db.createObjectStore("contact", {keyPath: "id", autoIncrement: true});
+            
+            // faudrait drop l'entite contact vu qu'on utilise maintenant les contacts liée a un thirdPart
+            /*var objectStore = DoliDb.prototype.db.createObjectStore("contact", {keyPath: "id", autoIncrement: true});
             objectStore.createIndex("id", "id", {unique: true});
             objectStore.createIndex("id_dolibarr", "id_dolibarr", {unique: false});
             objectStore.createIndex("fk_thirdparty", "fk_thirdparty", {unique: false});
             objectStore.createIndex("name", "keyname", {unique: false});
             objectStore.createIndex("create_by_indexedDB", "create_by_indexedDB", {unique: false});
-            objectStore.createIndex("update_by_indexedDB", "update_by_indexedDB", {unique: false});
+            objectStore.createIndex("update_by_indexedDB", "update_by_indexedDB", {unique: false});*/
 
             var objectStore = DoliDb.prototype.db.createObjectStore("actioncomm", {keyPath: "id", autoIncrement: true});
             objectStore.createIndex("id", "id", {unique: true});
@@ -190,22 +191,26 @@ var DoliDb = function () {};
     DoliDb.prototype.getItem = function (storename, id, callback, args) {
         var transaction = this.db.transaction(storename, "readonly");
         var objectStore = transaction.objectStore(storename);
-
+        
         id = parseInt(id);
         var request = objectStore.get(id);
+        //pour les contacts liée à un thirdparty l'id est good mais on arrive pas a selectionne l'item
         request.onsuccess = function (event)
         {
             var item = event.target.result;
+            console.log('getItem : request :' ,request , 'event :' , event , 'id :' , id , "item :" , item);
             if (item)
             {
                 if (storename == 'thirdparty' || storename == 'proposal')
-                {
+                {   
+                    
                     DoliDb.prototype.getChildren(storename, item, false, callback, args);
                 } else
                 {
                     if (typeof callback != 'undefined')
                         callback(item, args);
                     else
+                        console.log("getItem -> default");
                         return item;
                 }
             } else {
@@ -214,6 +219,13 @@ var DoliDb = function () {};
         };
 
     };
+    
+    
+    /*DoliDb.prototype.getContact = function (id, thirdParty, callback)
+    {
+        //console.log('getContact', thirdParty.TContact[id]);
+        //return thirdParty.TContact[id];
+    }*/
 
     DoliDb.prototype.getChildren = function (storename, parent, TChild, callback, args) {
         if (TChild === false)

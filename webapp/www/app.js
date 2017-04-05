@@ -345,10 +345,7 @@ function addEventListenerOnItemLink()
  * @returns {undefined}
  */
 function showItem(type, id, callback, args)
-{
-    
-    console.log('showItem',type, id, callback, args);
-    
+{   
     if (typeof callback != 'undefined')
     {
         doliDb.getItem(type, id, callback, args);
@@ -358,7 +355,25 @@ function showItem(type, id, callback, args)
         showMessage('Information', 'The item display is not implemented yet', 'info');
     }
 }
-
+/*
+function findContact(id, callback)
+{
+    
+    var id_soc = $('#thirdparty-card input[name=id]').val();
+    
+    console.log('showItem',id_soc, callback);
+    
+    if (typeof callback != 'undefined')
+    {
+        var thirdPart = doliDb.getItem('thirdparty', id_soc, callback);
+        console.log('findContact', thirdPart);
+        doliDb.getContact(id, thirdPart, callback);
+    } else
+    {
+        showMessage('Information', 'The item display is not implemented yet', 'info');
+    }
+}
+*/
 
 /*
  * 
@@ -502,7 +517,6 @@ function createItem($container, type) {
 function addContact(item, contact) {
     console.log('addContact', item, contact);
     
-    var k = item.TContact.length;
     item.TContact.push(contact);
     console.log("id",item.id);
     doliDb.updateItem('thirdparty', item.id, item);
