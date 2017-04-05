@@ -26,7 +26,8 @@
 	<div class="container-fluid">
 		<div  class="row">
 			<h1 rel="ref"></h1>
-			<div rel="total_ttc"></div>
+                        <h3>proposition pour le client : <p rel="ref_client"></p>  </h3><br>
+                        <h3>prix ttc :<p rel="total_ttc"></p> </h3><br>
 			<div>
 				<span rel="zip"></span>
 				&nbsp;&nbsp;<span rel="town"></span>
@@ -142,7 +143,7 @@
                                                 <th>Nom</th>
                                                 <th>prix</th>
                                                 <th>quantite</th>
-                                                <th> <span class="glyphicon glyphicon-remove"></span></th>
+                                                <th> <span class="glyphicon glyphicon-remove" onClick="clearAllPropalLines();"></span></th>
                                             </tr>
                                         </thead>
                                         <tbody id="tableListeProduitsBodyEdit">
@@ -154,7 +155,7 @@
                                                     <input type="text" id="name">
                                                 </td>
                                                 <td>
-                                                    <input type="number" min="1" id="pUprod">
+                                                    <input type="number" step=0.01 min="0.01" id="pUprod">
                                                 </td>
                                                 <td>
                                                     <input type="number" min="0" id="nbprod">
@@ -186,11 +187,6 @@
 						</div>
 					</div>
 				</div>
-
-
-
-
-
 				<!-- Permet d'éviter le chevauchement du dernier input sous les boutons d'actions en bas de l'écran -->
 				<div>&nbsp;</div>
 				<div>&nbsp;</div>

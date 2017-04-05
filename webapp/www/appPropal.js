@@ -33,6 +33,7 @@ function showProposal(item, args)
 {
     var container = $('#proposal-card');
     if (typeof args != 'undefined' && typeof args.container != 'undefined')
+        //console.log(args);
         container = args.container;
     setItemInHTML(container, item);
 }
@@ -59,7 +60,6 @@ function refreshAssociateProposalList($container, TPropal)
 function editProposal(item) {
     var $container = $('#proposal-card-edit');
     $container.children('input[name=id]').val(item.id_dolibarr);
-    console.log(item);
     propalProductList=[];
     $("#tableListeProduitsBodyEdit").empty();
     $("#totaltableEdit").val("");
@@ -68,7 +68,15 @@ function editProposal(item) {
         $container.find('[name=' + x + ']').val(item[x]);
         if(x=='lines'){
           for(nb=0;nb<item.lines.length;nb++){
-              propalProductList.push({'libelle':item.lines[nb].product_label,'prix':parseFloat(item.lines[nb].subprice).toFixed(2),'quantite':item.lines[nb].qty});
+              var line = item.lines[nb];
+              propalProductList.push({
+                  'id_dolibarr':line.id
+                  ,'product_label':line.product_label
+                  ,'subprice':parseFloat(line.subprice).toFixed(2)
+                  ,'qty':line.qty
+                  ,'fk_product':line.fk_product
+                  
+              });
           }
       }
     }
@@ -82,14 +90,13 @@ function majTableau(bodyWillUpdated){
     else{
         bodyUpdated=$('#tableListeProduitsBodyEdit')
     }
-    majQuantity();
     bodyUpdated.empty();
     propalProductList.forEach(function(element){
         bodyUpdated.append('<tr>'+
-        '<td>'+element.libelle+'</td>'+
-        '<td id=pUprod>'+element.prix+'</td>'+
-        '<td id=nbprod><input class="inputQu" type="number" min="1" size="5" value="'+element.quantite+'" onChange=majQuantity("'+bodyWillUpdated+'")></td>'+
-        '<td><span class="glyphicon glyphicon-remove" onClick=test()></span></td>'+
+        '<td>'+element.product_label+'</td>'+
+        '<td id=pUprod>'+element.subprice+'</td>'+
+        '<td id=nbprod><input class="inputQu" type="number" min="1" size="5" value="'+element.qty+'" onChange=majQuantity("'+bodyWillUpdated+'")></td>'+
+        '<td><span class="glyphicon glyphicon-remove" onClick="removePropalLines($(this));"></span></td>'+
     '</tr>');
     });
     updatetotal();
@@ -117,8 +124,8 @@ function updatetotal(bodyWillUpdated){
 
     if(!bodyWillUpdated=="add"){
         $('#tableListeProduitsBodyAdd > tr ').each(function(){ //parcours tout les element 'tr' de #tableListeProduitsBody puis trouve les quantité et les pU pour calculer le total
-            pU = parseInt($(this).children('td[id="pUprod"]').text());
-            quantite = parseInt($(this).find('input').val());
+            pU = $(this).children('td[id="pUprod"]').text();
+            quantite = $(this).find('input').val();
             total=total+(pU*quantite);
         });
 
@@ -126,8 +133,8 @@ function updatetotal(bodyWillUpdated){
     }
     else{
         $('#tableListeProduitsBodyEdit > tr ').each(function(){ //parcours tout les element 'tr' de #tableListeProduitsBody puis trouve les quantité et les pU pour calculer le total
-            pU = parseInt($(this).children('td[id="pUprod"]').text());
-            quantite = parseInt($(this).find('input').val());
+            pU = $(this).children('td[id="pUprod"]').text();
+            quantite = $(this).find('input').val();
             total=total+(pU*quantite);
     });
 
@@ -141,7 +148,7 @@ function addUnExistProduct(bodyWillUpdated){
         prix=$('#unexistProductAdd').find('input[id="pUprod"]').val();
         quantite=$('#unexistProductAdd').find('input[id="nbprod"]').val();
         if (name!="" && prix!="" && quantite!="" ){
-            propalProductList.push({'libelle':name,'prix':prix,'quantite':quantite});
+            propalProductList.push({'id_dolibarr':"",'product_label':name,'subprice':prix,'qty':quantite, 'fk_product':0});
             $('#unexistProductAdd').find('input[id="name"]').val("");
             $('#unexistProductAdd').find('input[id="pUprod"]').val("");
             $('#unexistProductAdd').find('input[id="nbprod"]').val("");
@@ -156,7 +163,7 @@ function addUnExistProduct(bodyWillUpdated){
         prix=$('#unexistProductEdit').find('input[id="pUprod"]').val();
         quantite=$('#unexistProductEdit').find('input[id="nbprod"]').val();
         if (name!="" && prix!="" && quantite!="" ){
-            propalProductList.push({'libelle':name,'prix':prix,'quantite':quantite});
+            propalProductList.push({'id_dolibarr':"",'product_label':name,'subprice':prix,'qty':quantite, 'fk_product':0});
             $('#unexistProductEdit').find('input[id="name"]').val("");
             $('#unexistProductEdit').find('input[id="pUprod"]').val("");
             $('#unexistProductEdit').find('input[id="nbprod"]').val("");
@@ -166,4 +173,19 @@ function addUnExistProduct(bodyWillUpdated){
             alert("Some field are empty !");
         }
     }
+}
+
+function removePropalLines(elemDom){
+    nbline = elemDom.parent().parent()[0].rowIndex-1
+    for(nbline;nbline<propalProductList.length;nbline++){
+        propalProductList[nbline]=propalProductList[nbline+1];
+    }
+    propalProductList.pop();
+    console.log(propalProductList);
+    majTableau("edit");
+}
+
+function clearAllPropalLines(){
+    propalProductList=[];
+    majTableau("edit");
 }

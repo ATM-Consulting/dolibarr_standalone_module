@@ -457,6 +457,7 @@ function setItemInHTML($container, item)
     for (var x in item)
     {
         value = item[x];
+        if(x){
         $container.find('[rel=' + x + ']').each(function(i,item) {
 
             $item = $(item);
@@ -469,7 +470,8 @@ function setItemInHTML($container, item)
 
             }
 
-        });
+        });}
+    else{console.log("nan",x);}
 
 
     }
@@ -533,7 +535,7 @@ function updateItem($container, type)
     var id = $container.children('input[name=id]').val();
     var TInput = $container.find('form').find('input, textarea'); // TODO liste à faire évoluer si on ajouter des select ou autres
     var TValue = {};
-    console.log("update",TInput,id);
+    //console.log("update",TInput,id);
     for (var i = 0; i < TInput.length; i++)
     {
         TValue[TInput[i].name] = TInput[i].value;
@@ -580,15 +582,12 @@ function addLine(){
 
 function addItemToList(ThisElement) {
     if($("#proposal-card-edit > input[id=propalid]").val()==""){
-        console.log("unknow");
-
         currentPropal=$("#proposal-card-add");
         propalProductList.push({'libelle':ThisElement.parentNode.getAttribute("label"),'prix':10, 'quantite':1});
         majTableau("add");
     }
     else{
         currentPropal=$("#proposal-card-edit");
-        console.log("know");
         propalProductList.push({'libelle':ThisElement.parentNode.getAttribute("label"),'prix':10, 'quantite':1});
         majTableau("update");
     }
@@ -653,9 +652,6 @@ if (window.addEventListener)
     window.attachEvent("onmessage", ReceiveMessage);
 }
 
-function test(){
-    console.log("c'est=");
-}
 
 function editContact(item)
 {
