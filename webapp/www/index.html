@@ -29,9 +29,9 @@
 			$(document).ready(function() {
 				/* Point d'entrée des informations */
 				doliDb = new DoliDb();
-				doliDb.open();
-
-			});
+                                //doliDb.dropDatabase();
+                                doliDb.open();  
+                        });
 		</script>
 	</head>
 	
@@ -39,11 +39,11 @@
 		
 		<script type="text/javascript">
 			$(document).ready(function() {
-				console.log('tdrt');
 				load_tpl();
 			});
+                        
 		</script>
-		<div id="container" class="tab-content">
+                <div id="container" class="tab-content">
 		</div>
 
 

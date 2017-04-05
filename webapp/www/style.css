@@ -34,10 +34,11 @@ li span.fournisseur {
   width: 30px;
   height: 30px;
   text-align: center;
-  padding: 6px 0;
+  padding: 5px;
   font-size: 12px;
   line-height: 1.428571429;
   border-radius: 15px;
+  margin-left: 5px;
 }
 
 .btn-circle.btn-lg {
@@ -48,6 +49,16 @@ li span.fournisseur {
   line-height: 1.33;
   border-radius: 25px;
 }
+
+.btn-circle.btn-test {
+  width: 50px;
+  height: 50px;
+  padding: 10px 16px;
+  font-size: 18px;
+  line-height: 1.99;
+  border-radius: 25px;
+}
+
 .btn-circle.btn-xl {
   width: 70px;
   height: 70px;
@@ -76,6 +87,32 @@ li span.fournisseur {
 .dropdown-menu > li > a {
 	height:55px !important;
 	line-height:48px !important;
+}
+
+#tableListeProduits{
+    border: solid white 2px;
+    width: 100%;
+    text-align: center;
+}
+
+#tableListeProduits{
+    width : 100%;
+}
+
+#tableListeProduits > thead > tr,
+#tableListeProduits > thead > tr > th,
+#tableListeProduits > tbody > tr,
+#tableListeProduits > tbody > tr > td,
+#tableListeProduits > tfoot > tr,
+#tableListeProduits > tfoot > tr > td{
+    border: solid white 2px;
+    padding: 5px;
+}
+
+.glyphicon-remove{
+    color: red;
+    font-size:18px;
+    float:right;
 }
 
 .text-xs-left { text-align: left; }

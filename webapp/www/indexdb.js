@@ -11,9 +11,9 @@ var DoliDb = function () {};
     DoliDb.prototype.dbName = 'dolibarr';
 
     DoliDb.prototype.open = function (callback) {
-
+     
         if (!this.indexedDB) {
-            showMessage('Warning', 'Votre navigateur ne supporte pas une version stable d\'IndexedDB', 'warning');
+            //showMessage('Warning', 'Votre navigateur ne supporte pas une version stable d\'IndexedDB', 'warning');
             return;
         }
 
@@ -51,6 +51,7 @@ var DoliDb = function () {};
             objectStore.createIndex("id", "id", {unique: true});
             objectStore.createIndex("id_dolibarr", "id_dolibarr", {unique: false});
             objectStore.createIndex("label", "label", {unique: false});
+            // a rajouter (voir createItem() ? : objectStore.createIndex("create_by_indexedDB", "create_by_indexedDB", {unique: false});
             objectStore.createIndex("update_by_indexedDB", "update_by_indexedDB", {unique: false}); // INDEX OBLIGATOIRE POUR TOUS LES OBJETS
 
             var objectStore = DoliDb.prototype.db.createObjectStore("thirdparty", {keyPath: "id", autoIncrement: true});
@@ -60,13 +61,14 @@ var DoliDb = function () {};
             objectStore.createIndex("create_by_indexedDB", "create_by_indexedDB", {unique: false});
             objectStore.createIndex("update_by_indexedDB", "update_by_indexedDB", {unique: false});
             
-            var objectStore = DoliDb.prototype.db.createObjectStore("contact", {keyPath: "id", autoIncrement: true});
+            // faudrait drop l'entite contact vu qu'on utilise maintenant les contacts liée a un thirdPart
+            /*var objectStore = DoliDb.prototype.db.createObjectStore("contact", {keyPath: "id", autoIncrement: true});
             objectStore.createIndex("id", "id", {unique: true});
             objectStore.createIndex("id_dolibarr", "id_dolibarr", {unique: false});
             objectStore.createIndex("fk_thirdparty", "fk_thirdparty", {unique: false});
             objectStore.createIndex("name", "keyname", {unique: false});
             objectStore.createIndex("create_by_indexedDB", "create_by_indexedDB", {unique: false});
-            objectStore.createIndex("update_by_indexedDB", "update_by_indexedDB", {unique: false});
+            objectStore.createIndex("update_by_indexedDB", "update_by_indexedDB", {unique: false});*/
 
             var objectStore = DoliDb.prototype.db.createObjectStore("actioncomm", {keyPath: "id", autoIncrement: true});
             objectStore.createIndex("id", "id", {unique: true});
@@ -80,7 +82,7 @@ var DoliDb = function () {};
             var objectStore = DoliDb.prototype.db.createObjectStore("proposal", {keyPath: "id", autoIncrement: true});
             objectStore.createIndex("id", "id", {unique: true});
             objectStore.createIndex("id_dolibarr", "id_dolibarr", {unique: false});
-            objectStore.createIndex("ref", "ref", {unique: true});
+            objectStore.createIndex("ref", "ref", {unique: true});//lines tableau 
             objectStore.createIndex("socid", "socid", {unique: false});
             objectStore.createIndex("create_by_indexedDB", "create_by_indexedDB", {unique: false});
             objectStore.createIndex("update_by_indexedDB", "update_by_indexedDB", {unique: false});
@@ -114,17 +116,24 @@ var DoliDb = function () {};
 
            
     };
+   
 
-    DoliDb.prototype.createItem = function (storename, item, callback) {      
+    DoliDb.prototype.createItem = function (storename, item, callback) {  
+        
         var transaction = this.db.transaction(storename, "readwrite");
         var objectStore = transaction.objectStore(storename);
-
-
-        //item = DoliDb.prototype.prepareItem(storename, item, 'add');
-        item.update_by_indexedDB = 1;
-        res=objectStore.add(item); 
-
-        showMessage('Create', 'The current record has been created', 'success');
+        item.id_dolibarr = 0;
+        item.create_by_indexedDB = 1;
+        item.update_by_indexedDB = 0;
+        console.log('passe dans le createItem d\'indexdb.js');
+        switch(storename)
+        {
+            case 'contact' : item.fk_thirdparty = fk_thirdparty;
+        }
+        res=objectStore.add(item);
+        //res.onsuccess = fonction (event) {
+        //else{
+        showMessage('Create', 'The current record has been created', 'success');    
         if (typeof callback != 'undefined') {
             callback(item);
         }
@@ -132,6 +141,21 @@ var DoliDb = function () {};
             return item;               
         }
     };
+
+    DoliDb.prototype.dropItem = function (storename, id, callback) {
+        console.log('dropItem:id',id);
+        var transaction = this.db.transaction(storename, "readwrite");
+        var store = transaction.objectStore(storename);
+        
+        var res = store.delete(id);
+      
+        res.onsuccess = function (e) {
+            console.log('Delete', 'The current record has been deleted', 'success');
+            showMessage('Delete', 'The current record has been deleted', 'success');
+        };
+     
+};
+ 
 
 
     DoliDb.prototype.getAllItem = function (type, callback, arg1) {
@@ -167,22 +191,26 @@ var DoliDb = function () {};
     DoliDb.prototype.getItem = function (storename, id, callback, args) {
         var transaction = this.db.transaction(storename, "readonly");
         var objectStore = transaction.objectStore(storename);
-
+        
         id = parseInt(id);
         var request = objectStore.get(id);
+        //pour les contacts liée à un thirdparty l'id est good mais on arrive pas a selectionne l'item
         request.onsuccess = function (event)
         {
+            console.log("args dans le getItem", args);
             var item = event.target.result;
             if (item)
             {
                 if (storename == 'thirdparty' || storename == 'proposal')
-                {
+                {   
+                    
                     DoliDb.prototype.getChildren(storename, item, false, callback, args);
                 } else
                 {
                     if (typeof callback != 'undefined')
                         callback(item, args);
                     else
+                        console.log("getItem -> default");
                         return item;
                 }
             } else {
@@ -191,6 +219,13 @@ var DoliDb = function () {};
         };
 
     };
+    
+    
+    /*DoliDb.prototype.getContact = function (id, thirdParty, callback)
+    {
+        //console.log('getContact', thirdParty.TContact[id]);
+        //return thirdParty.TContact[id];
+    }*/
 
     DoliDb.prototype.getChildren = function (storename, parent, TChild, callback, args) {
         if (TChild === false)
@@ -198,9 +233,11 @@ var DoliDb = function () {};
             switch (storename) {
                 case 'thirdparty':
                     var TChild = [
-                        {storename: 'proposal', key_test: 'socid', array_to_push: 'TProposal'}
-                        //,{storename: 'order', key_test: 'fk_soc', array_to_push: 'TOrder'}
-                        //,{storename: 'bill', key_test: 'fk_soc', array_to_push: 'TBill'}
+                         {storename: 'proposal', key_test: 'socid', array_to_push: 'TProposal'}
+                        //,{storename: 'contact', key_test: 'fk_thirdparty', array_to_push: 'TContact'}
+                        //,{storename: 'order', key_test: 'fk_thirdparty', array_to_push: 'TOrder'}
+                        //,{storename: 'bill', key_test: 'fk_thirdparty', array_to_push: 'TBill'}
+                       
                     ];
 
                     break;
@@ -222,7 +259,7 @@ var DoliDb = function () {};
     DoliDb.prototype.setChild = function (storename, parent, TChild, callback, args) {
 
         parent[TChild[0].array_to_push] = new Array;
-
+        
         var transaction = this.db.transaction([TChild[0].storename], "readonly");
         var objectStore = transaction.objectStore(TChild[0].storename);
         var index = objectStore.index(TChild[0].key_test);
@@ -251,7 +288,7 @@ var DoliDb = function () {};
             showMessage('Warning', 'Can\'t create a proposal without thirdparty id', 'warning');
             return;
         }
-        
+        /*
         var obj = {
             ref: '(PROV' + ($.now()) + ')'
             , socid: fk_soc
@@ -281,71 +318,45 @@ var DoliDb = function () {};
         add_request.onerror = function (event) {
             console.log('event',event);
             showMessage('Error', event.target.error.name + ' : ' + event.target.error.message, 'danger');
-        };
+        };*/
 
     };
 
+    var fk_thirdparty;
 
-
-     DoliDb.prototype.createContact = function (fk_soc) {
+    DoliDb.prototype.createContact = function (fk_soc) {
         if (typeof fk_soc == 'undefined' || !fk_soc) {
             showMessage('Warning', 'Can\'t create a contact without thirdparty id', 'warning');
             return;
         }
-        /*
-        var obj = {
-            ref: '(PROV' + ($.now()) + ')'
-            , fk_thirdparty: fk_soc
-            , id_dolibarr: 0
-            , name: ''
-            , create_by_indexedDB: 1
-            , update_by_indexedDB: 0
-        };    
-        =>Faut-il le faire lors de la création d'un contact ?
         
-        var transaction = this.db.transaction('contact', "readwrite");
-        transaction.oncomplete = function (event) {
-            console.log('Transaction completed: database modification finished.', event);
-        };
-        transaction.onerror = function (event) {
-            console.log('Transaction not opened due to error. Duplicate items not allowed.', event);
-        };
-
-        var objectStore = transaction.objectStore('contact');
-
-        var add_request = objectStore.add(obj);
-        add_request.onsuccess = function (event) {
-            var id = event.target.result;
-            console.log('id generated = ', id);
-            showItem('contact', id, showContact, {container: $('#contact-card-edit')});
-        };
-
-        add_request.onerror = function (event) {
-            showMessage('Error', event.target.error.name + ' : ' + event.target.error.message, 'danger');
-        };*/
-        
-
+        fk_thirdparty = fk_soc;
     };
 
 
 
     DoliDb.prototype.updateItem = function (storename, id, TValue, callback) {
+        
         var transaction = this.db.transaction(storename, "readwrite");
         var objectStore = transaction.objectStore(storename);
 
         id = parseInt(id);
         var request = objectStore.get(id);
+        console.log('requete', request);
         request.onsuccess = function (event)
         {
             var item = event.target.result;
+            console.log("item dans le update", item);
+            item.update_by_indexedDB = 1;
+
             if (item)
             {
                 $.extend(true, item, TValue);
-                item = DoliDb.prototype.prepareItem(storename, item, 'update');
-                item.update_by_indexedDB = 1; // ne pas utiliser la valeur true, indexedDb gère mal la recherche par boolean
+                item.update_by_indexedDB = 1;
 
+                console.log('beforeput', item);
                 objectStore.put(item);
-
+                
                 showMessage('Update', 'The current record has been updated', 'success');
                 if (typeof callback != 'undefined')
                     callback(item);
@@ -356,19 +367,18 @@ var DoliDb = function () {};
                 showMessage('Warning', 'Item not found', 'warning');
             }
         };
-
     };
 
 
     // TODO à refondre : voir fonction sendData() dans app.js
     DoliDb.prototype.sendAllUpdatedInLocal = function (TDataToSend) {
+	
         var storename = TDataToSend[0].type;
         var TItem = new Array;
-
+        
         var transaction = this.db.transaction(storename, "readonly");
         var objectStore = transaction.objectStore(storename);
         var index = objectStore.index('update_by_indexedDB');
-
         // Get all records who updated in local (update_by_indexedDB == 1)
         var cursorRequest = index.openCursor(this.IDBKeyRange.only(1));
         cursorRequest.onsuccess = function (event) {
@@ -443,8 +453,9 @@ var DoliDb = function () {};
                 for (var i in data)
                 {
                     data[i] = DoliDb.prototype.prepareItem(storename, data[i], 'add');
-
+ 
                     var add_request = objectStore.add(data[i]);
+                    console.log('updateAllItem',data[i]);
                     add_request.onsuccess = function (event) {
                         var id = event.target.result;
                         var transaction = DoliDb.prototype.db.transaction(storename, "readwrite");
@@ -454,6 +465,7 @@ var DoliDb = function () {};
                         request.onsuccess = function ()
                         {
                             var item = request.result;
+                        
                             if (item)
                                 item = DoliDb.prototype.postItem(storename, item);
                             // TODO le postItem est là pour ajouter des infos ou les modifier si nécessaire, à voir plus tard si on en a besoin
@@ -533,7 +545,7 @@ var DoliDb = function () {};
     };
 
     DoliDb.prototype.dropDatabase = function () {
-        this.close();
+    //    this.close();
 
         var request = this.indexedDB.deleteDatabase(this.dbName);
         request.onsuccess = function () {
@@ -549,7 +561,6 @@ var DoliDb = function () {};
             console.log("Couldn't delete database due to the operation being blocked");
             showMessage('Error', 'Can\'t delete database, it is locked', 'danger');
         };
-
 
     };
     

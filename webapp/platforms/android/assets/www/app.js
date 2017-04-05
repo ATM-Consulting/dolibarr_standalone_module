@@ -394,6 +394,7 @@ function addEventListenerOnItemLink()
 
 function showItem(type, id, callback, args)
 {
+    
 	if (typeof callback != 'undefined')
 	{
 		doliDb.getItem(type, id, callback, args);
@@ -408,17 +409,6 @@ function showItem(type, id, callback, args)
 function showProduct(item) 
 {
 	setItemInHTML($('#product-card'), item);
-}
-
-function showThirdparty(item) 
-{
-	setItemInHTML($('#thirdparty-card'), item);
-	refreshAssociateProposalList($('#thirdparty-card .doc_associate_proposals'), item.TProposal);
-	refreshAssociateOrderList($('#thirdparty-card .doc_associate_orders'), item.TOrder);
-	refreshAssociateBillList($('#thirdparty-card .doc_associate_bills'), item.TBill);
-	
-	addEventListenerOnItemLink();
-	$('a#last-thirdparty').html(item.name).closest('li').removeClass('hidden');
 }
 
 function showProposal(item, args)
@@ -521,7 +511,6 @@ function editThirdparty(item)
 }
 
 function editProposal(item){
-
 	var $container = $('#proposal-card-edit');
 	$container.children('input[name=id]').val(item.id_dolibarr);
 	

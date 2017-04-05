@@ -55,7 +55,15 @@
 			else __out(_getListItem($get));
 			
 			break;
+                        
+                /*case 'contact':
+			$id = GETPOST('id','int');
 			
+			if($id) __out(_getItem($get, $id));
+			else __out(_getListItem($get));
+			
+			break;
+		*/	
 	}	
 
 	switch ($put) {
@@ -81,7 +89,15 @@
 			$TProposal = GETPOST('TItem');
 			$TProposal = json_decode($TProposal);
 			
-			$response = updateDolibarr($user, $TProposal, 'Proposal');
+			$response = _updateDolibarr($user, $TProposal, 'Proposal');
+			__out($response);
+			break;
+                    
+                case 'contact':
+			$TContact = GETPOST('TItem');
+			$TContact = json_decode($TContact);
+			
+			$response = _updateDolibarr($user, $TContact, 'Contact');
 			__out($response);
 			break;
 	}
@@ -100,11 +116,21 @@ function _getItem($type, $id)
 	if ($type == 'product') $className = 'Product';
 	elseif ($type == 'thirdparty') $className = 'Societe';
 	elseif ($type == 'proposal') $className = 'Propal';
-	else exit($type.' => non géré');
+        elseif ($type == 'contact') $className = 'Contact';
+	else exit($type.' => _getItem non géré');
 	
 	$o=new $className($db);
 	$o->fetch($id);
-	
+        /*var_dump($o);
+        exit("o");
+	*/
+        if($type=='thirdparty') {
+            
+            $TContact = $o->contact_array_objects();
+            $o->TContact = $TContact;
+        }
+        
+        
 	return $o;
 }
 
@@ -115,7 +141,8 @@ function _getListItem($type, $filter='')
 	if ($type == 'product') $table = 'product';
 	elseif ($type == 'thirdparty') $table = 'societe';
 	elseif ($type == 'proposal') $table = 'propal';
-	else exit($type.' => non géré');
+        elseif ($type == 'contact') $table = 'socpeople';
+	else exit('*'.$type.'* => _getListItem non géré');
 	
 	$PDOdb = new TPDOdb;
 	$limit = empty($conf->global->STANDALONE_SYNC_LIMIT_LAST_ELEMENT) ? 100 : $conf->global->STANDALONE_SYNC_LIMIT_LAST_ELEMENT;
@@ -144,8 +171,8 @@ function _updateDolibarr(&$user, &$TObject, $classname)
 	{
 		$objDolibarr = new $classname($db);
 		// TODO Pour un gain de performance ça serait intéressant de ne pas faire de fetch, mais actuellement nécessaire pour éviter un retour d'erreur non géré pour le moment
-		$objDolibarr->fetch($objStd->id);
-		$objDolibarr->array_options = array(); // TODO pas encore géré
+		$resFetch = $objDolibarr->fetch($objStd->id);
+                // $objDolibarr->array_options = array(); // TODO pas encore géré
 		
 		foreach ($objStd as $attr => $value)
 		{
@@ -153,15 +180,21 @@ function _updateDolibarr(&$user, &$TObject, $classname)
 			elseif (is_array($objDolibarr->{$attr})) continue;
 			else $objDolibarr->{$attr} = $value;
 		}
-		
 		switch ($classname) {
 			case 'Product':
 			case 'Societe':
-				$res = $objDolibarr->update($objStd->id, $user);
+                            
+                                $res = $resFetch > 0 ? $objDolibarr->update($objStd->id, $user) : $objDolibarr->create($user);
 				break;
 			case 'Propal':
 				// cas spéciale, pas de function update et il va falloir sauvegarder les lignes
-			default:
+                                   break;
+                        case 'Contact':
+                            $res = $resFetch > 0 ? $objDolibarr->update($objStd->id, $user) : $objDolibarr->create($user);
+                            
+                            break;
+                            
+                        default:
 				
 				break;
 		}

@@ -52,7 +52,7 @@ function tpl_append(TTpl)
 }
 /*
  * use varaible localstorage to test if already exist connexion information and if it's true copy it in their input
- * 
+ *
  * @returns {undefined}
  */
 function init()
@@ -189,13 +189,14 @@ function synchronize(set_one_finish)
 {
     if (set_one_finish !== true)
     {
-        // Envoi des données local qui ont étaient modifiés 
+        // Envoi des données local qui ont étaient modifiés
         $('#synchronize-page .sync-info').html('');
 
         var TDataToSend = [
             {type: 'product', container: '#synchronize-page .sync-info', msg_start: 'Sending products...', msg_end: 'Done'}
             , {type: 'thirdparty', container: '#synchronize-page .sync-info', msg_start: 'Sending thirdparties...', msg_end: 'Done'}
             , {type: 'proposal', container: '#synchronize-page .sync-info', msg_start: 'Sending proposals...', msg_end: 'Done'}
+            //, {type: 'contact', container: '#synchronize-page .sync-info', msg_start: 'Sending contact...', msg_end: 'Done'}
         ];
 
         // le callback synchronize sera appelé avec un paramètre à true pour passer dans le "else" (récupération des données)
@@ -207,6 +208,7 @@ function synchronize(set_one_finish)
             {type: 'product', container: '#synchronize-page .sync-info', msg_start: 'Fetching products...', msg_end: 'Done'}
             , {type: 'thirdparty', container: '#synchronize-page .sync-info', msg_start: 'Fetching thirdparties...', msg_end: 'Done'}
             , {type: 'proposal', container: '#synchronize-page .sync-info', msg_start: 'Fetching proposals...', msg_end: 'Done'}
+            //, {type: 'contact', container: '#synchronize-page .sync-info', msg_start: 'Fetching contact...', msg_end: 'Done'}
         ];
 
         getData(TObjToSync);
@@ -242,6 +244,9 @@ function getData(TObjToSync)
             case 'proposal':
                 var date_last_sync = localStorage.date_last_sync_proposal || 0;
                 break;
+            /*case 'contact':
+                var date_last_sync = localStorage.date_last_sync_contact || 0;
+                break;*/
         }
 
         $(TObjToSync[0].container).append('<blockquote><span class="text-info">' + TObjToSync[0].msg_start + '</span></blockquote>'); // show info : start fetching
@@ -258,7 +263,9 @@ function getData(TObjToSync)
                 , entity: 1
             }
             , success: function (data) {
+
                 _update_date_sync(TObjToSync[0].type, $.now());
+
                 doliDb.updateAllItem(TObjToSync[0].type, data);
 
                 $(TObjToSync[0].container + ' blockquote:last-child').append('<small class="text-info">' + TObjToSync[0].msg_end + '</small>'); // show info : done
@@ -268,8 +275,8 @@ function getData(TObjToSync)
             }
             , error: function (xhr, ajaxOptions, thrownError) {
                 // TODO téchniquement on tombera jamais dans le error car pas de timeout défini, sauf qu'on peux pas le définir sinon on risque d'interrompre la récupération des données
-                showMessage('Synchronization error', 'Sorry, we meet an error pending synchronization', 'danger');
-                $(TObjToSync[0].container).append('<blockquote><span class="text-error" style="color:red">Error sync with "' + TObjToSync[0].type + '"</span></blockquote>');
+                showMessage('Synchronization error', 'Sorry, we met an error pending synchronization', 'danger');
+                 $(TObjToSync[0].container).append('<blockquote><span class="text-error" style="color:red">Error sync with "' + TObjToSync[0].type + '"</span></blockquote>');
             }
         });
     } else
@@ -290,6 +297,9 @@ function _update_date_sync(type, date)
             break;
         case 'proposal':
             localStorage.date_last_sync_proposal = date;
+            break;
+        case 'contact':
+            localStorage.date_last_sync_contact = date;
             break;
     }
 }
@@ -335,16 +345,92 @@ function addEventListenerOnItemLink()
  * @returns {undefined}
  */
 function showItem(type, id, callback, args)
-{
+{   
     if (typeof callback != 'undefined')
     {
-        doliDb.getItem(type, id, callback, args);
+        if(type=='contact') {
+            doliDb.getItem('thirdparty', args.fk_thirdparty, callback, args);
+        }
+        else {
+            doliDb.getItem(type, id, callback, args);
+        }
+        
     } else
     {
         console.log('Callback non défini');
         showMessage('Information', 'The item display is not implemented yet', 'info');
     }
 }
+/*
+function findContact(id, callback)
+{
+<<<<<<< HEAD
+
+    console.log('showItem',type, id, callback, args);
+
+=======
+    
+    var id_soc = $('#thirdparty-card input[name=id]').val();
+    
+    console.log('showItem',id_soc, callback);
+    
+>>>>>>> c13db88d4a4207b7f441fd7c6e6983039caff770
+    if (typeof callback != 'undefined')
+    {
+        var thirdPart = doliDb.getItem('thirdparty', id_soc, callback);
+        console.log('findContact', thirdPart);
+        doliDb.getContact(id, thirdPart, callback);
+    } else
+    {
+        showMessage('Information', 'The item display is not implemented yet', 'info');
+    }
+}
+*/
+
+/*
+ *
+ * @param {type} item
+ * @returns {undefined}
+ */
+function getOneItem(type, id,id_dolibarr, callback) {
+
+
+        $.ajax({
+            url: localStorage.interface_url
+            , dataType: 'jsonp'
+            , data: {
+                get: type
+                ,id:id_dolibarr
+                , jsonp: 1
+                , date_last_sync: 0
+                , login: localStorage.dolibarr_login
+                , passwd: localStorage.dolibarr_password
+                , entity: 1
+            }
+            , success: function (data) {
+                console.log('getOnItem : ', type, id, id_dolibarr, data);
+                doliDb.updateItem(type,id,data,callback);
+
+                /*_update_date_sync(TObjToSync[0].type, $.now());
+
+                doliDb.updateAllItem(TObjToSync[0].type, data);
+
+                $(TObjToSync[0].container + ' blockquote:last-child').append('<small class="text-info">' + TObjToSync[0].msg_end + '</small>'); // show info : done
+
+                TObjToSync.splice(0, 1);
+                getData(TObjToSync); // next sync*/
+            }
+            , error: function (xhr, ajaxOptions, thrownError) {
+
+                    window.alert('Dommage, vous êtes pas connecté');
+
+            }
+        });
+
+
+}
+
+
 /*
  * call the function getAllItem en indexdb.js
  * @param {type} type
@@ -377,37 +463,72 @@ function setItemInHTML($container, item)
     for (var x in item)
     {
         value = item[x];
-        $container.find('[rel=' + x + ']').html(value);
+        if(x){
+        $container.find('[rel=' + x + ']').each(function(i,item) {
+
+            $item = $(item);
+
+            if($item.attr('type')) {
+                $item.val(value);
+            }
+            else{
+                $item.html(value);
+
+            }
+
+        });}
+    else{console.log("nan",x);}
+
+
     }
-}²
+}
 
 
 //-------Item Function----------
 
-²²²²²²²²²²²²function createItem($container, type) {
-    var id = $containe.children('input[name=id]').val();
-    var TInput = $container.find('form').find('input, text');
+function createItem($container, type) {
+    console.log('container', $container);
+    var id = $container.children('input[name=id]').val();
+    var $TInput = $container.find('form').find('input, textarea, select');
     var TValue = {};
+    $TInput.each(function(i,input) {
+        $input = $(input);
 
-    for (var i = 0; i < TInput.length; i++) {
-        TValue[TInput[i].name] = TInput[i].value;
-    }
+        TValue[$input.attr('name')] = $input.val();
+
+    });
+
 
     switch (type) {
         case 'product':
             var callback = showProduct;
+            doliDb.createItem(type, TValue, callback);
             break;
         case 'thirdparty':
             var callback = showThirdParty;
+            doliDb.createItem(type, TValue, callback);
             break;
         case 'proposal':
             var callback = showProposal;
+            doliDb.createItem(type, TValue, callback);
             break;
         case 'contact' :
-            var callback = showContact;
+            var fk_soc = $('#thirdparty-card input[name=id]').val();
+            doliDb.getItem('thirdparty',fk_soc, addContact, TValue);
             break;
     }
-    doliDb.createItem(type, TValue, callback);
+
+    propalProductList = [];
+
+}
+
+function addContact(item, contact) {
+    console.log('addContact', item, contact);
+    var k = item.TContact.length;
+    item.TContact.push(contact);
+    console.log("id",item.id);
+    doliDb.updateItem('thirdparty', item.id, item);
+    showItem('thirdparty', item.id , showThirdparty)
 }
 
 function updateItem($container, type)
@@ -415,7 +536,7 @@ function updateItem($container, type)
     var id = $container.children('input[name=id]').val();
     var TInput = $container.find('form').find('input, textarea'); // TODO liste à faire évoluer si on ajouter des select ou autres
     var TValue = {};
-
+    //console.log("update",TInput,id);
     for (var i = 0; i < TInput.length; i++)
     {
         TValue[TInput[i].name] = TInput[i].value;
@@ -431,64 +552,48 @@ function updateItem($container, type)
         case 'proposal':
             var callback = showProposal;
             break;
-        case 'contact' :
+        case 'contact' : //on ne passe probablement jamais dans ce cas la
             var callback = showContact;
             break;
     }
 
-    doliDb.updateItem(type, TValue, callback);
+    doliDb.updateItem(type, id, TValue, callback);
+    propalProductList = [];
 }
-
-function createItem($container, type){
-	var id = $container.children('input[name=id]').val();
-	var TInput = $container.find('form').find('input, text');
-	var TValue = {};
-	
-	for (var i=0; i<TInput.length; i++){
-		TValue[TInput[i].name] = TInput[i].value;
-	}
-	
-	switch (type){
-		case 'product':
-			var callback = showProduct;
-			break;
-		case 'thirdparty':
-			var callback = showThirdParty;
-			break;
-		case 'proposal':
-			var callback = showProposal;
-			break;
-                case 'contact' :
-                        var callback = showContact;
-			break;
-                        
-	}
-
-    doliDb.createItem(type, TValue, callback);
-}
-
-
 
 function createContact()
 {
     doliDb.createContact($('#thirdparty-card').children('input[name=id]').val(), $('#thirdparty-card').children('input[name=id_dolibarr]').val());
 }
 
+function createProposal()
+{
+    doliDb.createProposal($('#thirdparty-card').children('input[name=id]').val(), $('#thirdparty-card').children('input[name=id_dolibarr]').val());
+}
+
 function addLine(){
 	/*
 	 *TODO au clic sur un <li> de la propal, on ajoute la ligne comme proposal_line.
 	 * On crée un tableau propal_lignes auquel on ajoute la ligne
-	 * On ajoute ensuite chaque ligne au <ul> sur la fiche d'édition de propale  
+	 * On ajoute ensuite chaque ligne au <ul> sur la fiche d'édition de propale
 	*/
   }
 //----------My Function--------
 
 
-function addBoutons() {
-    /*
-     * insert dans la liste des produits pour la propal des boutons afin de les selectionner pour savoir ceux à ajouter, on sélectionne la quantité a posteriori
-     */
-    $('#product-list-propal ul.list_product li.list-group-item').append('<span class="AddListBtn" href="#proposal-card-edit" style="float:right;"><button class="btn-circle btn btn-warning" type="button" onclick="addItemToPropal(this)"><span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span></button></span>');
+function addItemToList(ThisElement) {
+    if($("#proposal-card-edit > input[id=propalid]").val()==""){
+        currentPropal=$("#proposal-card-add");
+        propalProductList.push({'libelle':ThisElement.parentNode.getAttribute("label"),'prix':10, 'quantite':1});
+        majTableau("add");
+    }
+    else{
+        currentPropal=$("#proposal-card-edit");
+        propalProductList.push({'libelle':ThisElement.parentNode.getAttribute("label"),'prix':10, 'quantite':1});
+        majTableau("update");
+    }
+    $("#product-list-propal").attr('class','tab-pane');
+    currentPropal.attr('class','tab-pane active');
 }
 
 function toggleSelect(object) {
@@ -504,12 +609,11 @@ function toggleSelect(object) {
 
 }
 
-
 function addItemToPropal(object) {
     StringList=''
-    $li = $(object).closest('li');    
+    $li = $(object).closest('li');
     var product = {};
-           
+
     product.name=$li.attr('label');
     product.description='';
     product.prixU=10;
@@ -522,8 +626,8 @@ function addItemToPropal(object) {
 function ReceiveMessage(evt)
 {
     var message;
-
     //localStorage.domain
+    console.log("a",evt);
     if (evt.origin != localStorage.domain) {
         console.log('Crossdomain denied');
         showMessage('Accès non restreint', 'Nom de domain non autorisé, vérifiez votre configuration.', 'warning');
@@ -538,12 +642,30 @@ function ReceiveMessage(evt)
 
 if (window.addEventListener)
 {
+
     //alert("standards-compliant");
     // For standards-compliant web browsers (ie9+)
     window.addEventListener("message", ReceiveMessage, false);
 } else
 {
+    console.log(window);
     //alert("not standards-compliant (ie8)");
     window.attachEvent("onmessage", ReceiveMessage);
 }
 
+
+function editContact(item)
+{
+    var $container = $('#contact-card-edit');
+    $container.children('input[name=id]').val(item.id_dolibarr);
+
+    for (var x in item)
+    {
+        $container.find('[name=' + x + ']').val(item[x]);
+    }
+}
+
+function dropItem(storename, id, callback)
+{
+    doliDb.dropItem(storename, id, callback);
+}

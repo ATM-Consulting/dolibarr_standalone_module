@@ -32,16 +32,29 @@ function refreshThirdpartyList(TItem)
  * call to function setItemInHTML in app.js
  * call to differente function to refresh the document list associed to this thirdParty
  */
+
 function showThirdparty(item)
 {
+    //doliDb.getAllItem('thirdparty',logAll); 
     setItemInHTML($('#thirdparty-card'), item);
+    refreshAssociateContactList($('#thirdparty-card .doc_associate_contacts'), item);
     refreshAssociateProposalList($('#thirdparty-card .doc_associate_proposals'), item.TProposal);
     refreshAssociateOrderList($('#thirdparty-card .doc_associate_orders'), item.TOrder);
-    refreshAssociateBillList($('#thirdparty-card .doc_associate_bills'), item.TBill);
+    refreshAssociateBillList($('#thirdparty-card .doc_associate_bills'), item.TBill);   
 
     addEventListenerOnItemLink();
     $('a#last-thirdparty').html(item.name).closest('li').removeClass('hidden');
+    $('#container').children().removeClass("active");
+    $('#thirdparty-card').addClass("active");
 }
+
+
+function logAll(data) {
+    
+    console.log(data);
+}
+Existing :
+
 
 function editThirdparty(item)
 {

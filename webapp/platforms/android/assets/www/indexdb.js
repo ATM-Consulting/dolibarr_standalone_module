@@ -117,15 +117,17 @@ var DoliDb = function() {
 	DoliDb.prototype.getItem = function(storename, id, callback, args) {
 		var transaction = this.db.transaction(storename, "readonly");
 		var objectStore = transaction.objectStore(storename);
-
+                
+                console.log("args dans le getItem", args);
 		id = parseInt(id);
 		var request = objectStore.get(id);
 		request.onsuccess = function(event) 
 		{
 			var item = event.target.result;
+                        console.log('getItem',storename,item);
 			if (item) 
 			{
-				if (storename == 'thirdparty' || storename == 'proposal')
+				if (storename == 'proposal' || storename == 'thirdparty')
 				{
 					DoliDb.prototype.getChildren(storename, item, false, callback, args);
 				}
@@ -137,8 +139,6 @@ var DoliDb = function() {
 			} else {
 				showMessage('Warning', 'Item not found', 'warning');
 			}
-		};
-		
 	};
 	
 	DoliDb.prototype.getChildren = function (storename, parent, TChild, callback, args) {
@@ -151,14 +151,14 @@ var DoliDb = function() {
 						//,{storename: 'order', key_test: 'fk_soc', array_to_push: 'TOrder'}
 						//,{storename: 'bill', key_test: 'fk_soc', array_to_push: 'TBill'}
 					];
-					
 					break;
+                                        
 				case 'proposal':
 					var TChild = [
 						{storename: 'proposal_line', key_test: 'fk_propal', array_to_push: 'TLine'}
 					];
-					
 					break;
+                                        
 			}
 	}
 	
@@ -332,8 +332,9 @@ var DoliDb = function() {
 				item = DoliDb.prototype.prepareItem(storename, item, 'update');
 				item.update_by_indexedDB = 1; // ne pas utiliser la valeur true, indexedDb gère mal la recherche par boolean
 				
+                                doliDb.dropItem(storename, id);
 				objectStore.put(item);
-				
+				console.log('afterput', item);
 				showMessage('Update', 'The current record has been updated', 'success');
 				if (typeof callback != 'undefined') callback(item);
 				else return item;
@@ -458,6 +459,7 @@ var DoliDb = function() {
 						request.onsuccess = function() 
 						{
 							var item = request.result;
+                                                        
 							if (item) item = DoliDb.prototype.postItem(storename, item);
 							// TODO le postItem est là pour ajouter des infos ou les modifier si nécessaire, à voir plus tard si on en a besoin
 							//objectStore.put(item);
