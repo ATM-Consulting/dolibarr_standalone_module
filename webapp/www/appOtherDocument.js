@@ -12,9 +12,26 @@ function refreshOrderList(TItem)
 function showContact(item, args)
 {
     var container = $('#contact-card');
-    if (typeof args != 'undefined' && typeof args.container !='undefined')
+    if (typeof args != 'undefined' && typeof args.container !='undefined') {
         container = args.container;
-    setItemInHTML(container, item);
+    }
+    
+    var find = false;
+    for(x in item.TContact) {
+        contact = item.TContact[x];
+        
+        if(contact.id == args.fk_contact) {
+            setItemInHTML(container, contact);
+            find = true;
+            break;
+        }
+    }
+        
+    if(!find) {
+        
+        showMessage('Erreur','Impossible de voir le contact','warning');
+        
+    }
 }
 
 function showOrder(item)
@@ -59,15 +76,16 @@ function refreshAssociateBillList($container, TBill)
     }
 }
 
-function refreshAssociateContactList($container, TContact)
+function refreshAssociateContactList($container, item)
 {
+    
+    TContact = item.TContact;
+    
     var x = 0;
     $container.empty();
-    console.log('TContact', TContact);
     for (var i in TContact)
     {
-        var $li = $('<li><a data-toggle="tab" href="#contact-card" onclick="javascript:showItem(\'thirdparty\', ' + TContact[i].id + ', showContact)">' + TContact[i].firstname + '     ' + TContact[i].lastname + '</a></li>');
-        console.log("id",TContact[i].id);
+        var $li = $('<li><a data-toggle="tab" href="#contact-card" onclick="javascript:showItem(\'contact\', ' + TContact[i].id + ', showContact , {fk_thirdparty : '+item.id+', fk_contact:'+ TContact[i].id +'})">' + TContact[i].firstname + '     ' + TContact[i].lastname + '</a></li>');
         $container.append($li);
 
         if (x > 10)

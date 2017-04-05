@@ -37,7 +37,7 @@ function showThirdparty(item)
 {
     //doliDb.getAllItem('thirdparty',logAll); 
     setItemInHTML($('#thirdparty-card'), item);
-    refreshAssociateContactList($('#thirdparty-card .doc_associate_contacts'), item.TContact);
+    refreshAssociateContactList($('#thirdparty-card .doc_associate_contacts'), item);
     refreshAssociateProposalList($('#thirdparty-card .doc_associate_proposals'), item.TProposal);
     refreshAssociateOrderList($('#thirdparty-card .doc_associate_orders'), item.TOrder);
     refreshAssociateBillList($('#thirdparty-card .doc_associate_bills'), item.TBill);   

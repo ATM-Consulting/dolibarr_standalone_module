@@ -117,7 +117,8 @@ var DoliDb = function() {
 	DoliDb.prototype.getItem = function(storename, id, callback, args) {
 		var transaction = this.db.transaction(storename, "readonly");
 		var objectStore = transaction.objectStore(storename);
-
+                
+                console.log("args dans le getItem", args);
 		id = parseInt(id);
 		var request = objectStore.get(id);
 		request.onsuccess = function(event) 
