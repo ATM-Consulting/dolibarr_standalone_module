@@ -197,8 +197,8 @@ var DoliDb = function () {};
         //pour les contacts liée à un thirdparty l'id est good mais on arrive pas a selectionne l'item
         request.onsuccess = function (event)
         {
+            console.log("args dans le getItem", args);
             var item = event.target.result;
-            console.log('getItem : request :' ,request , 'event :' , event , 'id :' , id , "item :" , item);
             if (item)
             {
                 if (storename == 'thirdparty' || storename == 'proposal')
@@ -346,6 +346,7 @@ var DoliDb = function () {};
         request.onsuccess = function (event)
         {
             var item = event.target.result;
+            console.log("item dans le update", item);
             item.update_by_indexedDB = 1;
 
             if (item)
