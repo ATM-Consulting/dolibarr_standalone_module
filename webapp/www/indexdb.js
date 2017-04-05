@@ -339,7 +339,7 @@ var DoliDb = function () {};
             if (item)
             {
                 $.extend(true, item, TValue);
-                item.update_by_indexedDB = 1; // ne pas utiliser la valeur true, indexedDb gère mal la recherche par boolean
+                item.update_by_indexedDB = 1;
 
                 console.log('beforeput', item);
                 objectStore.put(item);
@@ -359,13 +359,13 @@ var DoliDb = function () {};
 
     // TODO à refondre : voir fonction sendData() dans app.js
     DoliDb.prototype.sendAllUpdatedInLocal = function (TDataToSend) {
+	
         var storename = TDataToSend[0].type;
         var TItem = new Array;
-
+        
         var transaction = this.db.transaction(storename, "readonly");
         var objectStore = transaction.objectStore(storename);
         var index = objectStore.index('update_by_indexedDB');
-
         // Get all records who updated in local (update_by_indexedDB == 1)
         var cursorRequest = index.openCursor(this.IDBKeyRange.only(1));
         cursorRequest.onsuccess = function (event) {

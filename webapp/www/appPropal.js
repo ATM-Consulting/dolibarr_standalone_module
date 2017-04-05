@@ -1,4 +1,4 @@
-/* 
+/*
  * appPropal.js contain all function has been in app.js which refer to Propal
  */
 
@@ -59,12 +59,22 @@ function refreshAssociateProposalList($container, TPropal)
 function editProposal(item) {
     var $container = $('#proposal-card-edit');
     $container.children('input[name=id]').val(item.id_dolibarr);
-
+    console.log(item);
+    propalProductList=[];
+    $("#tableListeProduitsBodyEdit").empty();
+    $("#totaltableEdit").val("");
+    console.log(item);
     for (var x in item) {
-        console.log('item '+ x +'-->',$container.find('[name=' + x + ']'));
         $container.find('[name=' + x + ']').val(item[x]);
+        if(x=='lines'){
+          for(nb=0;nb<item.lines.length;nb++){
+              propalProductList.push({'libelle':item.lines[nb].product_label,'prix':parseFloat(item.lines[nb].subprice).toFixed(2),'quantite':item.lines[nb].qty});
+          }
+      }
     }
+    if(propalProductList.length != 0){majTableau("edit");}
 }
+
 function majTableau(bodyWillUpdated){
     if(bodyWillUpdated=="add"){
         bodyUpdated=$('#tableListeProduitsBodyAdd')
@@ -78,7 +88,7 @@ function majTableau(bodyWillUpdated){
         bodyUpdated.append('<tr>'+
         '<td>'+element.libelle+'</td>'+
         '<td id=pUprod>'+element.prix+'</td>'+
-        '<td id=nbprod><input class="inputQu" type="number" min="1" size="5" value="'+element.quantite+'" onChange=majQuantity()></td>'+
+        '<td id=nbprod><input class="inputQu" type="number" min="1" size="5" value="'+element.quantite+'" onChange=majQuantity("'+bodyWillUpdated+'")></td>'+
         '<td><span class="glyphicon glyphicon-remove" onClick=test()></span></td>'+
     '</tr>');
     });
@@ -102,16 +112,16 @@ function majQuantity(bodyWillUpdated){
 }
 
 function updatetotal(bodyWillUpdated){
-    
+
     var total=0;
-    
-    if(bodyWillUpdated=="add"){
+
+    if(!bodyWillUpdated=="add"){
         $('#tableListeProduitsBodyAdd > tr ').each(function(){ //parcours tout les element 'tr' de #tableListeProduitsBody puis trouve les quantité et les pU pour calculer le total
             pU = parseInt($(this).children('td[id="pUprod"]').text());
             quantite = parseInt($(this).find('input').val());
             total=total+(pU*quantite);
         });
-    
+
         $('#totaltableAdd').val(total);
     }
     else{
@@ -120,7 +130,7 @@ function updatetotal(bodyWillUpdated){
             quantite = parseInt($(this).find('input').val());
             total=total+(pU*quantite);
     });
-    
+
         $('#totaltableEdit').val(total); //modifier valeur du total dans le champ input
     }
 }

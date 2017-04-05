@@ -52,7 +52,7 @@ function tpl_append(TTpl)
 }
 /*
  * use varaible localstorage to test if already exist connexion information and if it's true copy it in their input
- * 
+ *
  * @returns {undefined}
  */
 function init()
@@ -189,7 +189,7 @@ function synchronize(set_one_finish)
 {
     if (set_one_finish !== true)
     {
-        // Envoi des données local qui ont étaient modifiés 
+        // Envoi des données local qui ont étaient modifiés
         $('#synchronize-page .sync-info').html('');
 
         var TDataToSend = [
@@ -265,9 +265,9 @@ function getData(TObjToSync)
             , success: function (data) {
 
                 _update_date_sync(TObjToSync[0].type, $.now());
-                
+
                 doliDb.updateAllItem(TObjToSync[0].type, data);
-                
+
                 $(TObjToSync[0].container + ' blockquote:last-child').append('<small class="text-info">' + TObjToSync[0].msg_end + '</small>'); // show info : done
 
                 TObjToSync.splice(0, 1);
@@ -346,9 +346,9 @@ function addEventListenerOnItemLink()
  */
 function showItem(type, id, callback, args)
 {
-    
+
     console.log('showItem',type, id, callback, args);
-    
+
     if (typeof callback != 'undefined')
     {
         doliDb.getItem(type, id, callback, args);
@@ -361,13 +361,13 @@ function showItem(type, id, callback, args)
 
 
 /*
- * 
+ *
  * @param {type} item
  * @returns {undefined}
  */
 function getOneItem(type, id,id_dolibarr, callback) {
-    
-    
+
+
         $.ajax({
             url: localStorage.interface_url
             , dataType: 'jsonp'
@@ -385,22 +385,22 @@ function getOneItem(type, id,id_dolibarr, callback) {
                 doliDb.updateItem(type,id,data,callback);
 
                 /*_update_date_sync(TObjToSync[0].type, $.now());
-                
+
                 doliDb.updateAllItem(TObjToSync[0].type, data);
-                
+
                 $(TObjToSync[0].container + ' blockquote:last-child').append('<small class="text-info">' + TObjToSync[0].msg_end + '</small>'); // show info : done
 
                 TObjToSync.splice(0, 1);
                 getData(TObjToSync); // next sync*/
             }
             , error: function (xhr, ajaxOptions, thrownError) {
-                    
+
                     window.alert('Dommage, vous êtes pas connecté');
-            
+
             }
         });
-    
-    
+
+
 }
 
 
@@ -437,20 +437,20 @@ function setItemInHTML($container, item)
     {
         value = item[x];
         $container.find('[rel=' + x + ']').each(function(i,item) {
-           
+
             $item = $(item);
-            
+
             if($item.attr('type')) {
                 $item.val(value);
             }
             else{
                 $item.html(value);
-                
+
             }
-            
+
         });
-                
-                
+
+
     }
 }
 
@@ -465,9 +465,9 @@ function createItem($container, type) {
 
     $TInput.each(function(i,input) {
         $input = $(input);
-        
+
         TValue[$input.attr('name')] = $input.val();
-        
+
     });
 
 
@@ -484,24 +484,23 @@ function createItem($container, type) {
             var callback = showProposal;
             doliDb.createItem(type, TValue, callback);
             break;
-        case 'contact' :
-          //  var callback = showContact;
-          
+
+
             var fk_soc = $('#thirdparty-card input[name=id]').val();
-          
+
             doliDb.getItem('thirdparty',fk_soc, addContact, TValue);
             return true;
-          
+
             break;
     }
-    
+
     propalProductList = [];
-    
+
 }
 
 function addContact(item, contact) {
     console.log('addContact', item, contact);
-    
+
     var k = item.TContact.length;
     item.TContact.push(contact);
     console.log("id",item.id);
@@ -514,7 +513,7 @@ function updateItem($container, type)
     var id = $container.children('input[name=id]').val();
     var TInput = $container.find('form').find('input, textarea'); // TODO liste à faire évoluer si on ajouter des select ou autres
     var TValue = {};
-
+    console.log("update",TInput,id);
     for (var i = 0; i < TInput.length; i++)
     {
         TValue[TInput[i].name] = TInput[i].value;
@@ -553,7 +552,7 @@ function addLine(){
 	/*
 	 *TODO au clic sur un <li> de la propal, on ajoute la ligne comme proposal_line.
 	 * On crée un tableau propal_lignes auquel on ajoute la ligne
-	 * On ajoute ensuite chaque ligne au <ul> sur la fiche d'édition de propale  
+	 * On ajoute ensuite chaque ligne au <ul> sur la fiche d'édition de propale
 	*/
   }
 //----------My Function--------
@@ -562,7 +561,7 @@ function addLine(){
 function addItemToList(ThisElement) {
     if($("#proposal-card-edit > input[id=propalid]").val()==""){
         console.log("unknow");
-        
+
         currentPropal=$("#proposal-card-add");
         propalProductList.push({'libelle':ThisElement.parentNode.getAttribute("label"),'prix':10, 'quantite':1});
         majTableau("add");
@@ -592,9 +591,9 @@ function toggleSelect(object) {
 
 function addItemToPropal(object) {
     StringList=''
-    $li = $(object).closest('li');    
+    $li = $(object).closest('li');
     var product = {};
-           
+
     product.name=$li.attr('label');
     product.description='';
     product.prixU=10;
@@ -607,8 +606,8 @@ function addItemToPropal(object) {
 function ReceiveMessage(evt)
 {
     var message;
-
     //localStorage.domain
+    console.log("a",evt);
     if (evt.origin != localStorage.domain) {
         console.log('Crossdomain denied');
         showMessage('Accès non restreint', 'Nom de domain non autorisé, vérifiez votre configuration.', 'warning');
@@ -623,11 +622,13 @@ function ReceiveMessage(evt)
 
 if (window.addEventListener)
 {
+
     //alert("standards-compliant");
     // For standards-compliant web browsers (ie9+)
     window.addEventListener("message", ReceiveMessage, false);
 } else
 {
+    console.log(window);
     //alert("not standards-compliant (ie8)");
     window.attachEvent("onmessage", ReceiveMessage);
 }
@@ -647,8 +648,7 @@ function editContact(item)
     }
 }
 
-function dropItem(storename, id, callback) 
+function dropItem(storename, id, callback)
 {
     doliDb.dropItem(storename, id, callback);
 }
-
