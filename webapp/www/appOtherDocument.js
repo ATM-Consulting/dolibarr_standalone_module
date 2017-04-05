@@ -12,7 +12,7 @@ function refreshOrderList(TItem)
 function showContact(item, args)
 {
     var container = $('#contact-card');
-    if (typeof args != 'undefined' && typeof args.container != 'undefined')
+    if (typeof args != 'undefined' && typeof args.container !='undefined')
         container = args.container;
     setItemInHTML(container, item);
 }
@@ -63,10 +63,11 @@ function refreshAssociateContactList($container, TContact)
 {
     var x = 0;
     $container.empty();
-
+    console.log('TContact', TContact);
     for (var i in TContact)
     {
-        var $li = $('<li><a data-toggle="tab" href="#contact-card" onclick="javascript:showItem(\'contact\', ' + TContact[i].id + ', showContact)">' + TContact[i].firstname + '     ' + TContact[i].name + '</a></li>');
+        var $li = $('<li><a data-toggle="tab" href="#contact-card" onclick="javascript:showItem(\'thirdparty\', ' + TContact[i].id + ', showContact)">' + TContact[i].firstname + '     ' + TContact[i].lastname + '</a></li>');
+        console.log("id",TContact[i].id);
         $container.append($li);
 
         if (x > 10)

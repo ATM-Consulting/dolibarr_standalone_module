@@ -138,8 +138,6 @@ var DoliDb = function() {
 			} else {
 				showMessage('Warning', 'Item not found', 'warning');
 			}
-		};
-		
 	};
 	
 	DoliDb.prototype.getChildren = function (storename, parent, TChild, callback, args) {
