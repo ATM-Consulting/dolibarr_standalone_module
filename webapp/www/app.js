@@ -540,6 +540,7 @@ function updateItem($container, type)
     for (var i = 0; i < TInput.length; i++)
     {
         TValue[TInput[i].name] = TInput[i].value;
+        console.log("aa",TInput[i].value,TValue[TInput[i].name])
     }
 
     switch (type) {

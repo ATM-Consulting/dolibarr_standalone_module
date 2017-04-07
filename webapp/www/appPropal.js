@@ -63,8 +63,8 @@ function editProposal(item) {
     propalProductList=[];
     $("#tableListeProduitsBodyEdit").empty();
     $("#totaltableEdit").val("");
-    console.log(item);
     for (var x in item) {
+        if(x){
         $container.find('[name=' + x + ']').val(item[x]);
         if(x=='lines'){
           for(nb=0;nb<item.lines.length;nb++){
@@ -79,7 +79,7 @@ function editProposal(item) {
               });
           }
       }
-    }
+    }}
     if(propalProductList.length != 0){majTableau("edit");}
 }
 
