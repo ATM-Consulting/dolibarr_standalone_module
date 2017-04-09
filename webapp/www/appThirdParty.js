@@ -31,6 +31,7 @@ function refreshThirdpartyList(TItem)
 /*
  * call to function setItemInHTML in app.js
  * call to differente function to refresh the document list associed to this thirdParty
+ * @argument {json} item | un thirdparty
  */
 
 function showThirdparty(item)
@@ -53,9 +54,12 @@ function logAll(data) {
     
     console.log(data);
 }
-Existing :
 
-
+/*
+ * Fonction permettant de charger les informations d'un thirdparty en parcourant ses champs et 
+ * en cherchant le champ avec le même attribut "name" sur la page html (thirdparty-card-edit)
+ * @argument {json} item | une propal
+ */
 function editThirdparty(item)
 {
     var $container = $('#thirdparty-card-edit');

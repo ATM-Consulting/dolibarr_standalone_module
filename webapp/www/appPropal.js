@@ -57,6 +57,11 @@ function refreshAssociateProposalList($container, TPropal)
     }
 }
 
+/*
+ * Fonction permettant de charger les informations d'une propal en parcourant ses champs et 
+ * en cherchant le champ avec le même attribut "name" sur la page html (propal-card-edit)
+ * @argument {json} item | une propal
+ */
 function editProposal(item) {
     var $container = $('#proposal-card-edit');
     $container.children('input[name=id]').val(item.id_dolibarr);
@@ -83,6 +88,11 @@ function editProposal(item) {
     if(propalProductList.length != 0){majTableau("edit");}
 }
 
+/*
+ * mise à jour du tableau pour qu'il affiche le contenu de propalProductList
+ * @argument {string} bodyWillUpdated | juste un champ text permettant le différentiation entre la page proposal-card-edit
+ * et proposal-card-add
+ */
 function majTableau(bodyWillUpdated){
     if(bodyWillUpdated=="add"){
         bodyUpdated=$('#tableListeProduitsBodyAdd')
@@ -102,6 +112,12 @@ function majTableau(bodyWillUpdated){
     updatetotal();
 }
 
+/*
+ * mise a jour de la quantite du produit dans propalProductList
+ * appele sur un onchange du champs quantite input
+ * @argument {string} bodyWillUpdated | juste un champ text permettant le différentiation entre la page proposal-card-edit
+ * et proposal-card-add
+ */
 function majQuantity(bodyWillUpdated){
     if(!bodyWillUpdated=="add"){
         quantity=$("#tableListeProduitsBodyAdd").find("input[class=inputQu]");
@@ -118,6 +134,12 @@ function majQuantity(bodyWillUpdated){
     updatetotal();
 }
 
+/*
+ * mise a jour du total du coup de la propal dans le champ input. 
+ * peut être une refactorisation pour parcourir propalProductList et non l'html
+ * @argument {string} bodyWillUpdated | juste un champ text permettant le différentiation entre la page proposal-card-edit
+ * et proposal-card-add
+ */
 function updatetotal(bodyWillUpdated){
 
     var total=0;
@@ -142,6 +164,13 @@ function updatetotal(bodyWillUpdated){
     }
 }
 
+/*
+ * ajout d'un produit inconnu de la base de donnee à la propal 
+ * à partir des informations rentré dans les champ input stockée dans le "tfoot"
+ * l'ajoute à propalProductList
+ * @argument {string} bodyWillUpdated | juste un champ text permettant le différentiation entre la page proposal-card-edit
+ * et proposal-card-add
+ */
 function addUnExistProduct(bodyWillUpdated){
     if(bodyWillUpdated=="add"){
         name=$('#unexistProductAdd').find('input[id="name"]').val();
@@ -175,6 +204,10 @@ function addUnExistProduct(bodyWillUpdated){
     }
 }
 
+/*
+ * supprime une ligne du tableau propalProductList puis remet à jour l'affichage html
+ * @argument {jquery} elemDom | le bouton "X" sur lequel on a clique (appartenant à la ligne que l'on veut supprimer)
+ */
 function removePropalLines(elemDom){
     nbline = elemDom.parent().parent()[0].rowIndex-1
     for(nbline;nbline<propalProductList.length;nbline++){
@@ -185,6 +218,9 @@ function removePropalLines(elemDom){
     majTableau("edit");
 }
 
+/*
+ * vide le tableau propalProductList puis remet à jour l'affichage html
+ */
 function clearAllPropalLines(){
     propalProductList=[];
     majTableau("edit");

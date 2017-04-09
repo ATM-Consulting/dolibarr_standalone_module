@@ -4,11 +4,11 @@
  * and open the template in the editor.
  */
 
-function refreshOrderList(TItem)
-{
-    // ...
-}
-
+/*
+ * fonction permettant d'afficher les informations stocké d'un contact.
+ * @item un thirdpaty dans lequel on va regarder son TContact
+ * @args arguments
+ */
 function showContact(item, args)
 {
     var container = $('#contact-card');
@@ -34,16 +34,25 @@ function showContact(item, args)
     }
 }
 
+/*
+ * affiche une commande /! Non implementé !/
+ */
 function showOrder(item)
 {
     setItemInHTML($('#order-card'), item);
 }
 
+/*
+ * affiche une facture /! Non implementé !/
+ */
 function showBill(item)
 {
     setItemInHTML($('#bill-card'), item);
 }
 
+/*
+ * affiche la liste des commande /! Non implementé !/
+ */
 function refreshAssociateOrderList($container, TOrder)
 {
     var x = 0;
@@ -60,6 +69,9 @@ function refreshAssociateOrderList($container, TOrder)
     }
 }
 
+/*
+ * affiche la liste des facture /! Non implementé !/
+ */
 function refreshAssociateBillList($container, TBill)
 {
     var x = 0;
@@ -76,6 +88,11 @@ function refreshAssociateBillList($container, TBill)
     }
 }
 
+/*
+ * affiche la liste des contact d'un thirdparty
+ * @argument {jquery} $container | l'endroit on sera affiché la liste des contacts
+ * @argument {json} item | un thirdparty 
+ */
 function refreshAssociateContactList($container, item)
 {
     
