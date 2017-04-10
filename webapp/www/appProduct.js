@@ -49,6 +49,11 @@ function showProduct(item)
     setItemInHTML($('#product-card'), item);
 } addEventListenerOnItemLink();
 
+/*
+ * Fonction permettant de charger les informations d'un produit en parcourant ses champs et 
+ * en cherchant le champ avec le même attribut "name" sur la page html (product-card-edit)
+ * @argument {json} item | un produit
+ */
 function editProduct(item)
 {
     var $container = $('#product-card-edit');

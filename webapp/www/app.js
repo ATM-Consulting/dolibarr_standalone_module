@@ -244,9 +244,6 @@ function getData(TObjToSync)
             case 'proposal':
                 var date_last_sync = localStorage.date_last_sync_proposal || 0;
                 break;
-            /*case 'contact':
-                var date_last_sync = localStorage.date_last_sync_contact || 0;
-                break;*/
         }
 
         $(TObjToSync[0].container).append('<blockquote><span class="text-info">' + TObjToSync[0].msg_start + '</span></blockquote>'); // show info : start fetching
@@ -486,6 +483,12 @@ function setItemInHTML($container, item)
 
 //-------Item Function----------
 
+/*
+ * apelle la fonction createItem de indexdb pour créer un nouvel item
+ * dans le cas d'un contact on va juste l'ajouter au tableau tContact d'un thirdparty
+ * @argument {jquery} $container | l'endroit on sera affiché l'item créer
+ * @argument {string} type | type de l'élèment
+ */
 function createItem($container, type) {
     console.log('container', $container);
     var id = $container.children('input[name=id]').val();
@@ -522,15 +525,24 @@ function createItem($container, type) {
 
 }
 
+/*
+ * ajoute un contact au tcontact d'un thirdparty
+ * @argument {json} item | l'endroit on sera affiché l'item créer
+ * @argument {json} contact | type de l'élèment
+ */
 function addContact(item, contact) {
     console.log('addContact', item, contact);
-    var k = item.TContact.length;
     item.TContact.push(contact);
     console.log("id",item.id);
     doliDb.updateItem('thirdparty', item.id, item);
     showItem('thirdparty', item.id , showThirdparty)
 }
 
+/*
+ * apelle la fonction updateitem de indexdb et les fonction de callback different selon le type
+ * @argument {jquery} $container | l'endroit on sera affiché l'item créer
+ * @argument {string} type | type de l'élèment
+ */
 function updateItem($container, type)
 {
     var id = $container.children('input[name=id]').val();
@@ -540,6 +552,7 @@ function updateItem($container, type)
     for (var i = 0; i < TInput.length; i++)
     {
         TValue[TInput[i].name] = TInput[i].value;
+        console.log("aa",TInput[i].value,TValue[TInput[i].name])
     }
 
     switch (type) {
@@ -561,11 +574,19 @@ function updateItem($container, type)
     propalProductList = [];
 }
 
+/*
+ * créer un contact et l'ajoute et l'ajoute au sous menu du thirdparty
+ */
 function createContact()
 {
     doliDb.createContact($('#thirdparty-card').children('input[name=id]').val(), $('#thirdparty-card').children('input[name=id_dolibarr]').val());
 }
 
+/*
+ * apelle la fonction updateitem de indexdb et les fonction de callback different selon le type
+ * @argument {jquery} $container | l'endroit on sera affiché l'item créer
+ * @argument {string} type | type de l'élèment
+ */
 function createProposal()
 {
     doliDb.createProposal($('#thirdparty-card').children('input[name=id]').val(), $('#thirdparty-card').children('input[name=id_dolibarr]').val());
