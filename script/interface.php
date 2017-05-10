@@ -173,13 +173,16 @@ function _updateDolibarr(&$user, &$TObject, $classname)
 		// TODO Pour un gain de performance ça serait intéressant de ne pas faire de fetch, mais actuellement nécessaire pour éviter un retour d'erreur non géré pour le moment
 		
 		
-		$resFetch = $objDolibarr->fetch($objStd->id);
+		$resFetch = $objDolibarr->fetch($objStd->id_dolibarr);
                 // $objDolibarr->array_options = array(); // TODO pas encore géré
 		foreach ($objStd as $attr => $value)
 		{
 			if (is_object($objDolibarr->{$attr})) continue;
 			elseif (is_array($objDolibarr->{$attr})) continue;
 			else $objDolibarr->{$attr} = $value;
+		}
+		if(empty($objStd->id_dolibarr)){
+			$objDolibarr->id = null;
 		}
 		switch ($classname) {
 			case 'Product':
@@ -198,7 +201,11 @@ function _updateDolibarr(&$user, &$TObject, $classname)
 								}
 								_updateDolibarr($user, $objStd->TContact, 'Contact');
 							}
-                                $res = $resFetch > 0 ? $objDolibarr->update($objStd->id, $user) : $objDolibarr->create($user);
+								$objDolibarr->client = $objDolibarr->Type;
+								($objDolibarr->fournisseur=="Yes") ? $objDolibarr->fournisseur=1 :$objDolibarr->fournisseur=0  ; 
+								
+								
+                                $res = $resFetch > 0 ? $objDolibarr->update($objStd->id_dolibarr, $user) : $objDolibarr->create($user);
 				break;
 			case 'Propal':
 				// cas spéciale, pas de function update et il va falloir sauvegarder les lignes

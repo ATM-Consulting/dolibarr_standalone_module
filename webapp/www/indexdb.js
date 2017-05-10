@@ -124,7 +124,7 @@ var DoliDb = function () {};
         var objectStore = transaction.objectStore(storename);
         item.id_dolibarr = 0;
         item.create_by_indexedDB = 1;
-        item.update_by_indexedDB = 0;
+        item.update_by_indexedDB = 1;
         console.log('passe dans le createItem d\'indexdb.js');
         switch(storename)
         {
@@ -399,7 +399,8 @@ var DoliDb = function () {};
                     , passwd: localStorage.dolibarr_password
                     , entity: 1
                 };
-
+                   console.log("TItem");
+                   console.log(TItem);
                 var $container = $('#form_to_send_data');
                 $container.attr('action', localStorage.interface_url);
                 $container.children('input[name=put]').val(storename);

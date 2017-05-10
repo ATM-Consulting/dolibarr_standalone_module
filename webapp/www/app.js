@@ -224,7 +224,7 @@ function sendData(TDataToSend)
          * exemple : doliDb->getAllItemByIndex('product', 'update_by_indexedDB', sendToDomain)
          */
         
-        
+        console.log("HIHO senddata");
     
        doliDb.sendAllUpdatedInLocal(TDataToSend);
     } else
@@ -511,7 +511,7 @@ function createItem($container, type) {
             doliDb.createItem(type, TValue, callback);
             break;
         case 'thirdparty':
-            var callback = showThirdParty;
+            var callback = showThirdparty;
             doliDb.createItem(type, TValue, callback);
             break;
         case 'proposal':

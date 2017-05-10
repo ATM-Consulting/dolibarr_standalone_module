@@ -208,3 +208,108 @@
 	</div>
 	
 </div>
+
+
+<div id="thirdparty-card-create" class="tab-pane">
+	<input type="hidden" name="id" value="" />
+	
+	<div class="container-fluid">
+
+		<form class="form-horizontal">
+			<div class="form-group">
+				
+				<!-- Nom -->
+				<label for="name" class="col-sm-2 control-label"><langs trans="Name"></langs></label>
+				<div class="col-sm-10">
+					<input type="text" class="form-control" name="name" placeholder="" />
+				</div>
+				
+				<!-- Town -->
+				<label for="town" class="col-sm-2 control-label"><langs trans="Town"></langs></label>
+				<div class="col-sm-10">
+					<input type="text" class="form-control" name="town"/>
+				</div>
+				
+                                <!-- Code Postal-->
+				<label for="cp" class="col-sm-2 control-label"><langs trans="Zip Code"></langs></label>
+				<div class="col-sm-10" >
+					<input type="text" class="form-control" name="zip"/>
+				</div>
+                                
+				<!-- Adresse -->
+				<label for="address" class="col-sm-2 control-label"><langs trans="Address"></langs></label>
+				<div class="col-sm-10">
+					<textarea class="form-control" rows="5" name="address"></textarea>
+				</div>
+				
+				<!-- Mail-->
+				<label for="mail" class="col-sm-2 control-label"><langs trans="Mail"></langs></label>
+				<div class="col-sm-10" >
+					<input type="text" class="form-control" name="email"/>
+				</div>
+				
+				<!-- Phone-->
+				<label for="phone" class="col-sm-2 control-label"><langs trans="Phone"></langs></label>
+				<div class="col-sm-10" >
+					<input type="text" class="form-control" name="phone"/>
+				</div>
+				
+				<!-- Prospect/Client -->
+				<label for="Type" class="col-sm-2 control-label"><langs trans="Type"></langs></label>
+				<div class="col-sm-10">
+					<select class="form-control" name="Type">
+						<option value="-1">
+							
+						</option>
+						<option value="2">
+							Prospect
+						</option>
+						<option value="3">
+							Prospect / Customer
+						</option>
+						<option value="1">
+							Customer
+						</option>
+						<option value="0">
+							Not a customer, not a prospect
+						</option>
+						
+					</select>
+				</div>
+				
+				<!-- Fournisseur -->
+				<label for="fournisseur" class="col-sm-2 control-label"><langs trans="Supplier"></langs></label>
+				<div class="col-sm-10">
+					<select class="form-control" name="fournisseur">
+						<option>
+							
+						</option>
+						<option>
+							Yes
+						</option>
+						<option>
+							No
+						</option>
+						
+					</select>
+				</div>
+				
+				
+				
+				
+				<!-- Permet d'éviter le chevauchement du dernier input sous les boutons d'actions en bas de l'écran -->
+				<div>&nbsp;</div>
+				<div>&nbsp;</div>
+				<div>&nbsp;</div>
+			</div>
+			
+		</form>
+		
+	</div>
+	
+	<div class="row navbar-fixed-bottom">
+		<a data-toggle="tab" href="#home" class="btn btn-default col-xs-6 move_tab"><langs trans="Cancel"></langs></a>
+		<a data-toggle="tab" href="#thirdparty-card" onclick="createItem($('#thirdparty-card-create'), 'thirdparty');" class="btn btn-success col-xs-6 move_tab"><langs trans="Create"></langs></a>
+	</div>
+	
+</div>
