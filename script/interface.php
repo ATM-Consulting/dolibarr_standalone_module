@@ -171,9 +171,10 @@ function _updateDolibarr(&$user, &$TObject, $classname)
 	{
 		$objDolibarr = new $classname($db);
 		// TODO Pour un gain de performance ça serait intéressant de ne pas faire de fetch, mais actuellement nécessaire pour éviter un retour d'erreur non géré pour le moment
+		
+		
 		$resFetch = $objDolibarr->fetch($objStd->id);
                 // $objDolibarr->array_options = array(); // TODO pas encore géré
-		
 		foreach ($objStd as $attr => $value)
 		{
 			if (is_object($objDolibarr->{$attr})) continue;
@@ -183,20 +184,36 @@ function _updateDolibarr(&$user, &$TObject, $classname)
 		switch ($classname) {
 			case 'Product':
 			case 'Societe':
-                            
+                            if(!empty($objStd->TContact)){
+								foreach($objStd->TContact as &$myContact){
+									if(empty($myContact->id)){
+										
+										$myContact->socid = $objStd->id_dolibarr;
+										
+									}
+									
+										
+									
+									
+								}
+								_updateDolibarr($user, $objStd->TContact, 'Contact');
+							}
                                 $res = $resFetch > 0 ? $objDolibarr->update($objStd->id, $user) : $objDolibarr->create($user);
 				break;
 			case 'Propal':
 				// cas spéciale, pas de function update et il va falloir sauvegarder les lignes
                                    break;
-                        case 'Contact':
-                            $res = $resFetch > 0 ? $objDolibarr->update($objStd->id, $user) : $objDolibarr->create($user);
-                            
-                            break;
-                            
-                        default:
+            case 'Contact':
 				
-				break;
+                $res = $resFetch > 0 ? $objDolibarr->update($objStd->id, $user) : $objDolibarr->create($user);
+				
+				
+                            
+                break;
+                            
+            default:
+				
+			break;
 		}
 		
 		$data = json_encode(array('classname == '.$classname));
@@ -204,7 +221,7 @@ function _updateDolibarr(&$user, &$TObject, $classname)
 					var data = '.$data.';
 					window.parent.postMessage(data, "*");
 				</script>';
-		return $str;
+		//return $str;
 		
 		/* TODO retour d'erreur non géré encore
 		if ($res < 0)

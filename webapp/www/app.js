@@ -223,7 +223,10 @@ function sendData(TDataToSend)
          * TODO ugly => on devrais avoir un appel du genre doliDb->getAllItemByIndex(storename, index, callback)
          * exemple : doliDb->getAllItemByIndex('product', 'update_by_indexedDB', sendToDomain)
          */
-        doliDb.sendAllUpdatedInLocal(TDataToSend);
+        
+        
+    
+       doliDb.sendAllUpdatedInLocal(TDataToSend);
     } else
     {
         synchronize(true);

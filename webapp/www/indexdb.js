@@ -401,7 +401,6 @@ var DoliDb = function () {};
                 };
 
                 var $container = $('#form_to_send_data');
-
                 $container.attr('action', localStorage.interface_url);
                 $container.children('input[name=put]').val(storename);
                 $container.children('input[name=login]').val(localStorage.dolibarr_login);
