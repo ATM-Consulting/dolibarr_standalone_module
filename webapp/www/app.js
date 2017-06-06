@@ -592,6 +592,7 @@ function createContact()
  */
 function createProposal()
 {
+    
     doliDb.createProposal($('#thirdparty-card').children('input[name=id]').val(), $('#thirdparty-card').children('input[name=id_dolibarr]').val());
 }
 
@@ -609,6 +610,7 @@ function addItemToList(ThisElement) {
     if($("#proposal-card-edit > input[id=propalid]").val()==""){
         currentPropal=$("#proposal-card-add");
         propalProductList.push({'libelle':ThisElement.parentNode.getAttribute("label"),'prix':10, 'quantite':1});
+        console.log("libelle IS "+propalProductList);
         majTableau("add");
     }
     else{

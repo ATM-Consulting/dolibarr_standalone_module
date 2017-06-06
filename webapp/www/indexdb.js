@@ -84,6 +84,8 @@ var DoliDb = function () {};
             objectStore.createIndex("id_dolibarr", "id_dolibarr", {unique: false});
             objectStore.createIndex("ref", "ref", {unique: true});//lines tableau 
             objectStore.createIndex("socid", "socid", {unique: false});
+            objectStore.createIndex("duree_validite", "duree_validite", {unique: false});
+            objectStore.createIndex("mode_reglement", "mode_reglement", {unique: false});
             objectStore.createIndex("create_by_indexedDB", "create_by_indexedDB", {unique: false});
             objectStore.createIndex("update_by_indexedDB", "update_by_indexedDB", {unique: false});
 
@@ -126,11 +128,19 @@ var DoliDb = function () {};
         item.create_by_indexedDB = 1;
         item.update_by_indexedDB = 1;
         console.log('passe dans le createItem d\'indexdb.js');
+        console.log(item);
         switch(storename)
         {
-            case 'contact' : item.fk_thirdparty = fk_thirdparty;
+            case 'contact' : 
+                item.fk_thirdparty = fk_thirdparty;
+                break;
+            case 'proposal' : 
+                item.socid = fk_thirdparty;
+                break;
         }
         res=objectStore.add(item);
+        console.log("res");
+        console.log(res);
         //res.onsuccess = fonction (event) {
         //else{
         showMessage('Create', 'The current record has been created', 'success');    
@@ -280,7 +290,7 @@ var DoliDb = function () {};
             }
         };
     };
-
+var fk_thirdparty;
 
     DoliDb.prototype.createProposal = function (id_object, fk_soc) {
 
@@ -319,10 +329,10 @@ var DoliDb = function () {};
             console.log('event',event);
             showMessage('Error', event.target.error.name + ' : ' + event.target.error.message, 'danger');
         };*/
-
+        fk_thirdparty = fk_soc;
     };
 
-    var fk_thirdparty;
+    
 
     DoliDb.prototype.createContact = function (fk_soc) {
         if (typeof fk_soc == 'undefined' || !fk_soc) {

@@ -96,6 +96,7 @@ function editProposal(item) {
 function majTableau(bodyWillUpdated){
     if(bodyWillUpdated=="add"){
         bodyUpdated=$('#tableListeProduitsBodyAdd')
+        
     }
     else{
         bodyUpdated=$('#tableListeProduitsBodyEdit')
@@ -103,9 +104,9 @@ function majTableau(bodyWillUpdated){
     bodyUpdated.empty();
     propalProductList.forEach(function(element){
         bodyUpdated.append('<tr>'+
-        '<td>'+element.product_label+'</td>'+
-        '<td id=pUprod>'+element.subprice+'</td>'+
-        '<td id=nbprod><input class="inputQu" type="number" min="1" size="5" value="'+element.qty+'" onChange=majQuantity("'+bodyWillUpdated+'")></td>'+
+        '<td>'+element.libelle+'</td>'+
+        '<td id=pUprod>'+element.prix+'</td>'+
+        '<td id=nbprod><input class="inputQu" type="number" min="1" size="5" value="'+element.quantite+'" onChange=majQuantity("'+bodyWillUpdated+'")></td>'+
         '<td><span class="glyphicon glyphicon-remove" onClick="removePropalLines($(this));"></span></td>'+
     '</tr>');
     });
@@ -177,7 +178,7 @@ function addUnExistProduct(bodyWillUpdated){
         prix=$('#unexistProductAdd').find('input[id="pUprod"]').val();
         quantite=$('#unexistProductAdd').find('input[id="nbprod"]').val();
         if (name!="" && prix!="" && quantite!="" ){
-            propalProductList.push({'id_dolibarr':"",'product_label':name,'subprice':prix,'qty':quantite, 'fk_product':0});
+            propalProductList.push({'id_dolibarr':"",'libelle':name,'prix':prix,'quantite':quantite, 'fk_product':0});
             $('#unexistProductAdd').find('input[id="name"]').val("");
             $('#unexistProductAdd').find('input[id="pUprod"]').val("");
             $('#unexistProductAdd').find('input[id="nbprod"]').val("");
@@ -209,6 +210,8 @@ function addUnExistProduct(bodyWillUpdated){
  * @argument {jquery} elemDom | le bouton "X" sur lequel on a clique (appartenant à la ligne que l'on veut supprimer)
  */
 function removePropalLines(elemDom){
+    console.log("elemDom");
+    console.log(elemDom);
     nbline = elemDom.parent().parent()[0].rowIndex-1
     for(nbline;nbline<propalProductList.length;nbline++){
         propalProductList[nbline]=propalProductList[nbline+1];
