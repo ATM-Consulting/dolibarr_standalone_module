@@ -118,9 +118,10 @@ var DoliDb = function() {
 		var transaction = this.db.transaction(storename, "readonly");
 		var objectStore = transaction.objectStore(storename);
                 
-                console.log("args dans le getItem", args);
+                console.log("TETE", args);
 		id = parseInt(id);
 		var request = objectStore.get(id);
+                
 		request.onsuccess = function(event) 
 		{
 			var item = event.target.result;
@@ -401,7 +402,8 @@ var DoliDb = function() {
 				$container.children('input[name=passwd]').val(localStorage.dolibarr_password);
 				$container.children('input[name=entity]').val(1);
 				$container.children('textarea[name=TItem]').val(JSON.stringify(TItem));
-				
+				console.log("$container");
+				console.log($container);
 				$container.submit();
 				
 				//TODO voir pour récupérer le retour PHP 

@@ -103,14 +103,15 @@ function majTableau(bodyWillUpdated){
     }
     bodyUpdated.empty();
     propalProductList.forEach(function(element){
-        bodyUpdated.append('<tr>'+
-        '<td>'+element.libelle+'</td>'+
-        '<td id=pUprod>'+element.prix+'</td>'+
-        '<td id=nbprod><input class="inputQu" type="number" min="1" size="5" value="'+element.quantite+'" onChange=majQuantity("'+bodyWillUpdated+'")></td>'+
+       
+        bodyUpdated.append('<tr name="line">'+
+        '<td name=libelle>'+element.libelle+'</td>'+
+        '<td id=pUprod name=price>'+element.prix+'</td>'+
+        '<td id=nbprod name=qty><input class="inputQu" type="number" min="1" size="5" value="'+element.quantite+'" onChange=majQuantity("'+bodyWillUpdated+'")></td>'+
         '<td><span class="glyphicon glyphicon-remove" onClick="removePropalLines($(this));"></span></td>'+
     '</tr>');
     });
-    updatetotal();
+    updatetotal(bodyWillUpdated);
 }
 
 /*
@@ -120,7 +121,7 @@ function majTableau(bodyWillUpdated){
  * et proposal-card-add
  */
 function majQuantity(bodyWillUpdated){
-    if(!bodyWillUpdated=="add"){
+    if(bodyWillUpdated=="add"){
         quantity=$("#tableListeProduitsBodyAdd").find("input[class=inputQu]");
         quantity.each(function(i,e){
             propalProductList[i].quantite=e.value;
@@ -132,7 +133,7 @@ function majQuantity(bodyWillUpdated){
             propalProductList[i].quantite=e.value;
         });
     }
-    updatetotal();
+    updatetotal(bodyWillUpdated);
 }
 
 /*
@@ -144,8 +145,8 @@ function majQuantity(bodyWillUpdated){
 function updatetotal(bodyWillUpdated){
 
     var total=0;
-
-    if(!bodyWillUpdated=="add"){
+    console.log("updatetotal");
+    if(bodyWillUpdated=="add"){
         $('#tableListeProduitsBodyAdd > tr ').each(function(){ //parcours tout les element 'tr' de #tableListeProduitsBody puis trouve les quantité et les pU pour calculer le total
             pU = $(this).children('td[id="pUprod"]').text();
             quantite = $(this).find('input').val();
@@ -218,7 +219,11 @@ function removePropalLines(elemDom){
     }
     propalProductList.pop();
     console.log(propalProductList);
-    majTableau("edit");
+    if($(".active")[2].id == 'proposal-card-add'){
+         majTableau("add");
+    }else {
+         majTableau("edit");
+    }
 }
 
 /*

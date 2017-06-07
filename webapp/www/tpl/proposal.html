@@ -26,10 +26,12 @@
 	<div class="container-fluid">
 		<div  class="row">
 			<h1 rel="ref"></h1>
-                        <h3>proposition pour le client : <p rel="ref_client"></p>  </h3><br>
-                        <h3>prix ttc :<p rel="total_ttc"></p> </h3><br>
+                        <h3>proposition pour le client : <p rel="nom-client"></p>  </h3><br>
+                        <h3>total ht :<p rel="total"></p> </h3><br>
 			<div>
-				<span rel="zip"></span>
+                            <table rel="lines">
+                                <tr rel="lines"><td rel="libelle"></td><td rel="price"><td rel="qty"></tr>
+                            </table>
 				&nbsp;&nbsp;<span rel="town"></span>
 			</div>
 
@@ -213,15 +215,15 @@
 		<form class="form-horizontal">
 			<div class="form-group">
 
-                                <label for="Client"><langs trans="Id du client"></langs></label>
+                                <label for="Client"><langs trans="Nom du client"></langs></label>
 				<div id="nom_client">
 					<input name="nom-client" class="form-control" type="text"  value="" disabled/>
 				</div>
 
 				<!-- ref -->
-				<label for="reference"><langs trans="Reference"></langs></label>
+				<label for="ref"><langs trans="Reference"></langs></label>
 				<div id="ref">
-					<input class="form-control" type="text" name="reference"/>
+					<input class="form-control" type="text" name="ref"/>
 				</div>
 
 				<!-- Durée de validité --><!-- Conditions de reglement -->
@@ -283,9 +285,9 @@
                                 <!-- Description -->
 				<label for="listeProduits"><langs trans="Liste des produits"></langs></label>
 				<div id="listeProduits">
-                                    <table id="tableListeProduits">
+                                    <table id="tableListeProduits" >
                                         <thead>
-                                            <tr>
+                                            <tr >
                                                 <th>Nom</th>
                                                 <th>prix</th>
                                                 <th>quantite</th>
@@ -312,7 +314,7 @@
                                             </tr>
                                             <tr>
                                                 <td colspan="3">
-                                                    <input type="text" id="totaltableAdd" value="" disabled="disabled" />
+                                                    <input type="text" id="totaltableAdd" value="" disabled="disabled" name="total"/>
                                                 </td>
                                             </tr>
                                         </tfoot>

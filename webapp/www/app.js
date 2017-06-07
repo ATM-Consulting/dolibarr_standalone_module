@@ -225,7 +225,7 @@ function sendData(TDataToSend)
          */
         
         console.log("HIHO senddata");
-    
+        console.log(TDataToSend);
        doliDb.sendAllUpdatedInLocal(TDataToSend);
     } else
     {
@@ -503,8 +503,23 @@ function createItem($container, type) {
         TValue[$input.attr('name')] = $input.val();
 
     });
+    
+    if($(".active")[2].id == 'proposal-card-add'){
+      var $Tr = $container.find('form').find('tr');
+      TValue['lines'] =[];
+          $Tr.each(function(i,input){
+              $input =$(input);
+              if($input.children('td[name="libelle"]').text().length != 0){
+                TValue['lines'][i] = {};
+                TValue['lines'][i].libelle=$input.children('td[name="libelle"]').text();
+                TValue['lines'][i].price=$input.children('td[name="price"]').text();
+                TValue['lines'][i].qty=$input.children('td[name="qty"]').children().val();
+            }
+          });
+    }
 
-
+    console.log("TValue");
+    console.log(TValue);
     switch (type) {
         case 'product':
             var callback = showProduct;
@@ -582,6 +597,7 @@ function updateItem($container, type)
  */
 function createContact()
 {
+    
     doliDb.createContact($('#thirdparty-card').children('input[name=id]').val(), $('#thirdparty-card').children('input[name=id_dolibarr]').val());
 }
 
@@ -592,7 +608,7 @@ function createContact()
  */
 function createProposal()
 {
-    
+   $('#proposal-card-add #nom_client').children('input[name=nom-client]').val($('#thirdparty-card h1[rel=name]').html());
     doliDb.createProposal($('#thirdparty-card').children('input[name=id]').val(), $('#thirdparty-card').children('input[name=id_dolibarr]').val());
 }
 
@@ -607,9 +623,12 @@ function addLine(){
 
 
 function addItemToList(ThisElement) {
+    console.log(ThisElement);
     if($("#proposal-card-edit > input[id=propalid]").val()==""){
         currentPropal=$("#proposal-card-add");
-        propalProductList.push({'libelle':ThisElement.parentNode.getAttribute("label"),'prix':10, 'quantite':1});
+        var elem = ThisElement.parentNode.getAttribute("label").split(';');
+        console.log('ADD ITEM TO LIST'+elem);
+        propalProductList.push({'libelle':elem[0],'prix':elem[1], 'quantite':1});
         console.log("libelle IS "+propalProductList);
         majTableau("add");
     }

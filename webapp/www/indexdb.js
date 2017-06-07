@@ -209,6 +209,7 @@ var DoliDb = function () {};
         {
             console.log("args dans le getItem", args);
             var item = event.target.result;
+              console.log(item);
             if (item)
             {
                 if (storename == 'thirdparty' || storename == 'proposal')
