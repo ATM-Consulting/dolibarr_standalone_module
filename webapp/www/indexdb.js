@@ -614,6 +614,44 @@ var fk_thirdparty;
         };
 
     };
+    DoliDb.prototype.setNomClient = function (storename, keyword, TKey, $container) {
+        keyword = keyword.toLowerCase();
+        var TItem = new Array;
+
+        var transaction = this.db.transaction(storename, "readonly");
+        var objectStore = transaction.objectStore(storename);
+
+        var cursorRequest = objectStore.openCursor();
+        cursorRequest.onsuccess = function (event) {
+            var cursor = event.target.result;
+            if (cursor)
+            {
+                for (var i in TKey) {
+                    
+                    if (typeof cursor.value[TKey[i]] != 'undefined')
+                    {
+                        if (cursor.value[TKey[i]].toString().toLowerCase().indexOf(keyword) == 0) // search as "keyword"
+                        {
+                            TItem.push(cursor.value);
+                            break;
+                        }
+                    } else
+                    {
+                        console.log('WARNING attribute [' + TKey[i] + '] not exists in object store [' + storename + ']', cursor.value);
+                    }
+                }
+
+                cursor.continue();
+            } else
+            {
+                $container.empty();
+               var $li = $('<p>'+TItem[0].nom+'</p>');
+              
+                $container.append($li);
+            }
+        };
+
+    };
 
 
 

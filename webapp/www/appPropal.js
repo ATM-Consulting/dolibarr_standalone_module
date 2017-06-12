@@ -35,7 +35,39 @@ function showProposal(item, args)
     if (typeof args != 'undefined' && typeof args.container != 'undefined')
         //console.log(args);
         container = args.container;
+    
+    refreshProposalLines($('#proposal-card .lines_propal'), item.lines);
+    getNomClient($('#proposal-card #nomDuClient'), item.socid);
     setItemInHTML(container, item);
+}
+
+function getNomClient($container, socid){
+    doliDb.setNomClient('thirdparty',socid,['id_dolibarr'],$container);
+    
+}
+
+function refreshProposalLines($container, TPropal)
+{
+    var x = 0;
+    var temp;
+    $container.empty();
+    for (var i in TPropal)
+    {
+        temp=null;
+        if(x==0){
+            var temp=$('<thead><tr><th>Nom</th><th>Prix</th><th>Quantite</th></tr></thead>'); 
+            x++;
+        }
+        
+        
+        var $li = $('<tr><td>' + TPropal[i].ref + '</td><td>' + parseInt(TPropal[i].subprice).toFixed(2) + '</td><td>' + TPropal[i].qty + '</td></tr>');
+        if(temp!=null){
+            $container.append(temp);
+        }
+        $container.append($li);
+        
+        
+    }
 }
 
 /*
@@ -108,6 +140,8 @@ function majTableau(bodyWillUpdated){
         '<td name=libelle>'+element.libelle+'</td>'+
         '<td id=pUprod name=price>'+element.prix+'</td>'+
         '<td id=nbprod name=qty><input class="inputQu" type="number" min="1" size="5" value="'+element.quantite+'" onChange=majQuantity("'+bodyWillUpdated+'")></td>'+
+        '<td id=tva_tx name=tva_tx>'+element.tva_tx+'</td>'+
+        '<td id=remise_percent name=remise_percent>'+element.remise_percent+'</td>'+
         '<td><span class="glyphicon glyphicon-remove" onClick="removePropalLines($(this));"></span></td>'+
     '</tr>');
     });
@@ -150,7 +184,24 @@ function updatetotal(bodyWillUpdated){
         $('#tableListeProduitsBodyAdd > tr ').each(function(){ //parcours tout les element 'tr' de #tableListeProduitsBody puis trouve les quantité et les pU pour calculer le total
             pU = $(this).children('td[id="pUprod"]').text();
             quantite = $(this).find('input').val();
-            total=total+(pU*quantite);
+            tva = $(this).find('td[id="tva_tx"]').text();
+            reduction = $(this).find('td[id="remise_percent"]').text();
+            pht = (pU*quantite);
+            if(reduction != "0" || reduction !=""){
+                
+                pht=pht-(pht*(reduction/100));
+            }
+            if(tva != "0"){
+                 
+                 ptot = pht+pht*(tva/100);
+                 total=total+ptot;
+            }else {
+                total=total+pht;
+            }
+             
+                
+            
+            
         });
 
         $('#totaltableAdd').val(total);
@@ -178,11 +229,15 @@ function addUnExistProduct(bodyWillUpdated){
         name=$('#unexistProductAdd').find('input[id="name"]').val();
         prix=$('#unexistProductAdd').find('input[id="pUprod"]').val();
         quantite=$('#unexistProductAdd').find('input[id="nbprod"]').val();
+        tva=$('#unexistProductAdd').find('select[name="tva_tx"]').val();
+        remise=$('#unexistProductAdd').find('input[id="remise_percent"]').val();
         if (name!="" && prix!="" && quantite!="" ){
-            propalProductList.push({'id_dolibarr':"",'libelle':name,'prix':prix,'quantite':quantite, 'fk_product':0});
+            propalProductList.push({'id_dolibarr':"",'libelle':name,'prix':prix,'quantite':quantite,'tva_tx':tva,'remise_percent':remise, 'fk_product':0});
             $('#unexistProductAdd').find('input[id="name"]').val("");
             $('#unexistProductAdd').find('input[id="pUprod"]').val("");
             $('#unexistProductAdd').find('input[id="nbprod"]').val("");
+            $('#unexistProductAdd').find('select[name="tva_tx"]').val(0);
+            $('#unexistProductAdd').find('input[id="remise_percent"]').val("");
             majTableau("add");
         }
         else{

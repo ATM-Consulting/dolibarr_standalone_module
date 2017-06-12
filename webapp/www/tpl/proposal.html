@@ -26,14 +26,17 @@
 	<div class="container-fluid">
 		<div  class="row">
 			<h1 rel="ref"></h1>
-                        <h3>proposition pour le client : <p rel="nom-client"></p>  </h3><br>
-                        <h3>total ht :<p rel="total"></p> </h3><br>
+                        <h3>Proposition pour le client : <p id="nomDuClient" rel="nom-client"></p>  </h3><br>
+                        
+                      
 			<div>
-                            <table rel="lines">
-                                <tr rel="lines"><td rel="libelle"></td><td rel="price"><td rel="qty"></tr>
-                            </table>
+				<table id="tableListeProduits" class="text-xs-center lines_propal">
+					
+				</table>
+			
 				&nbsp;&nbsp;<span rel="town"></span>
 			</div>
+                        <h3>total ht :<p rel="total"></p> </h3><br>
 
 		</div>
 	</div>
@@ -143,8 +146,8 @@
                                         <thead>
                                             <tr>
                                                 <th>Nom</th>
-                                                <th>prix</th>
-                                                <th>quantite</th>
+                                                <th>Prix</th>
+                                                <th>Quantite</th>
                                                 <th> <span class="glyphicon glyphicon-remove" onClick="clearAllPropalLines();"></span></th>
                                             </tr>
                                         </thead>
@@ -162,6 +165,7 @@
                                                 <td>
                                                     <input type="number" min="0" id="nbprod">
                                                 </td>
+                                               
                                                 <td>
                                                     <span class="glyphicon glyphicon-ok" onClick='addUnExistProduct()'>
                                                 </td>
@@ -289,8 +293,10 @@
                                         <thead>
                                             <tr >
                                                 <th>Nom</th>
-                                                <th>prix</th>
-                                                <th>quantite</th>
+                                                <th>Prix</th>
+                                                <th>Quantite</th>
+                                                <th>Taux TVA (%)</th>
+                                                <th>Réduction (%)</th>
                                                 <th> <span class="glyphicon glyphicon-remove"></span></th>
                                             </tr>
                                         </thead>
@@ -308,13 +314,37 @@
                                                 <td>
                                                     <input type="number" min="0" id="nbprod">
                                                 </td>
+                                                 <td>
+                                                    <select class="form-control" name="tva_tx">
+                                                            
+                                                            <option selected value=0>
+                                                                    0%
+                                                            </option>
+                                                            <option value=2.1>
+                                                                    2,1%
+                                                            </option>
+                                                            <option value="5.5">
+                                                                    5,5%
+                                                            </option>
+                                                            <option value="10">
+                                                                    10%
+                                                            </option>
+                                                            <option value="20">
+                                                                    20%
+                                                            </option>
+
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <input type="number" min="0" max="100" id="remise_percent">%
+                                                </td>
                                                 <td>
                                                     <span class="glyphicon glyphicon-ok" onClick='addUnExistProduct("add")'>
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td colspan="3">
-                                                    <input type="text" id="totaltableAdd" value="" disabled="disabled" name="total"/>
+                                                <td colspan="5"> 
+                                                    Total TTC : <input type="text" id="totaltableAdd" value="" disabled="disabled" name="total"/>
                                                 </td>
                                             </tr>
                                         </tfoot>
