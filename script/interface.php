@@ -208,6 +208,8 @@ function _updateDolibarr(&$user, &$TObject, $classname)
                                 $res = $resFetch > 0 ? $objDolibarr->update($objStd->id_dolibarr, $user) : $objDolibarr->create($user);
 				break;
 			case 'Propal':
+				
+				
 				// cas spéciale, pas de function update et il va falloir sauvegarder les lignes
                                    break;
             case 'Contact':

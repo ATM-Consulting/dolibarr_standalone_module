@@ -21,7 +21,8 @@ function refreshProductList(TItem, container, from)
                 break;
             default:
                 if (container == '#product-list-propal') {
-                    var $li = $('<li label="' + TItem[i].label+ ';'+TItem[i].price+'" class="list-group-item"><a data-toggle="tab" href="#product-card" onclick="javascript:showItem(\'product\', ' + TItem[i].id + ', showProduct)">' + TItem[i].label + '</a><button type="button" class="btn btn-warning btn-circle" onclick="addItemToList(this)"><span class="glyphicon glyphicon-plus"/></button></li>');
+                   
+                    var $li = $('<li label="' + TItem[i].label+ ';'+parseFloat(TItem[i].price).toFixed(2)+';'+parseFloat(TItem[i].tva_tx).toFixed(2)+'" class="list-group-item"><a data-toggle="tab" href="#product-card" onclick="javascript:showItem(\'product\', ' + TItem[i].id + ', showProduct)">' + TItem[i].label + '</a><button type="button" class="btn btn-warning btn-circle" onclick="addItemToList(this)"><span class="glyphicon glyphicon-plus"/></button></li>');
                 }
                 else{
                     var $li = $('<li label="' + TItem[i].label + '" class="list-group-item"><a data-toggle="tab" href="#product-card" onclick="javascript:showItem(\'product\', ' + TItem[i].id + ', showProduct)">' + TItem[i].label + '</a></li>');

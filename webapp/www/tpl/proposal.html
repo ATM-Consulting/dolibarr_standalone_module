@@ -28,7 +28,10 @@
 			<h1 rel="ref"></h1>
                         <h3>Proposition pour le client : <p id="nomDuClient" rel="nom-client"></p>  </h3><br>
                         
-                      
+                        <h4>Durée de validité : <p id="duree_validite" rel="duree_validite"></p>  </h4><br>
+                        <h4>Mode de réglement : <p id="mode_reglement" rel="mode_reglement"></p>  </h4><br>
+                        
+                      <br><br>
 			<div>
 				<table id="tableListeProduits" class="text-xs-center lines_propal">
 					
@@ -36,11 +39,10 @@
 			
 				&nbsp;&nbsp;<span rel="town"></span>
 			</div>
-                        <h3>total ht :<p rel="total"></p> </h3><br>
+                        <h3>Total TTC :<p id="total_ttc" rel="total"></p> </h3><br>
 
 		</div>
 	</div>
-
 	<a data-toggle="tab" href="#proposal-card-edit" class="link_edit move_tab">
 		<button type="button" class="btn btn-primary btn-circle btn-lg btn-edit" onclick="showItem('proposal', $('#proposal-card input[name=id]').val(), editProposal);">
                     <i class="glyphicon glyphicon-pencil"></i>

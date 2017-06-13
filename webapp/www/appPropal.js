@@ -39,8 +39,8 @@ function showProposal(item, args)
     refreshProposalLines($('#proposal-card .lines_propal'), item.lines);
     getNomClient($('#proposal-card #nomDuClient'), item.socid);
     setItemInHTML(container, item);
+    $("#total_ttc").html(parseFloat($("#total_ttc").html()).toFixed(2));
 }
-
 function getNomClient($container, socid){
     doliDb.setNomClient('thirdparty',socid,['id_dolibarr'],$container);
     
@@ -55,12 +55,16 @@ function refreshProposalLines($container, TPropal)
     {
         temp=null;
         if(x==0){
-            var temp=$('<thead><tr><th>Nom</th><th>Prix</th><th>Quantite</th></tr></thead>'); 
+            var temp=$('<thead><tr><th>Nom</th><th>Prix</th><th>Quantite</th><th>TVA (%)</th><th>Remise (%)</th></tr></thead>'); 
             x++;
         }
-        
-        
-        var $li = $('<tr><td>' + TPropal[i].ref + '</td><td>' + parseInt(TPropal[i].subprice).toFixed(2) + '</td><td>' + TPropal[i].qty + '</td></tr>');
+        if(TPropal[i].ref !=null){
+            ref = TPropal[i].ref;
+        } else {
+            ref = TPropal[i].desc;
+        }
+        console.log(TPropal[i]);
+        var $li = $('<tr><td>' + ref + '</td><td>' + parseFloat(TPropal[i].subprice).toFixed(2) + '</td><td>' + TPropal[i].qty + '</td><td>' +parseFloat( TPropal[i].tva_tx ).toFixed(2) + '</td><td>' + parseFloat(TPropal[i].remise_percent).toFixed(2) + '</td></tr>');
         if(temp!=null){
             $container.append(temp);
         }
@@ -68,6 +72,7 @@ function refreshProposalLines($container, TPropal)
         
         
     }
+    //$("#total_ttc").innerHTML = parseFloat($("#total_ttc").innerHTML).toFixed(2);
 }
 
 /*
@@ -141,7 +146,7 @@ function majTableau(bodyWillUpdated){
         '<td id=pUprod name=price>'+element.prix+'</td>'+
         '<td id=nbprod name=qty><input class="inputQu" type="number" min="1" size="5" value="'+element.quantite+'" onChange=majQuantity("'+bodyWillUpdated+'")></td>'+
         '<td id=tva_tx name=tva_tx>'+element.tva_tx+'</td>'+
-        '<td id=remise_percent name=remise_percent>'+element.remise_percent+'</td>'+
+        '<td id=remise_percent name=remise_percent><input class="inputRemise" type="number" min="1" max="100" size="4" value="'+element.remise_percent+'" onChange=majRemise("'+bodyWillUpdated+'")></td>'+
         '<td><span class="glyphicon glyphicon-remove" onClick="removePropalLines($(this));"></span></td>'+
     '</tr>');
     });
@@ -169,6 +174,21 @@ function majQuantity(bodyWillUpdated){
     }
     updatetotal(bodyWillUpdated);
 }
+function majRemise(bodyWillUpdated){
+    if(bodyWillUpdated=="add"){
+        remise_percent=$("#tableListeProduitsBodyAdd").find("input[class=inputRemise]");
+        remise_percent.each(function(i,e){
+            propalProductList[i].remise_percent=e.value;
+        });
+    }
+    else{
+        remise_percent=$("#tableListeProduitsBodyEdit").find("input[class=inputRemise]");
+        remise_percent.each(function(i,e){
+            propalProductList[i].remise_percent=e.value;
+        });
+    }
+    updatetotal(bodyWillUpdated);
+}
 
 /*
  * mise a jour du total du coup de la propal dans le champ input. 
@@ -185,7 +205,7 @@ function updatetotal(bodyWillUpdated){
             pU = $(this).children('td[id="pUprod"]').text();
             quantite = $(this).find('input').val();
             tva = $(this).find('td[id="tva_tx"]').text();
-            reduction = $(this).find('td[id="remise_percent"]').text();
+            reduction = $(this).find('input[class="inputRemise"]').val();
             pht = (pU*quantite);
             if(reduction != "0" || reduction !=""){
                 
@@ -198,7 +218,7 @@ function updatetotal(bodyWillUpdated){
             }else {
                 total=total+pht;
             }
-             
+             total = parseFloat(total).toFixed(2);
                 
             
             

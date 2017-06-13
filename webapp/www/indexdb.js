@@ -419,7 +419,7 @@ var fk_thirdparty;
                 $container.children('input[name=passwd]').val(localStorage.dolibarr_password);
                 $container.children('input[name=entity]').val(1);
                 $container.children('textarea[name=TItem]').val(JSON.stringify(TItem));
-
+             
                 $container.submit();
 
                 //TODO voir pour récupérer le retour PHP 

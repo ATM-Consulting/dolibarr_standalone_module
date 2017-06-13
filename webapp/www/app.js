@@ -505,15 +505,19 @@ function createItem($container, type) {
     });
     
     if($(".active")[2].id == 'proposal-card-add'){
+        console.log("ONPASSEDANSLE ACTIVE");
       var $Tr = $container.find('form').find('tr');
       TValue['lines'] =[];
           $Tr.each(function(i,input){
               $input =$(input);
               if($input.children('td[name="libelle"]').text().length != 0){
+                  console.log("ONPASSEDANSLE LIBELLE");
                 TValue['lines'][i] = {};
-                TValue['lines'][i].libelle=$input.children('td[name="libelle"]').text();
-                TValue['lines'][i].price=$input.children('td[name="price"]').text();
+                TValue['lines'][i].ref=$input.children('td[name="libelle"]').text();
+                TValue['lines'][i].subprice=$input.children('td[name="price"]').text();
                 TValue['lines'][i].qty=$input.children('td[name="qty"]').children().val();
+                TValue['lines'][i].tva_tx=$input.children('td[name="tva_tx"]').text();
+                TValue['lines'][i].remise_percent=$input.children('td[name="remise_percent"]').children().val();
             }
           });
     }
@@ -628,7 +632,7 @@ function addItemToList(ThisElement) {
         currentPropal=$("#proposal-card-add");
         var elem = ThisElement.parentNode.getAttribute("label").split(';');
         console.log('ADD ITEM TO LIST'+elem);
-        propalProductList.push({'libelle':elem[0],'prix':elem[1], 'quantite':1});
+        propalProductList.push({'libelle':elem[0],'prix':elem[1],'tva_tx':elem[2], 'quantite':1});
         console.log("libelle IS "+propalProductList);
         majTableau("add");
     }
