@@ -207,18 +207,24 @@ function updatetotal(bodyWillUpdated){
             tva = $(this).find('td[id="tva_tx"]').text();
             reduction = $(this).find('input[class="inputRemise"]').val();
             pht = (pU*quantite);
+            console.log("pht");
+            console.log(pht);
             if(reduction != "0" || reduction !=""){
                 
                 pht=pht-(pht*(reduction/100));
+                console.log("phtReduit");
+                console.log(pht);
             }
             if(tva != "0"){
                  
                  ptot = pht+pht*(tva/100);
-                 total=total+ptot;
+                 total= parseFloat(total)+ parseFloat(ptot);
             }else {
-                total=total+pht;
+                total= parseFloat(total)+ parseFloat(pht);
             }
-             total = parseFloat(total).toFixed(2);
+            console.log("total");
+            console.log(total);
+             total =total.toFixed(2);
                 
             
             

@@ -28,7 +28,7 @@
 			<h1 rel="ref"></h1>
                         <h3>Proposition pour le client : <p id="nomDuClient" rel="nom-client"></p>  </h3><br>
                         
-                        <h4>Durée de validité : <p id="duree_validite" rel="duree_validite"></p>  </h4><br>
+                        <h4>Durée de validité : <p id="cond_reglement" rel="cond_reglement"></p>  </h4><br>
                         <h4>Mode de réglement : <p id="mode_reglement" rel="mode_reglement"></p>  </h4><br>
                         
                       <br><br>
@@ -80,15 +80,15 @@
 				</div>
 
 				<!-- Durée de validité --><!-- Conditions de reglement -->
-				<label for="DureeValidite"><langs trans="Duree de Validite"></langs></label>
+				<label for="Conditon De Reglement"><langs trans="Conditon De Reglement"></langs></label>
 				<div id="datep">
-					<input class="form-control" type="text" name="duree_validite"/>
+					<input class="form-control" type="text" name="cond_reglement"/>
 				</div>
 
 				<label for="ModeRegelement"><langs trans="Mode de Regelement"></langs></label>
 				<div id="modeRegelement">
 					<select class="form-control" name="cond_reglement">
-                                                <option value="" disabled selected>Choisir la duree de validite</option>
+                                                <option value="" disabled selected>Choisir la condition de reglement</option>
 						<option value="A la reception">
                                                         A la reception
 						</option>
@@ -233,10 +233,10 @@
 				</div>
 
 				<!-- Durée de validité --><!-- Conditions de reglement -->
-				<label for="DateValidite"><langs trans="DateDeValidite"></langs></label>
-				<div id="DateValidite">
-					<select class="form-control" name="duree_validite">
-                                                <option value="" disabled selected>Choisir la duree de validite</option>
+				<label for="Condition de Reglement"><langs trans="Condition de Reglement"></langs></label>
+				<div id="ConditionReglement">
+					<select class="form-control" name="cond_reglement">
+                                                <option value="" disabled selected>Choisir la condition de reglement</option>
 						<option value="A la reception">
                                                         A la reception
 						</option>

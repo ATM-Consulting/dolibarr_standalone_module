@@ -84,7 +84,7 @@ var DoliDb = function () {};
             objectStore.createIndex("id_dolibarr", "id_dolibarr", {unique: false});
             objectStore.createIndex("ref", "ref", {unique: true});//lines tableau 
             objectStore.createIndex("socid", "socid", {unique: false});
-            objectStore.createIndex("duree_validite", "duree_validite", {unique: false});
+            objectStore.createIndex("cond_reglement", "cond_reglement", {unique: false});
             objectStore.createIndex("mode_reglement", "mode_reglement", {unique: false});
             objectStore.createIndex("create_by_indexedDB", "create_by_indexedDB", {unique: false});
             objectStore.createIndex("update_by_indexedDB", "update_by_indexedDB", {unique: false});

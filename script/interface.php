@@ -164,7 +164,7 @@ function _getListItem($type, $filter='')
 
 function _updateDolibarr(&$user, &$TObject, $classname)
 {
-	global $langs,$db;
+	global $langs,$db,$conf;
 	$TError = array();
 	
 	foreach ($TObject as $objStd)
@@ -209,7 +209,61 @@ function _updateDolibarr(&$user, &$TObject, $classname)
 				break;
 			case 'Propal':
 				
+				$objDolibarr->socid = $objStd->socid;
+				$objDolibarr->remise = 0;
+				$objDolibarr->datep = time();
+				$objDolibarr->author = $user->id;
+				$objDolibarr->duree_validite = $conf->global->PROPALE_VALIDITY_DURATION;
 				
+				$sql = "SELECT rowid,libelle as label";
+				$sql.= " FROM ".MAIN_DB_PREFIX.'c_payment_term';
+				$sql.= " WHERE active > 0 AND libelle LIKE '%".$objStd->cond_reglement."%'";
+				$sql.= " ORDER BY sortorder";
+				
+				$res = $db->query($sql);
+				if($res){
+					$obj = $db->fetch_object($res);
+					if($obj){
+						$objDolibarr->cond_reglement_id=$obj->rowid;
+
+					
+					} else {
+						$objDolibarr->cond_reglement_id=1;
+					}
+					
+				}else {
+					$objDolibarr->cond_reglement_id=1;
+				}
+				
+				$sql = "SELECT rowid,libelle as label";
+				$sql.= " FROM ".MAIN_DB_PREFIX.'c_paiement';
+				$sql.= " WHERE active > 0 AND libelle LIKE '%".$objStd->cond_reglement."%'";
+				$sql.= " ORDER BY sortorder";
+				
+				$res = $db->query($sql);
+				if($res){
+					$obj = $db->fetch_object($res);
+					if($obj){
+						$objDolibarr->mode_reglement_id=$obj->rowid;
+
+					
+					} else {
+						$objDolibarr->mode_reglement_id=1;
+					}
+					
+				}else {
+					$objDolibarr->mode_reglement_id=1;
+				}
+				$objDolibarr->id = $objDolibarr->create($user);
+				if(!empty($objStd->lines)){
+					foreach($objDolibarr->lines as $line){
+						$objDolibarr->addline($line->ref, $totalHT, 1, 0, 0, 0, $prodCommissionnement->id);
+					}
+					
+				}
+				$commFourn->updateline($commFourn->line->id, $desc, $totalHT, 1, 0, 0);
+				
+								
 				// cas spéciale, pas de function update et il va falloir sauvegarder les lignes
                                    break;
             case 'Contact':
