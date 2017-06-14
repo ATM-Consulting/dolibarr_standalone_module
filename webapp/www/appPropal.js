@@ -35,7 +35,6 @@ function showProposal(item, args)
     if (typeof args != 'undefined' && typeof args.container != 'undefined')
         //console.log(args);
         container = args.container;
-    
     refreshProposalLines($('#proposal-card .lines_propal'), item.lines);
     getNomClient($('#proposal-card #nomDuClient'), item.socid);
     setItemInHTML(container, item);
@@ -58,9 +57,13 @@ function refreshProposalLines($container, TPropal)
             var temp=$('<thead><tr><th>Nom</th><th>Prix</th><th>Quantite</th><th>TVA (%)</th><th>Remise (%)</th></tr></thead>'); 
             x++;
         }
-        if(TPropal[i].ref !=null){
+        console.log("TPropal");
+        console.log(TPropal);
+        if(TPropal[i].libelle !=null){
+            ref = TPropal[i].libelle;
+        } else if(TPropal[i].ref != null){
             ref = TPropal[i].ref;
-        } else {
+        } else{
             ref = TPropal[i].desc;
         }
         console.log(TPropal[i]);

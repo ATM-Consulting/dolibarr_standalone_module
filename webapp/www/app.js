@@ -506,6 +506,9 @@ function createItem($container, type) {
     
     if($(".active")[2].id == 'proposal-card-add'){
         console.log("ONPASSEDANSLE ACTIVE");
+        if(empty($TValue['ref'])){
+            //$TValue['ref']= TODO GET NEXT REF
+        }
       var $Tr = $container.find('form').find('tr');
       TValue['lines'] =[];
           $Tr.each(function(i,input){

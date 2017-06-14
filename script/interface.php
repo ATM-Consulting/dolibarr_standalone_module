@@ -65,8 +65,10 @@
 			break;
 		*/	
 	}	
-
+dol_syslog('STANDALONE::interface.php case PUT'.$put,LOG_DEBUG);
 	switch ($put) {
+						
+
 		case 'product':
 			$TProduct = GETPOST('TItem');
 			$TProduct = json_decode($TProduct);
@@ -89,7 +91,7 @@
 			$TProposal = GETPOST('TItem');
 			$TProposal = json_decode($TProposal);
 			
-			$response = _updateDolibarr($user, $TProposal, 'Proposal');
+			$response = _updateDolibarr($user, $TProposal, 'Propal');
 			__out($response);
 			break;
                     
@@ -172,8 +174,12 @@ function _updateDolibarr(&$user, &$TObject, $classname)
 		$objDolibarr = new $classname($db);
 		// TODO Pour un gain de performance ça serait intéressant de ne pas faire de fetch, mais actuellement nécessaire pour éviter un retour d'erreur non géré pour le moment
 		
+		if($classname == 'Contact'){
+			$resFetch = $objDolibarr->fetch($objStd->id);
+		}else {
+			$resFetch = $objDolibarr->fetch($objStd->id_dolibarr);
+		}
 		
-		$resFetch = $objDolibarr->fetch($objStd->id_dolibarr);
                 // $objDolibarr->array_options = array(); // TODO pas encore géré
 		foreach ($objStd as $attr => $value)
 		{
@@ -208,60 +214,48 @@ function _updateDolibarr(&$user, &$TObject, $classname)
                                 $res = $resFetch > 0 ? $objDolibarr->update($objStd->id_dolibarr, $user) : $objDolibarr->create($user);
 				break;
 			case 'Propal':
-				
+				dol_syslog('STANDALONE::interface.php case Propal',LOG_DEBUG);
 				$objDolibarr->socid = $objStd->socid;
 				$objDolibarr->remise = 0;
 				$objDolibarr->datep = time();
 				$objDolibarr->author = $user->id;
 				$objDolibarr->duree_validite = $conf->global->PROPALE_VALIDITY_DURATION;
 				
-				$sql = "SELECT rowid,libelle as label";
-				$sql.= " FROM ".MAIN_DB_PREFIX.'c_payment_term';
-				$sql.= " WHERE active > 0 AND libelle LIKE '%".$objStd->cond_reglement."%'";
-				$sql.= " ORDER BY sortorder";
+				$objDolibarr->cond_reglement_id = getCondReglementByLibelle($objStd->cond_reglement);
 				
-				$res = $db->query($sql);
-				if($res){
-					$obj = $db->fetch_object($res);
-					if($obj){
-						$objDolibarr->cond_reglement_id=$obj->rowid;
+				dol_syslog('STANDALONE::interface.php case Propal cond_reglement'.$objDolibarr->cond_reglement_id,LOG_DEBUG);
+				$objDolibarr->mode_reglement_id = getModeReglementByLibelle($objStd->mode_reglement);
+				
+				
+				dol_syslog('STANDALONE::interface.php case Propal mode_reglement'.$objDolibarr->mode_reglement_id,LOG_DEBUG);
 
-					
-					} else {
-						$objDolibarr->cond_reglement_id=1;
-					}
-					
-				}else {
-					$objDolibarr->cond_reglement_id=1;
-				}
 				
-				$sql = "SELECT rowid,libelle as label";
-				$sql.= " FROM ".MAIN_DB_PREFIX.'c_paiement';
-				$sql.= " WHERE active > 0 AND libelle LIKE '%".$objStd->cond_reglement."%'";
-				$sql.= " ORDER BY sortorder";
-				
-				$res = $db->query($sql);
-				if($res){
-					$obj = $db->fetch_object($res);
-					if($obj){
-						$objDolibarr->mode_reglement_id=$obj->rowid;
-
-					
-					} else {
-						$objDolibarr->mode_reglement_id=1;
-					}
-					
-				}else {
-					$objDolibarr->mode_reglement_id=1;
-				}
 				$objDolibarr->id = $objDolibarr->create($user);
+				dol_syslog('STANDALONE::interface.php case Propal id'.$objDolibarr->id,LOG_DEBUG);
 				if(!empty($objStd->lines)){
-					foreach($objDolibarr->lines as $line){
-						$objDolibarr->addline($line->ref, $totalHT, 1, 0, 0, 0, $prodCommissionnement->id);
+					foreach($objStd->lines as $line){
+						
+
+						if(!empty($line->ref)){
+							$sql = "SELECT rowid,label 
+							FROM  `".MAIN_DB_PREFIX."product` 
+							WHERE  `label` LIKE  '".$line->ref."'";
+							$res = $db->query($sql);
+							if($res){
+								$existingProd = $db->fetch_object($res);
+								$objDolibarr->addline($line->ref, $line->subprice, $line->qty, $line->tva_tx, 0, 0, $existingProd->rowid,$line->remise_percent);
+
+							}
+							else {
+								$objDolibarr->addline($line->ref, $line->subprice, $line->qty, $line->tva_tx, 0, 0, "",$line->remise_percent);
+
+							}
+							
+						}
+							
 					}
 					
 				}
-				$commFourn->updateline($commFourn->line->id, $desc, $totalHT, 1, 0, 0);
 				
 								
 				// cas spéciale, pas de function update et il va falloir sauvegarder les lignes
@@ -296,4 +290,56 @@ function _updateDolibarr(&$user, &$TObject, $classname)
 	}
 	
 	return $TError;
+}
+
+function getCondReglementByLibelle($cond_reglement)
+{
+	global $db;
+	$sql = "SELECT rowid,libelle as label";
+	$sql.= " FROM ".MAIN_DB_PREFIX.'c_payment_term';
+	$sql.= " WHERE active > 0 AND libelle LIKE '%".$cond_reglement."%'";
+	$sql.= " ORDER BY sortorder";
+	dol_syslog('STANDALONE::interface.php case Propal cond_reglement =>'.$cond_reglement,LOG_DEBUG);
+			
+	$res = $db->query($sql);
+	if($res){
+		$obj = $db->fetch_object($res);
+			dol_syslog('STANDALONE::interface.php case Propal cond_reglement =>=>'.$obj->rowid,LOG_DEBUG);
+
+		if($obj){
+			return $obj->rowid;
+					
+		} else {
+			return 1;
+		}
+					
+	}else {
+		return 1;
+	}
+}
+
+function getModeReglementByLibelle($mode_reglement)
+{
+	global $db;
+	$sql = "SELECT id,libelle as label";
+	$sql.= " FROM ".MAIN_DB_PREFIX.'c_paiement';
+	$sql.= " WHERE active > 0 AND libelle LIKE '%".$mode_reglement."%'";
+	$sql.= " ORDER BY id";
+		dol_syslog('STANDALONE::interface.php case Propal $mode_reglement =>'.$mode_reglement,LOG_DEBUG);
+
+	$res = $db->query($sql);
+	if($res){
+		$obj = $db->fetch_object($res);
+		dol_syslog('STANDALONE::interface.php case Propal cond_reglement =>=>'.$obj->id,LOG_DEBUG);
+
+		if($obj){
+			return $obj->id;
+	
+		} else {
+			return 1;
+		}
+			
+	}else {
+		return 1;
+	}
 }
