@@ -588,20 +588,13 @@ var fk_thirdparty;
             if (cursor)
             {
                 for (var i in TKey) {
+                  
                     if (cursor.value[TKey[i]].toString().toLowerCase().indexOf(keyword) !== -1) // search as "%keyword%"
-                        
-                    TItem.push(cursor.value);
-                    if (typeof cursor.value[TKey[i]] != 'undefined')
                     {
-                        if (cursor.value[TKey[i]].toString().toLowerCase().indexOf(keyword) !== -1) // search as "%keyword%"
-                        {
-                            TItem.push(cursor.value);
-                            break;
-                        }
-                    } else
-                    {
-                        console.log('WARNING attribute [' + TKey[i] + '] not exists in object store [' + storename + ']', cursor.value);
+                        TItem.push(cursor.value);
+                        break;
                     }
+                 
                 }
 
                 cursor.continue();

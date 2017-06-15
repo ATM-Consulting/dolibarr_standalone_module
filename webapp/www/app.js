@@ -503,13 +503,16 @@ function createItem($container, type) {
         TValue[$input.attr('name')] = $input.val();
 
     });
-    
-    if($(".active")[2].id == 'proposal-card-add'){
-        console.log("ONPASSEDANSLE ACTIVE");
-        if(empty($TValue['ref'])){
-            //$TValue['ref']= TODO GET NEXT REF
+ 
+    if($("div.active").attr('id') == 'proposal-card-add'){
+     
+        if(TValue['ref'].length == 0){
+            showMessage('Warning', 'Can\'t create a proposal without ref', 'warning');
+            type = null;
         }
       var $Tr = $container.find('form').find('tr');
+      TValue['statut_libelle']="Brouillon";
+      TValue['statut']=0;
       TValue['lines'] =[];
           $Tr.each(function(i,input){
               $input =$(input);
@@ -531,18 +534,28 @@ function createItem($container, type) {
         case 'product':
             var callback = showProduct;
             doliDb.createItem(type, TValue, callback);
+            resetForm();
+
             break;
         case 'thirdparty':
             var callback = showThirdparty;
+            resetForm();
             doliDb.createItem(type, TValue, callback);
+            
+
             break;
         case 'proposal':
             var callback = showProposal;
+            
+
             doliDb.createItem(type, TValue, callback);
+            resetForm();
             break;
         case 'contact' :
             var fk_soc = $('#thirdparty-card input[name=id]').val();
             doliDb.getItem('thirdparty',fk_soc, addContact, TValue);
+            resetForm();
+
             break;
     }
 
@@ -550,6 +563,39 @@ function createItem($container, type) {
 
 }
 
+
+function resetForm() {
+    // clearing inputs
+    form = $(".active .container-fluid").find('form');
+    var inputs = form.find('input');
+
+    for (var i = 0; i<inputs.length; i++) {
+        switch (inputs[i].type) {
+            // case 'hidden':
+            case 'text':
+                inputs[i].value = '';
+                
+                break;
+            case 'radio':
+            case 'checkbox':
+                inputs[i].checked = false;   
+        }
+    }
+
+    // clearing selects
+    var selects = form.find('select');
+    for (var i = 0; i<selects.length; i++)
+        selects[i].selectedIndex = 0;
+
+    // clearing textarea
+    var text= form.find('textarea');
+    for (var i = 0; i<text.length; i++)
+        text[i].value= '';
+    
+    $(".active .container-fluid").find('tr[name=line]').remove();
+
+    return false;
+}
 /*
  * ajoute un contact au tcontact d'un thirdparty
  * @argument {json} item | l'endroit on sera affiché l'item créer
@@ -710,7 +756,7 @@ function editContact(item)
 {
     var $container = $('#contact-card-edit');
     $container.children('input[name=id]').val(item.id_dolibarr);
-
+    console.log(item);
     for (var x in item)
     {
         $container.find('[name=' + x + ']').val(item[x]);

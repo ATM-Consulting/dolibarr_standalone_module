@@ -10,6 +10,8 @@ var propalProductList=[];
 
 function refreshProposalList(TItem)
 {
+        $('li.active').removeClass('active').addClass('visible');
+
     var x = 0;
     $('#proposal-list ul').empty();
     for (var i in TItem)
@@ -35,10 +37,14 @@ function showProposal(item, args)
     if (typeof args != 'undefined' && typeof args.container != 'undefined')
         //console.log(args);
         container = args.container;
+    
     refreshProposalLines($('#proposal-card .lines_propal'), item.lines);
     getNomClient($('#proposal-card #nomDuClient'), item.socid);
     setItemInHTML(container, item);
     $("#total_ttc").html(parseFloat($("#total_ttc").html()).toFixed(2));
+    $('li.active').removeClass('active').addClass('visible');
+
+    $('a#last-proposal').html(item.ref).closest('li').removeClass('hidden').addClass('active');
 }
 function getNomClient($container, socid){
     doliDb.setNomClient('thirdparty',socid,['id_dolibarr'],$container);
@@ -108,23 +114,38 @@ function editProposal(item) {
     propalProductList=[];
     $("#tableListeProduitsBodyEdit").empty();
     $("#totaltableEdit").val("");
+   $('#proposal-card-edit #nom_client').children('input[name=nom-client]').val($('#proposal-card p[rel=nom-client]').children('p').html());
+
     for (var x in item) {
         if(x){
         $container.find('[name=' + x + ']').val(item[x]);
         if(x=='lines'){
           for(nb=0;nb<item.lines.length;nb++){
               var line = item.lines[nb];
+             if(line.libelle !=null){
+                 ref=line.libelle;
+             }else if(line.ref !=null){
+                 ref=line.ref;
+             }else {
+                 ref=line.desc;
+             }
+             
               propalProductList.push({
-                  'id_dolibarr':line.id
-                  ,'product_label':line.product_label
-                  ,'subprice':parseFloat(line.subprice).toFixed(2)
-                  ,'qty':line.qty
-                  ,'fk_product':line.fk_product
+                  'libelle':ref
+                  ,'prix':parseFloat(line.subprice).toFixed(2)
+                  ,'quantite':line.qty
+                  ,'remise_percent':line.remise_percent
+                  ,'tva_tx':parseFloat(line.tva_tx).toFixed(2)
                   
               });
           }
       }
+      if(item[x]=='Due Upon Receipt'){
+        $container.find('[name=' + x + ']').val("A la reception");
+        console.log('HAHAHALOLOLO');
+      }
     }}
+    
     if(propalProductList.length != 0){majTableau("edit");}
 }
 

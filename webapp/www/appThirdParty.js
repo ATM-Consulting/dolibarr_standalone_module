@@ -8,6 +8,8 @@
  */
 function refreshThirdpartyList(TItem)
 {
+    $('li.active').removeClass('active').addClass('visible');
+
     var x = 0;
     $('#thirdparty-list ul').empty();
     for (var i in TItem)
@@ -44,7 +46,8 @@ function showThirdparty(item)
     refreshAssociateBillList($('#thirdparty-card .doc_associate_bills'), item.TBill);   
 
     addEventListenerOnItemLink();
-    $('a#last-thirdparty').html(item.name).closest('li').removeClass('hidden');
+    $('li.active').removeClass('active');
+    $('a#last-thirdparty').html(item.name).closest('li').removeClass('hidden').addClass('active');
     $('#container').children().removeClass("active");
     $('#thirdparty-card').addClass("active");
 }

@@ -26,7 +26,8 @@
 	<div class="container-fluid">
 		<div  class="row">
 			<h1 rel="ref"></h1>
-                        <h3>Proposition pour le client : <p id="nomDuClient" rel="nom-client"></p>  </h3><br>
+                        <h3>Proposition pour le client : <p id="nomDuClient" rel="nom-client"></p>  </h3>
+                        <h3>Statut : <p id="statut_libelle" rel="statut_libelle"></p>  </h3><br>
                         
                         <h4>Durée de validité : <p id="cond_reglement" rel="cond_reglement"></p>  </h4><br>
                         <h4>Mode de réglement : <p id="mode_reglement" rel="mode_reglement"></p>  </h4><br>
@@ -64,7 +65,7 @@
                                 <!-- Id du client -->
 				<label for="ReferenceClient"><langs trans="Reference du client"></langs></label>
 				<div id="nom_client">
-					<input name="ref_client" class="form-control" type="text"  value="" disabled/>
+					<input name="nom-client" class="form-control" type="text"  value="" disabled/>
 				</div>
 
 				<!-- ref -->
@@ -73,20 +74,12 @@
 					<input class="form-control" type="text" name="ref" value="" disabled/>
 				</div>
 
-				<!-- Date -->
-				<label for="DateCreation"><langs trans="Date De Creation"></langs></label>
-				<div id="datecreation">
-					<input class="form-control" type="text" name="date_creation"/>
-				</div>
+				
 
-				<!-- Durée de validité --><!-- Conditions de reglement -->
+				
+
 				<label for="Conditon De Reglement"><langs trans="Conditon De Reglement"></langs></label>
-				<div id="datep">
-					<input class="form-control" type="text" name="cond_reglement"/>
-				</div>
-
-				<label for="ModeRegelement"><langs trans="Mode de Regelement"></langs></label>
-				<div id="modeRegelement">
+				<div id="ConditionReglement">
 					<select class="form-control" name="cond_reglement">
                                                 <option value="" disabled selected>Choisir la condition de reglement</option>
 						<option value="A la reception">
@@ -118,7 +111,7 @@
 				</div>
 
 				<!-- Mode de reglement -->
-				<label for="Modepayement"><langs trans="Mode de payement"></langs></label>
+				<label for="Mode Paiement"><langs trans="Mode de paiement"></langs></label>
 				<div id="ModeReglement">
 					<select class="form-control" name="mode_reglement">
 						<option value="" disabled selected>Choisir le mode de paiement</option>
@@ -150,6 +143,8 @@
                                                 <th>Nom</th>
                                                 <th>Prix</th>
                                                 <th>Quantite</th>
+                                                <th>Taux TVA (%)</th>
+                                                <th>Réduction (%)</th>
                                                 <th> <span class="glyphicon glyphicon-remove" onClick="clearAllPropalLines();"></span></th>
                                             </tr>
                                         </thead>
@@ -167,13 +162,37 @@
                                                 <td>
                                                     <input type="number" min="0" id="nbprod">
                                                 </td>
+                                                 <td>
+                                                    <select class="form-control" name="tva_tx">
+                                                            
+                                                            <option selected value=0>
+                                                                    0%
+                                                            </option>
+                                                            <option value=2.1>
+                                                                    2,1%
+                                                            </option>
+                                                            <option value="5.5">
+                                                                    5,5%
+                                                            </option>
+                                                            <option value="10">
+                                                                    10%
+                                                            </option>
+                                                            <option value="20">
+                                                                    20%
+                                                            </option>
+
+                                                    </select>
+                                                </td>
+                                                <td>
+                                                    <input type="number" min="0" max="100" id="remise_percent">%
+                                                </td>
                                                
                                                 <td>
                                                     <span class="glyphicon glyphicon-ok" onClick='addUnExistProduct()'>
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td colspan="4">
+                                                <td colspan="6">
                                                     <input type="text" id="totaltableEdit" value="" disabled="disabled" />
                                                 </td>
                                             </tr>
