@@ -616,15 +616,42 @@ function addContact(item, contact) {
  */
 function updateItem($container, type)
 {
+    console.log('container', $container);
     var id = $container.children('input[name=id]').val();
-    var TInput = $container.find('form').find('input, textarea'); // TODO liste à faire évoluer si on ajouter des select ou autres
+    var $TInput = $container.find('form').find('input, textarea, select');
     var TValue = {};
-    //console.log("update",TInput,id);
-    for (var i = 0; i < TInput.length; i++)
-    {
-        TValue[TInput[i].name] = TInput[i].value;
-        console.log("aa",TInput[i].value,TValue[TInput[i].name])
+    $TInput.each(function(i,input) {
+        $input = $(input);
+
+        TValue[$input.attr('name')] = $input.val();
+
+    });
+    if($("div.active").attr('id') == 'proposal-card-edit'){
+     
+        if(TValue['ref'].length == 0){
+            showMessage('Warning', 'Can\'t create a proposal without ref', 'warning');
+            type = null;
+        }
+      var $Tr = $container.find('form').find('tr');
+      TValue['statut_libelle']="Brouillon";
+      TValue['statut']=0;
+      TValue['lines'] =[];
+          $Tr.each(function(i,input){
+              $input =$(input);
+              if($input.children('td[name="libelle"]').text().length != 0){
+                  console.log("ONPASSEDANSLE LIBELLE");
+                TValue['lines'][i-1] = {};
+                TValue['lines'][i-1].ref=$input.children('td[name="libelle"]').text();
+                TValue['lines'][i-1].subprice=$input.children('td[name="price"]').text();
+                TValue['lines'][i-1].qty=$input.children('td[name="qty"]').children().val();
+                TValue['lines'][i-1].tva_tx=$input.children('td[name="tva_tx"]').text();
+                TValue['lines'][i-1].remise_percent=$input.children('td[name="remise_percent"]').children().val();
+            }
+          });
     }
+    
+    
+
 
     switch (type) {
         case 'product':
@@ -687,8 +714,11 @@ function addItemToList(ThisElement) {
     }
     else{
         currentPropal=$("#proposal-card-edit");
-        propalProductList.push({'libelle':ThisElement.parentNode.getAttribute("label"),'prix':10, 'quantite':1});
-        majTableau("update");
+        var elem = ThisElement.parentNode.getAttribute("label").split(';');
+        console.log('ADD ITEM TO LIST'+elem);
+        propalProductList.push({'libelle':elem[0],'prix':elem[1],'tva_tx':elem[2], 'quantite':1});
+        console.log("libelle IS "+propalProductList);
+        majTableau("edit");
     }
     $("#product-list-propal").attr('class','tab-pane');
     currentPropal.attr('class','tab-pane active');

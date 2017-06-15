@@ -228,9 +228,17 @@ function _updateDolibarr(&$user, &$TObject, $classname)
 				
 				
 				dol_syslog('STANDALONE::interface.php case Propal mode_reglement'.$objDolibarr->mode_reglement_id,LOG_DEBUG);
+				dol_syslog('STANDALONE::interface.php case RESFETCH'.$resFetch,LOG_DEBUG);
 
+				if($resFetch > 0 ){
+					$objDolibarr->setPaymentMethods($objDolibarr->mode_reglement_id);
+					dol_syslog('STANDALONE::interface.php case Propal id_dolibar'.$objStd->id_dolibarr,LOG_DEBUG);
+
+					$objDolibarr->setPaymentTerms($objDolibarr->cond_reglement_id );
+				}else {
+					$objDolibarr->id = $objDolibarr->create($user);
+				}
 				
-				$objDolibarr->id = $objDolibarr->create($user);
 				dol_syslog('STANDALONE::interface.php case Propal id'.$objDolibarr->id,LOG_DEBUG);
 				if(!empty($objStd->lines)){
 					foreach($objStd->lines as $line){
@@ -243,11 +251,23 @@ function _updateDolibarr(&$user, &$TObject, $classname)
 							$res = $db->query($sql);
 							if($res){
 								$existingProd = $db->fetch_object($res);
-								$objDolibarr->addline($line->ref, $line->subprice, $line->qty, $line->tva_tx, 0, 0, $existingProd->rowid,$line->remise_percent);
+								if(!empty($line->id)){
+									$objDolibarr->updateline($line->id, $line->subprice, $line->qty, $line->remise_percent,$line->tva_tx);
+								}else {
+									
+									
+									$objDolibarr->addline($line->ref, $line->subprice, $line->qty, $line->tva_tx, 0, 0, $existingProd->rowid,$line->remise_percent);
+								}
 
 							}
 							else {
-								$objDolibarr->addline($line->ref, $line->subprice, $line->qty, $line->tva_tx, 0, 0, "",$line->remise_percent);
+								if(!empty($line->id)){
+									$objDolibarr->updateline($line->id, $line->subprice, $line->qty, $line->remise_percent,$line->tva_tx);
+								}else {
+									
+
+									$objDolibarr->addline($line->ref, $line->subprice, $line->qty, $line->tva_tx, 0, 0, "",$line->remise_percent);
+								}
 
 							}
 							

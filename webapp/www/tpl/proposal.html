@@ -29,7 +29,7 @@
                         <h3>Proposition pour le client : <p id="nomDuClient" rel="nom-client"></p>  </h3>
                         <h3>Statut : <p id="statut_libelle" rel="statut_libelle"></p>  </h3><br>
                         
-                        <h4>Durée de validité : <p id="cond_reglement" rel="cond_reglement"></p>  </h4><br>
+                        <h4>Condition de réglement : <p id="cond_reglement" rel="cond_reglement"></p>  </h4><br>
                         <h4>Mode de réglement : <p id="mode_reglement" rel="mode_reglement"></p>  </h4><br>
                         
                       <br><br>
@@ -188,12 +188,12 @@
                                                 </td>
                                                
                                                 <td>
-                                                    <span class="glyphicon glyphicon-ok" onClick='addUnExistProduct()'>
+                                                    <span class="glyphicon glyphicon-ok" onClick='addUnExistProduct("edit")'>
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td colspan="6">
-                                                    <input type="text" id="totaltableEdit" value="" disabled="disabled" />
+                                                    <input type="text" id="totaltableEdit" value="" disabled="disabled" name="total"/>
                                                 </td>
                                             </tr>
                                         </tfoot>

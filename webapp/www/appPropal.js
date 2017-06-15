@@ -244,24 +244,50 @@ function updatetotal(bodyWillUpdated){
                  ptot = pht+pht*(tva/100);
                  total= parseFloat(total)+ parseFloat(ptot);
             }else {
-                total= parseFloat(total)+ parseFloat(pht);
+                total=parseFloat(total) + parseFloat(pht);
             }
             console.log("total");
             console.log(total);
-             total =total.toFixed(2);
+            
                 
             
             
         });
-
+         total =parseFloat(total).toFixed(2);
         $('#totaltableAdd').val(total);
     }
     else{
         $('#tableListeProduitsBodyEdit > tr ').each(function(){ //parcours tout les element 'tr' de #tableListeProduitsBody puis trouve les quantité et les pU pour calculer le total
             pU = $(this).children('td[id="pUprod"]').text();
             quantite = $(this).find('input').val();
-            total=total+(pU*quantite);
-    });
+            tva = $(this).find('td[id="tva_tx"]').text();
+            reduction = $(this).find('input[class="inputRemise"]').val();
+            pht = (pU*quantite);
+            console.log("pht");
+            console.log(pht);
+            if(reduction != "0" || reduction !=""){
+                
+                pht=pht-(pht*(reduction/100));
+                console.log("phtReduit");
+                console.log(pht);
+            }
+            if(tva != "0"){
+                 
+                 ptot = pht+pht*(tva/100);
+                 total= parseFloat(total)+ parseFloat(ptot);
+            }else {
+                total=parseFloat(total) + parseFloat(pht);
+            }
+            console.log("total");
+            console.log(total);
+            
+                
+            
+            
+        });
+         total =parseFloat(total).toFixed(2);
+                
+ 
 
         $('#totaltableEdit').val(total); //modifier valeur du total dans le champ input
     }
@@ -298,12 +324,16 @@ function addUnExistProduct(bodyWillUpdated){
         name=$('#unexistProductEdit').find('input[id="name"]').val();
         prix=$('#unexistProductEdit').find('input[id="pUprod"]').val();
         quantite=$('#unexistProductEdit').find('input[id="nbprod"]').val();
+        tva=$('#unexistProductEdit').find('select[name="tva_tx"]').val();
+        remise=$('#unexistProductEdit').find('input[id="remise_percent"]').val();
         if (name!="" && prix!="" && quantite!="" ){
-            propalProductList.push({'id_dolibarr':"",'product_label':name,'subprice':prix,'qty':quantite, 'fk_product':0});
+            propalProductList.push({'id_dolibarr':"",'libelle':name,'prix':prix,'quantite':quantite,'tva_tx':tva,'remise_percent':remise, 'fk_product':0});
             $('#unexistProductEdit').find('input[id="name"]').val("");
             $('#unexistProductEdit').find('input[id="pUprod"]').val("");
             $('#unexistProductEdit').find('input[id="nbprod"]').val("");
-            majTableau();
+            $('#unexistProductEdit').find('select[name="tva_tx"]').val(0);
+            $('#unexistProductEdit').find('input[id="remise_percent"]').val("");
+            majTableau("edit");
         }
         else{
             alert("Some field are empty !");
