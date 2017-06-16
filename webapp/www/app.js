@@ -672,6 +672,60 @@ function updateItem($container, type)
     propalProductList = [];
 }
 
+
+
+function validateItem(type,$container,showProposal)
+{
+    var TValue = {};
+    var id = $container.children('input[name=id]').val();
+
+    if($("div.active").attr('id') == 'proposal-card'){
+     
+        if(TValue['ref'].length == 0){
+            showMessage('Warning', 'Can\'t create a proposal without ref', 'warning');
+            type = null;
+        }
+      var $Tr = $container.find('tbody').find('tr');
+      TValue['statut_libelle']="Ouvert";
+      TValue['statut']=1;
+      TValue['lines'] =[];
+          $Tr.each(function(i,input){
+              $input =$(input);
+              if($input.children('td[name="libelle"]').text().length != 0){
+                  console.log("ONPASSEDANSLE LIBELLE");
+                TValue['lines'][i-1] = {};
+                TValue['lines'][i-1].ref=$input.children('td[name="libelle"]').text();
+                TValue['lines'][i-1].subprice=$input.children('td[name="price"]').text();
+                TValue['lines'][i-1].qty=$input.children('td[name="qty"]').text();
+                TValue['lines'][i-1].tva_tx=$input.children('td[name="tva_tx"]').text();
+                TValue['lines'][i-1].remise_percent=$input.children('td[name="remise"]').text();
+            }
+          });
+    }
+    
+    
+
+
+    switch (type) {
+        case 'product':
+            var callback = showProduct;
+            break;
+        case 'thirdparty':
+            var callback = showThirdparty;
+            break;
+        case 'proposal':
+            var callback = showProposal;
+            break;
+        case 'contact' : //on ne passe probablement jamais dans ce cas la
+            var callback = showContact;
+            break;
+    }
+
+    doliDb.updateItem(type, id, TValue, callback);
+    propalProductList = [];
+}
+
+
 /*
  * créer un contact et l'ajoute et l'ajoute au sous menu du thirdparty
  */

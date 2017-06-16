@@ -43,7 +43,7 @@ function showProposal(item, args)
     setItemInHTML(container, item);
     $("#total_ttc").html(parseFloat($("#total_ttc").html()).toFixed(2));
     $('li.active').removeClass('active').addClass('visible');
-
+    
     $('a#last-proposal').html(item.ref).closest('li').removeClass('hidden').addClass('active');
 
 
@@ -51,6 +51,11 @@ function showProposal(item, args)
         $(".btn-edit").hide();
     } else {
         $(".btn-edit").show();
+    }
+    if(item.statut==0){
+        $(".btn-validate").show();
+    } else {
+        $(".btn-validate").hide();
     }
 }
 function getNomClient($container, socid){
@@ -80,7 +85,7 @@ function refreshProposalLines($container, TPropal)
             ref = TPropal[i].desc;
         }
         console.log(TPropal[i]);
-        var $li = $('<tr><td>' + ref + '</td><td>' + parseFloat(TPropal[i].subprice).toFixed(2) + '</td><td>' + TPropal[i].qty + '</td><td>' +parseFloat( TPropal[i].tva_tx ).toFixed(2) + '</td><td>' + parseFloat(TPropal[i].remise_percent).toFixed(2) + '</td></tr>');
+        var $li = $('<tr><td name="libelle">' + ref + '</td><td name="price">' + parseFloat(TPropal[i].subprice).toFixed(2) + '</td><td name="qty">' + TPropal[i].qty + '</td><td name="tva_tx">' +parseFloat( TPropal[i].tva_tx ).toFixed(2) + '</td><td name="remise">' + parseFloat(TPropal[i].remise_percent).toFixed(2) + '</td></tr>');
         if(temp!=null){
             $container.append(temp);
         }
