@@ -45,6 +45,13 @@ function showProposal(item, args)
     $('li.active').removeClass('active').addClass('visible');
 
     $('a#last-proposal').html(item.ref).closest('li').removeClass('hidden').addClass('active');
+
+
+    if(item.statut > 1){
+        $(".btn-edit").hide();
+    } else {
+        $(".btn-edit").show();
+    }
 }
 function getNomClient($container, socid){
     doliDb.setNomClient('thirdparty',socid,['id_dolibarr'],$container);
@@ -354,7 +361,7 @@ function removePropalLines(elemDom){
     }
     propalProductList.pop();
     console.log(propalProductList);
-    if($(".active")[2].id == 'proposal-card-add'){
+    if($("div.active").attr('id') == 'proposal-card-add'){
          majTableau("add");
     }else {
          majTableau("edit");

@@ -442,6 +442,10 @@ function showList(type, callback, container)
 {
     if (typeof callback != 'undefined')
     {
+        console.log("div.active");
+        if($("div.active").attr('id') == 'proposal-card-edit' || $("div.active").attr('id') == 'proposal-card-add') {
+            $("div.active").addClass('lastaction');
+        }
         doliDb.getAllItem(type, callback, container);
     } else
     {
@@ -528,8 +532,6 @@ function createItem($container, type) {
           });
     }
 
-    console.log("TValue");
-    console.log(TValue);
     switch (type) {
         case 'product':
             var callback = showProduct;
@@ -574,7 +576,6 @@ function resetForm() {
             // case 'hidden':
             case 'text':
                 inputs[i].value = '';
-                
                 break;
             case 'radio':
             case 'checkbox':
@@ -633,8 +634,7 @@ function updateItem($container, type)
             type = null;
         }
       var $Tr = $container.find('form').find('tr');
-      TValue['statut_libelle']="Brouillon";
-      TValue['statut']=0;
+      
       TValue['lines'] =[];
           $Tr.each(function(i,input){
               $input =$(input);
@@ -704,13 +704,14 @@ function addLine(){
 
 function addItemToList(ThisElement) {
     console.log(ThisElement);
-    if($("#proposal-card-edit > input[id=propalid]").val()==""){
+    if($("div.lastaction").attr('id')=="proposal-card-add"){
         currentPropal=$("#proposal-card-add");
         var elem = ThisElement.parentNode.getAttribute("label").split(';');
         console.log('ADD ITEM TO LIST'+elem);
         propalProductList.push({'libelle':elem[0],'prix':elem[1],'tva_tx':elem[2], 'quantite':1});
         console.log("libelle IS "+propalProductList);
         majTableau("add");
+        currentPropal.removeClass('lastaction');
     }
     else{
         currentPropal=$("#proposal-card-edit");
@@ -719,6 +720,7 @@ function addItemToList(ThisElement) {
         propalProductList.push({'libelle':elem[0],'prix':elem[1],'tva_tx':elem[2], 'quantite':1});
         console.log("libelle IS "+propalProductList);
         majTableau("edit");
+        currentPropal.removeClass('lastaction');
     }
     $("#product-list-propal").attr('class','tab-pane');
     currentPropal.attr('class','tab-pane active');

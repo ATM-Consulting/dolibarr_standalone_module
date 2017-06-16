@@ -363,6 +363,16 @@ var fk_thirdparty;
             if (item)
             {
                 $.extend(true, item, TValue);
+                if(storename == 'proposal'){
+                    if(item['lines'].length != TValue['lines'].length){
+                        item['lines'] = [];
+                        TValue['lines'].forEach(function(line){
+                            item['lines'].push(line);
+                        });
+                        
+                    }
+                }
+                
                 item.update_by_indexedDB = 1;
 
                 console.log('beforeput', item);

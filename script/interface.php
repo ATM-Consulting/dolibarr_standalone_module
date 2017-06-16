@@ -231,18 +231,36 @@ function _updateDolibarr(&$user, &$TObject, $classname)
 				dol_syslog('STANDALONE::interface.php case RESFETCH'.$resFetch,LOG_DEBUG);
 
 				if($resFetch > 0 ){
+					$objDolibarr->set_draft($user);
+					$objDolibarr->id=$objStd->id_dolibarr;
 					$objDolibarr->setPaymentMethods($objDolibarr->mode_reglement_id);
-					dol_syslog('STANDALONE::interface.php case Propal id_dolibar'.$objStd->id_dolibarr,LOG_DEBUG);
-
 					$objDolibarr->setPaymentTerms($objDolibarr->cond_reglement_id );
+					//suppression des lignes
+					if(!empty($objDolibarr->lines)){
+						$toDelete = true;
+						foreach ($objDolibarr->lines as $li){
+
+							foreach($objStd->lines as $liStd){
+								if($li->id == $liStd->id){
+									$toDelete = false;
+								}
+							}
+							if($toDelete){
+								$objDolibarr->deleteline($li->id);
+							}
+						}
+					}
 				}else {
 					$objDolibarr->id = $objDolibarr->create($user);
 				}
+				
+				
 				
 				dol_syslog('STANDALONE::interface.php case Propal id'.$objDolibarr->id,LOG_DEBUG);
 				if(!empty($objStd->lines)){
 					foreach($objStd->lines as $line){
 						
+				dol_syslog('STANDALONE::interface.php case Propal ref_line'.$line->ref,LOG_DEBUG);
 
 						if(!empty($line->ref)){
 							$sql = "SELECT rowid,label 
@@ -252,7 +270,9 @@ function _updateDolibarr(&$user, &$TObject, $classname)
 							if($res){
 								$existingProd = $db->fetch_object($res);
 								if(!empty($line->id)){
-									$objDolibarr->updateline($line->id, $line->subprice, $line->qty, $line->remise_percent,$line->tva_tx);
+									$objDolibarr->updateline($line->id, $line->subprice, $line->qty, $line->remise_percent,$line->tva_tx,0,0,$line->desc);
+								
+									
 								}else {
 									
 									
@@ -262,7 +282,7 @@ function _updateDolibarr(&$user, &$TObject, $classname)
 							}
 							else {
 								if(!empty($line->id)){
-									$objDolibarr->updateline($line->id, $line->subprice, $line->qty, $line->remise_percent,$line->tva_tx);
+									$objDolibarr->updateline($line->id, $line->subprice, $line->qty, $line->remise_percent,$line->tva_tx,0,0,$line->desc);
 								}else {
 									
 
@@ -273,6 +293,9 @@ function _updateDolibarr(&$user, &$TObject, $classname)
 							
 						}
 							
+					}
+					if($objStd->statut == 1){
+						$objDolibarr->valid($user);
 					}
 					
 				}
