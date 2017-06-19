@@ -156,9 +156,9 @@ var DoliDb = function () {};
         console.log('dropItem:id',id);
         var transaction = this.db.transaction(storename, "readwrite");
         var store = transaction.objectStore(storename);
-        
+        console.log(store);
         var res = store.delete(id);
-      
+        console.log(res);
         res.onsuccess = function (e) {
             console.log('Delete', 'The current record has been deleted', 'success');
             showMessage('Delete', 'The current record has been deleted', 'success');
@@ -429,7 +429,21 @@ var fk_thirdparty;
                 $container.children('input[name=passwd]').val(localStorage.dolibarr_password);
                 $container.children('input[name=entity]').val(1);
                 $container.children('textarea[name=TItem]').val(JSON.stringify(TItem));
-             
+                switch (storename) {
+                    case 'product':
+                        var date_last_sync = localStorage.date_last_sync_product || 0;
+                        break;
+                    case 'thirdparty':
+                        var date_last_sync = localStorage.date_last_sync_thirdparty || 0;
+                        break;
+                    case 'proposal':
+                        var date_last_sync = localStorage.date_last_sync_proposal || 0;
+                        break;
+                }
+              
+
+                $container.children('input[name=tms]').val(date_last_sync);
+                
                 $container.submit();
 
                 //TODO voir pour récupérer le retour PHP 

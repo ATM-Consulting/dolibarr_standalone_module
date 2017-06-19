@@ -288,6 +288,7 @@ function getData(TObjToSync)
 
 function _update_date_sync(type, date)
 {
+    
     switch (type) {
         case 'product':
             localStorage.date_last_sync_product = date;
@@ -392,6 +393,12 @@ function findContact(id, callback)
  * @param {type} item
  * @returns {undefined}
  */
+
+function showCreateButtons(){
+    
+}
+
+
 function getOneItem(type, id,id_dolibarr, callback) {
 
 
@@ -634,7 +641,7 @@ function updateItem($container, type)
             type = null;
         }
       var $Tr = $container.find('form').find('tr');
-      
+      TValue['tms'] = new Date().getTime();
       TValue['lines'] =[];
           $Tr.each(function(i,input){
               $input =$(input);
@@ -851,5 +858,6 @@ function editContact(item)
 
 function dropItem(storename, id, callback)
 {
+    
     doliDb.dropItem(storename, id, callback);
 }

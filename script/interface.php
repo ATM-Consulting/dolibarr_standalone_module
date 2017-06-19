@@ -12,7 +12,7 @@
 	dol_include_once('/contact/class/contact.class.php');
 	dol_include_once('/product/class/product.class.php');
 	dol_include_once('/comm/propal/class/propal.class.php');
-
+	$lastSynchro =  GETPOST('tms');
 // TODO sync event, propal, order, invoice in order to allow view and edit
 
 	$get = GETPOST('get');
@@ -65,7 +65,6 @@
 			break;
 		*/	
 	}	
-dol_syslog('STANDALONE::interface.php case PUT'.$put,LOG_DEBUG);
 	switch ($put) {
 						
 
@@ -90,7 +89,8 @@ dol_syslog('STANDALONE::interface.php case PUT'.$put,LOG_DEBUG);
 		case 'proposal':
 			$TProposal = GETPOST('TItem');
 			$TProposal = json_decode($TProposal);
-			
+		
+
 			$response = _updateDolibarr($user, $TProposal, 'Propal');
 			__out($response);
 			break;
@@ -166,9 +166,8 @@ function _getListItem($type, $filter='')
 
 function _updateDolibarr(&$user, &$TObject, $classname)
 {
-	global $langs,$db,$conf;
+	global $langs,$db,$conf,$lastSynchro;
 	$TError = array();
-	
 	foreach ($TObject as $objStd)
 	{
 		$objDolibarr = new $classname($db);
@@ -229,12 +228,26 @@ function _updateDolibarr(&$user, &$TObject, $classname)
 				
 				dol_syslog('STANDALONE::interface.php case Propal mode_reglement'.$objDolibarr->mode_reglement_id,LOG_DEBUG);
 				dol_syslog('STANDALONE::interface.php case RESFETCH'.$resFetch,LOG_DEBUG);
-
+				
 				if($resFetch > 0 ){
+					$sql="SELECT tms,rowid
+						FROM ".MAIN_DB_PREFIX."propal
+						WHERE rowid =".$objDolibarr->id_dolibarr;
+					$res = $db->query($sql);
+					if($res){
+						$tms = $db->fetch_object($res);
+						dol_syslog('STANDALONE::interface.php TMS DOLIBARR '.strtotime($tms->tms).' TMS LAST SYNCHRO '.$lastSynchro,LOG_DEBUG);
+
+						if(strtotime($tms->tms)*1000>$lastSynchro){
+							break;
+						}
+					}
+					
 					$objDolibarr->set_draft($user);
 					$objDolibarr->id=$objStd->id_dolibarr;
 					$objDolibarr->setPaymentMethods($objDolibarr->mode_reglement_id);
 					$objDolibarr->setPaymentTerms($objDolibarr->cond_reglement_id );
+					
 					//suppression des lignes
 					if(!empty($objDolibarr->lines)){
 						$toDelete = true;

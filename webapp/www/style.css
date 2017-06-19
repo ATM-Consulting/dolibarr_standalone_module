@@ -69,10 +69,18 @@ li span.fournisseur {
 }
 
 .link_edit {
-	position :absolute;
+	position :fixed;
 	right : 30px;
 	bottom : 30px;
 }
+
+
+.link_remove {
+	position :absolute;
+	right : 100px;
+	bottom : 30px;
+}
+
 
 .online {
 	font-weight: normal;

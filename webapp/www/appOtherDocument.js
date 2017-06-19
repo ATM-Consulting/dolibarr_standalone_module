@@ -50,6 +50,21 @@ function showBill(item)
     setItemInHTML($('#bill-card'), item);
 }
 
+
+
+function refreshAssociateProposalList($container, TPropal)
+{
+	var x = 0; 
+	$container.empty();
+	for (var i in TPropal)
+	{
+
+                var $li = $('<li class="list-group-item"><a data-toggle="tab" href="#proposal-card" onclick="javascript:showItem(\'proposal\', '+TPropal[i].id+', showProposal)">'+TPropal[i].ref+'<br>'+TPropal[i].statut_libelle+'</a></li>');
+		$container.append($li);
+		
+		
+	}
+}
 /*
  * affiche la liste des commande /! Non implementé !/
  */
@@ -102,7 +117,7 @@ function refreshAssociateContactList($container, item)
     $container.empty();
     for (var i in TContact)
     {
-        var $li = $('<li><a data-toggle="tab" href="#contact-card" onclick="javascript:showItem(\'contact\', ' + TContact[i].id + ', showContact , {fk_thirdparty : '+item.id+', fk_contact:'+ TContact[i].id +'})">' + TContact[i].firstname + '     ' + TContact[i].lastname + '</a></li>');
+        var $li = $('<li class="list-group-item"><a data-toggle="tab" href="#contact-card" onclick="javascript:showItem(\'contact\', ' + TContact[i].id + ', showContact , {fk_thirdparty : '+item.id+', fk_contact:'+ TContact[i].id +'})">' + TContact[i].firstname + '     ' + TContact[i].lastname + '<br>'+TContact[i].address+', '+TContact[i].town+'<br>'+TContact[i].phone_pro+'</a></li>');
         $container.append($li);
 
         if (x > 10)

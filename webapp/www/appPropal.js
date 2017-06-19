@@ -84,7 +84,9 @@ function refreshProposalLines($container, TPropal)
         } else{
             ref = TPropal[i].desc;
         }
-        console.log(TPropal[i]);
+        if(TPropal[i].subprice == null){
+            TPropal[i].subprice = 0;
+        }
         var $li = $('<tr><td name="libelle">' + ref + '</td><td name="price">' + parseFloat(TPropal[i].subprice).toFixed(2) + '</td><td name="qty">' + TPropal[i].qty + '</td><td name="tva_tx">' +parseFloat( TPropal[i].tva_tx ).toFixed(2) + '</td><td name="remise">' + parseFloat(TPropal[i].remise_percent).toFixed(2) + '</td></tr>');
         if(temp!=null){
             $container.append(temp);

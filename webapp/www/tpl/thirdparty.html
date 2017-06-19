@@ -52,11 +52,11 @@
                     <h4 align="center">Existing : </h4>
                 </div>
                 
-		<div class="doc_associate">
+		<!--<div class="doc_associate">
 			
 			<ul class="nav navbar-nav text-xs-center alternate list-group" role="tablist">
 				<!-- Liste des propositions commerciales associés au client -->
-				<li class="dropdown clearfix btn-default">
+				<!--<li class="dropdown clearfix btn-default">
 					<a data-toggle="dropdown" href="#" class="dropdown-toggle col-xs-12 btn"><langs trans="Proposals"></langs>&nbsp;<span class="caret"></span></a>
 					<ul class="dropdown-menu text-xs-center doc_associate_proposals">
 						
@@ -64,7 +64,7 @@
 				</li>
 				
 				<!-- Liste des commandes associés au client -->
-				<li class="dropdown clearfix btn-default">
+				<!--<li class="dropdown clearfix btn-default">
 					<a data-toggle="dropdown" href="#" class="dropdown-toggle col-xs-12 btn" ><langs trans="Orders"></langs>&nbsp;<span class="caret"></span></a>
 					<ul class="dropdown-menu text-xs-center doc_associate_orders">
 						
@@ -72,7 +72,7 @@
 				</li>
 				
 				<!-- Liste des factures associés au client -->
-				<li class="dropdown clearfix btn-default">
+				<!--<li class="dropdown clearfix btn-default">
 					<a data-toggle="dropdown" href="#" class="dropdown-toggle col-xs-12 btn" ><langs trans="Bills"></langs>&nbsp;<span class="caret"></span></a>
 					<ul class="dropdown-menu text-xs-center doc_associate_bills">
 						
@@ -80,7 +80,7 @@
 				</li>
                                 
                                 <!-- Liste des contacts associés au client -->
-				<li class="dropdown clearfix btn-default">
+				<!--<li class="dropdown clearfix btn-default">
 					<a data-toggle="dropdown" href="#" class="dropdown-toggle col-xs-12 btn" ><langs trans="Contacts"></langs>&nbsp;<span class="caret"></span></a>
 					<ul class="dropdown-menu text-xs-center doc_associate_contacts">
 						
@@ -88,13 +88,28 @@
 				</li>
 			</ul>
 		</div>
+            </div>-->
+                                
+            <div class="panel-heading">
+                <h3 class="panel-title">Contacts</h3>
             </div>
+            <ul class="list-group doc_associate_contacts"></ul>
+            <div class="panel-heading">
+                <h3 class="panel-title">Proposals</h3>
+            </div>
+            <ul class="list-group doc_associate_proposals"></ul>
+                                            
+                                             
+
+                                        
+                                    
+                                
 	
         <div class="move_tab link_edit">
             <a href="#thirdparty-card" class="">
-            <button type="button" class="btn btn-primary btn-circle btn-lg btn-edit" onclick="getOneItem('thirdparty', $('#thirdparty-card input[name=id]').val(), $('#thirdparty-card input[name=id_dolibarr]').val(), showThirdparty);">
-                    <i class="glyphicon glyphicon-refresh"></i>
-            </button>
+                    <button type="button" class="btn btn-primary btn-circle btn-lg btn-edit" onclick="getOneItem('thirdparty', $('#thirdparty-card input[name=id]').val(), $('#thirdparty-card input[name=id_dolibarr]').val(), showThirdparty);">
+                            <i class="glyphicon glyphicon-refresh"></i>
+                    </button>
             </a>
 
             <a data-toggle="tab" href="#thirdparty-card-edit" class="">
@@ -102,9 +117,15 @@
                             <i class="glyphicon glyphicon-pencil"></i>
                     </button>
             </a>
+            
+            <a data-toggle="tab" href="#thirdparty-card-edit" class="">
+                    <button type="button" class="btn btn-primary btn-circle btn-lg btn-edit" onclick="showCreateButtons();">
+                            <i class="glyphicon glyphicon-plus"></i>
+                    </button>
+            </a>
         </div>
 </div>
-
+</div>
 <div id="thirdparty-card-edit" class="tab-pane">
 	<input type="hidden" name="id" value="" />
 	
