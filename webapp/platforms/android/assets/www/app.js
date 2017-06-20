@@ -416,6 +416,7 @@ function showProposal(item, args)
 	var container = $('#proposal-card');
 	if (typeof args != 'undefined' && typeof args.container != 'undefined') container = args.container;
 	setItemInHTML(container, item);
+        
 }
 
 function showOrder(item)
@@ -452,11 +453,11 @@ function refreshAssociateProposalList($container, TPropal)
 	$container.empty();
 	for (var i in TPropal)
 	{
-		var $li = $('<li><a data-toggle="tab" href="#proposal-card" onclick="javascript:showItem(\'proposal\', '+TPropal[i].id+', showProposal)">'+TPropal[i].ref+'</a></li>');
+
+                var $li = $('<li class="list-group-item"><a data-toggle="tab" href="#proposal-card" onclick="javascript:showItem(\'proposal\', '+TPropal[i].id+', showProposal)">'+TPropal[i].ref+'<br>'+TPropal[i].total_ttc+'</a></li>');
 		$container.append($li);
 		
-		if (x > 10) return;
-		else x++;
+		
 	}
 }
 

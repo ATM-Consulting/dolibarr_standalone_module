@@ -16,13 +16,16 @@ function refreshProposalList(TItem)
     $('#proposal-list ul').empty();
     for (var i in TItem)
     {
-        var $li = $('<li class="list-group-item"><a data-toggle="tab" href="#proposal-card" onclick="javascript:showItem(\'proposal\', ' + TItem[i].id + ', showProposal)">' + TItem[i].ref + '</a></li>');
-        $('#proposal-list ul').append($li);
+        if(!TItem[i].deleted_by_indexedDB){
+            var $li = $('<li class="list-group-item"><a data-toggle="tab" href="#proposal-card" onclick="javascript:showItem(\'proposal\', ' + TItem[i].id + ', showProposal)">' + TItem[i].ref + ' - ' + TItem[i].statut_libelle + ' </a></li>');
+            $('#proposal-list ul').append($li);
 
-        if (x > 20)
-            return;
-        else
-            x++;
+            if (x > 20)
+                return;
+            else
+                x++;
+            }
+        
     }
 
     addEventListenerOnItemLink();
@@ -51,14 +54,15 @@ function showProposal(item, args)
 
     if(item.statut > 1){
         $(".btn-edit").hide();
-    } else {
+        $(".signed").hide();
+    } else if(item.statut == 1){
+        $(".signed").show();
+        $(".btn-edit").hide();
+    }else {
+        $(".signed").hide();
         $(".btn-edit").show();
     }
-    if(item.statut==0){
-        $(".btn-validate").show();
-    } else {
-        $(".btn-validate").hide();
-    }
+   
 }
 function getNomClient($container, socid){
     doliDb.setNomClient('thirdparty',socid,['id_dolibarr'],$container);
