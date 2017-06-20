@@ -42,6 +42,8 @@ function showProposal(item, args)
     getNomClient($('#proposal-card #nomDuClient'), item.socid);
     setItemInHTML(container, item);
     $("#total_ttc").html(parseFloat($("#total_ttc").html()).toFixed(2));
+    $("#total_ht").html(parseFloat($("#total_ht").html()).toFixed(2));
+    $("#total_tva").html(parseFloat($("#total_tva").html()).toFixed(2));
     $('li.active').removeClass('active').addClass('visible');
     
     $('a#last-proposal').html(item.ref).closest('li').removeClass('hidden').addClass('active');
@@ -128,7 +130,7 @@ function editProposal(item) {
     propalProductList=[];
     $("#tableListeProduitsBodyEdit").empty();
     $("#totaltableEdit").val("");
-   $('#proposal-card-edit #nom_client').children('input[name=nom-client]').val($('#proposal-card p[rel=nom-client]').children('p').html());
+   $('#proposal-card-edit #nom_client').children('input[name=nom-client]').val($('#proposal-card h1[rel=nom-client]').children('p').html());
 
     for (var x in item) {
         if(x){
@@ -142,6 +144,9 @@ function editProposal(item) {
                  ref=line.ref;
              }else {
                  ref=line.desc;
+             }
+             if(line.subprice == null){
+                 line.subprice=0;
              }
              
               propalProductList.push({
@@ -237,6 +242,7 @@ function majRemise(bodyWillUpdated){
 function updatetotal(bodyWillUpdated){
 
     var total=0;
+    var totalht=0;
     console.log("updatetotal");
     if(bodyWillUpdated=="add"){
         $('#tableListeProduitsBodyAdd > tr ').each(function(){ //parcours tout les element 'tr' de #tableListeProduitsBody puis trouve les quantité et les pU pour calculer le total
@@ -267,8 +273,13 @@ function updatetotal(bodyWillUpdated){
             
             
         });
+         tva = parseFloat(total-ptot).toFixed(2);
          total =parseFloat(total).toFixed(2);
-        $('#totaltableAdd').val(total);
+         ptot =parseFloat(ptot).toFixed(2);
+         
+        $('#totaltableTTCAdd').val(total);
+        $('#totaltableHTAdd').val(ptot);
+        $('#totaltableTVAAdd').val(tva);
     }
     else{
         $('#tableListeProduitsBodyEdit > tr ').each(function(){ //parcours tout les element 'tr' de #tableListeProduitsBody puis trouve les quantité et les pU pour calculer le total
@@ -284,6 +295,7 @@ function updatetotal(bodyWillUpdated){
                 pht=pht-(pht*(reduction/100));
                 console.log("phtReduit");
                 console.log(pht);
+                
             }
             if(tva != "0"){
                  
@@ -292,6 +304,7 @@ function updatetotal(bodyWillUpdated){
             }else {
                 total=parseFloat(total) + parseFloat(pht);
             }
+            totalht = totalht+pht;
             console.log("total");
             console.log(total);
             
@@ -299,11 +312,13 @@ function updatetotal(bodyWillUpdated){
             
             
         });
-         total =parseFloat(total).toFixed(2);
-                
- 
-
-        $('#totaltableEdit').val(total); //modifier valeur du total dans le champ input
+        tva = parseFloat(total-totalht).toFixed(2);
+        total =parseFloat(total).toFixed(2);
+        totalht =parseFloat(totalht).toFixed(2);
+         
+        $('#totaltableTTCEdit').val(total);
+        $('#totaltableHTEdit').val(totalht);
+        $('#totaltableTVAEdit').val(tva);
     }
 }
 

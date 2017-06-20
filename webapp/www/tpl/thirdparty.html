@@ -36,7 +36,7 @@
                         <div rel="Phone"></div>
                       
 		</div>
-                            
+                <!--            
                 <div>
                     <h4 align="center">Create a new : </h4>
                 </div>
@@ -102,9 +102,25 @@
                                              
 
                                         
-                                    
-                                
-	
+                               
+        <div class="move_tab link_create_proposal transform hidden">
+           
+            
+            <a data-toggle="tab" href="#proposal-card-add" class="">
+                    <button type="button" class="btn btn-primary btn-circle btn-lg btn-edit" onclick="createProposal();">
+                            <i class="glyphicon glyphicon-usd"></i>
+                    </button>
+            </a>
+        </div>                        
+	<div class="move_tab link_create_contact transform hidden">
+           
+            
+            <a data-toggle="tab" href="#contact-card-add" class="">
+                    <button type="button" class="btn btn-primary btn-circle btn-lg btn-edit" onclick="createContact();">
+                            <i class="glyphicon glyphicon-user"></i>
+                    </button>
+            </a>
+        </div>
         <div class="move_tab link_edit">
             <a href="#thirdparty-card" class="">
                     <button type="button" class="btn btn-primary btn-circle btn-lg btn-edit" onclick="getOneItem('thirdparty', $('#thirdparty-card input[name=id]').val(), $('#thirdparty-card input[name=id_dolibarr]').val(), showThirdparty);">
@@ -118,9 +134,18 @@
                     </button>
             </a>
             
-            <a data-toggle="tab" href="#thirdparty-card-edit" class="">
+            <a data-toggle="tab" class="">
                     <button type="button" class="btn btn-primary btn-circle btn-lg btn-edit" onclick="showCreateButtons();">
                             <i class="glyphicon glyphicon-plus"></i>
+                    </button>
+            </a>
+        </div>
+        <div class="move_tab link_edit transform hidden">
+           
+            
+            <a data-toggle="tab" class="">
+                    <button type="button" class="btn btn-primary btn-circle btn-lg btn-edit" onclick="hideCreateButtons();">
+                            <i class="glyphicon glyphicon-minus"></i>
                     </button>
             </a>
         </div>

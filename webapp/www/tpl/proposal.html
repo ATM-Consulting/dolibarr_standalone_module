@@ -25,22 +25,36 @@
 
 	<div class="container-fluid">
 		<div  class="row">
-			<h1 rel="ref"></h1>
-                        <h3>Proposition pour le client : <p id="nomDuClient" rel="nom-client"></p>  </h3>
-                        <h3>Statut : <p id="statut_libelle" rel="statut_libelle"></p>  </h3><br>
+                    <h3><small rel="ref"></small></h3>
+                    <h1 id="nomDuClient" rel="nom-client"> </h1><h2 id="statut_libelle" rel="statut_libelle"></h2> <br> 
                         
-                        <h4>Condition de réglement : <p id="cond_reglement" rel="cond_reglement"></p>  </h4><br>
+                        
+                        <h4>Condition de réglement : <p id="cond_reglement" rel="cond_reglement"></p>  </h4>
                         <h4>Mode de réglement : <p id="mode_reglement" rel="mode_reglement"></p>  </h4><br>
                         
-                      <br><br>
-			<div>
+                      <br>
+			<div  class=" panel-default">
 				<table id="tableListeProduits" class="text-xs-center lines_propal">
 					
 				</table>
 			
 				&nbsp;&nbsp;<span rel="town"></span>
 			</div>
-                        <h3>Total TTC :<p id="total_ttc" rel="total"></p> </h3><br>
+                      <div class="panel panel-default">
+                            <!-- Default panel contents -->
+                            <div class="panel-heading">Totaux</div>
+                            
+
+                            <!-- Table -->
+                            <table class="table">
+                                <tr><td><h5>TTC :<p id="total_ttc" rel="total"></p> </h5></td><td><h5>HT :<p id="total_ht" rel="total_ht"></p> </h5></td><td><h5>TVA :<p id="total_tva" rel="total_tva"></p> </h5></td></tr>
+                            </table>
+                          </div>
+
+                        
+                        
+                       
+               
 
 		</div>
 	</div>
@@ -204,8 +218,17 @@
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td colspan="6">
-                                                    <input type="text" id="totaltableEdit" value="" disabled="disabled" name="total"/>
+                                                <td colspan="2">
+                                                    TTC : <input type="text" id="totaltableTTCEdit" value="" disabled="disabled" name="total"/>
+                                                   
+                                                </td>
+                                                <td colspan="2">
+                                                    HT : <input type="text" id="totaltableHTEdit" value="" disabled="disabled" name="total_ht"/>
+                                                   
+                                                </td>
+                                                <td colspan="2">
+                                                    TVA : <input type="text" id="totaltableTVAEdit" value="" disabled="disabled" name="total_tva"/>
+
                                                 </td>
                                             </tr>
                                         </tfoot>
@@ -376,8 +399,17 @@
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td colspan="5"> 
-                                                    Total TTC : <input type="text" id="totaltableAdd" value="" disabled="disabled" name="total"/>
+                                                <td colspan="2">
+                                                    TTC : <input type="text" id="totaltableTTCEdit" value="" disabled="disabled" name="total"/>
+                                                   
+                                                </td>
+                                                <td colspan="2">
+                                                    HT : <input type="text" id="totaltableHTEdit" value="" disabled="disabled" name="total_ht"/>
+                                                   
+                                                </td>
+                                                <td colspan="2">
+                                                    TVA : <input type="text" id="totaltableTVAEdit" value="" disabled="disabled" name="total_tva"/>
+
                                                 </td>
                                             </tr>
                                         </tfoot>

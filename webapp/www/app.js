@@ -396,6 +396,15 @@ function findContact(id, callback)
 
 function showCreateButtons(){
     
+    $(".transform").removeClass("hidden");
+    
+    
+}
+function hideCreateButtons(){
+    
+    $(".transform").addClass("hidden");
+    
+    
 }
 
 

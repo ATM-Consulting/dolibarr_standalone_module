@@ -662,7 +662,7 @@ var fk_thirdparty;
             } else
             {
                 $container.empty();
-               var $li = $('<p>'+TItem[0].nom+'</p>');
+               var $li = $('<p >'+TItem[0].nom+'</p>');
               
                 $container.append($li);
             }

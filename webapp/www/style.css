@@ -73,7 +73,23 @@ li span.fournisseur {
 	right : 30px;
 	bottom : 30px;
 }
+.link_create_contact {
+	position :fixed;
+	right : 30px;
+	bottom : 90px;
+}
+.link_create_proposal{
+	position :fixed;
+	right : 30px;
+	bottom : 150px;
+}
 
+.transform {
+    -webkit-animation: spin 2s infinite linear;
+  -moz-animation: spin 2s infinite linear;
+  -o-animation: spin 2s infinite linear;
+  animation: spin 2s infinite linear;
+}
 
 .link_remove {
 	position :absolute;
