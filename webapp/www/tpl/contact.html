@@ -33,13 +33,16 @@
                             <span rel ="firstname"></span>                        
                     </h1>
                 </div>
-                <p> Télephone personnel : </p>
-                <div rel="phone_perso"></div>
+                <div rel="country"></div>
+                <div rel="address"></div>
+                <div rel="town"></div>
+                <div rel="zip"></div>
                 
-                <p> Télephone profesionnel : </p>
+                <br>
+                <div rel="phone_perso"></div>
+                &nbsp;
                 <div rel="phone_pro"></div>
                 &nbsp;
-                <p> Télephone mobile : </p>
                 <div rel="phone_mobile"></div>
             </div>
 	</div>
@@ -49,16 +52,11 @@
             	<button type="button" class="btn btn-primary btn-circle btn-lg btn-edit" onclick="showItem('contact', $('#contact-card input[name=id_contact]').val(), editContact);">
 			<i class="glyphicon glyphicon-pencil"></i>
 		</button>
+                
             </a>
         </div>
     
-        <div>
-            <a data-toggle="tab" href="#thirdparty-card" class="move_tab">
-                <button type="button" class="btn btn-primary btn-circle btn-lg btn-edit" onclick="dropItem('contact',$('#fk_contact').val())">
-                    <i class="glyphicon glyphicon-remove"></i>
-                </button>
-            </a>
-        </div>  
+       
         
 </div>
 

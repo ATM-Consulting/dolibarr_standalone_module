@@ -932,6 +932,7 @@ function editContact(item)
 {
     var $container = $('#contact-card-edit');
     $container.children('input[name=id]').val(item.id_dolibarr);
+    console.log("itemCONTACT");
     console.log(item);
     for (var x in item)
     {
