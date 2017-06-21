@@ -166,7 +166,7 @@ function _getListItem($type, $filter='')
 
 function _updateDolibarr(&$user, &$TObject, $classname)
 {
-	global $langs,$db,$conf,$lastSynchro;
+	global $user,$langs,$db,$conf,$lastSynchro;
 	$TError = array();
 	foreach ($TObject as $objStd)
 	{
@@ -189,6 +189,7 @@ function _updateDolibarr(&$user, &$TObject, $classname)
 		if(empty($objStd->id_dolibarr)){
 			$objDolibarr->id = null;
 		}
+		
 		switch ($classname) {
 			case 'Product':
 			case 'Societe':
@@ -211,6 +212,9 @@ function _updateDolibarr(&$user, &$TObject, $classname)
 								
 								
                                 $res = $resFetch > 0 ? $objDolibarr->update($objStd->id_dolibarr, $user) : $objDolibarr->create($user);
+								if($objStd->deleted_by_indexedDB){
+									$objDolibarr->delete($objDolibarr->id,$user);
+								}
 				break;
 			case 'Propal':
 				dol_syslog('STANDALONE::interface.php case Propal',LOG_DEBUG);
@@ -307,8 +311,15 @@ function _updateDolibarr(&$user, &$TObject, $classname)
 						}
 							
 					}
-					if($objStd->statut == 1){
+					if($objStd->statut >= 1){
+						$user->rights->propal->creer = 1;
 						$objDolibarr->valid($user);
+						if($objStd->statut > 1){
+							$objDolibarr->cloture($user, $objStd->statut, "", $notrigger=0);
+						}
+					}
+					if($objStd->deleted_by_indexedDB){
+						$objDolibarr->delete($user);
 					}
 					
 				}

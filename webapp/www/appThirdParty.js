@@ -14,17 +14,20 @@ function refreshThirdpartyList(TItem)
     $('#thirdparty-list ul').empty();
     for (var i in TItem)
     {
-        var $li = $('<li class="list-group-item"><a data-toggle="tab" href="#thirdparty-card" onclick="javascript:showItem(\'thirdparty\', ' + TItem[i].id + ', showThirdparty)">' + TItem[i].name + '</a></li>');
-        if (TItem[i].client == 1)
-            $li.append('<span class="badge client">C</span>');
-        if (TItem[i].fournisseur == 1)
-            $li.append('<span class="badge fournisseur">F</span>');
-        $('#thirdparty-list ul').append($li);
+        if(!TItem[i].deleted_by_indexedDB){
 
-        if (x > 20)
-            return;
-        else
-            x++;
+            var $li = $('<li class="list-group-item"><a data-toggle="tab" href="#thirdparty-card" onclick="javascript:showItem(\'thirdparty\', ' + TItem[i].id + ', showThirdparty)">' + TItem[i].name + '</a></li>');
+            if (TItem[i].client == 1)
+                $li.append('<span class="badge client">C</span>');
+            if (TItem[i].fournisseur == 1)
+                $li.append('<span class="badge fournisseur">F</span>');
+            $('#thirdparty-list ul').append($li);
+
+            if (x > 20)
+                return;
+            else
+                x++;
+        }
     }
 
     addEventListenerOnItemLink();
@@ -50,6 +53,10 @@ function showThirdparty(item)
     $('a#last-thirdparty').html(item.name).closest('li').removeClass('hidden').addClass('active');
     $('#container').children().removeClass("active");
     $('#thirdparty-card').addClass("active");
+    if(item.deleted_by_indexedDB){
+        $('#home').addClass("active");
+        $('#thirdparty-card').removeClass("active");
+    }
 }
 
 
@@ -67,6 +74,19 @@ function editThirdparty(item)
 {
     var $container = $('#thirdparty-card-edit');
     $container.children('input[name=id]').val(item.id_dolibarr);
+    
+    
+    if(item.TContact.length != 0 || item.TProposal.length != 0){
+        
+        $(".btn-danger").addClass("hidden");
+        $(".btn-success").removeClass("col-xs-12").addClass("col-xs-6");
+
+    } else {
+        $(".btn-danger").removeClass("hidden");
+        $(".btn-success").removeClass("col-xs-6").addClass("col-xs-12");
+ 
+    }
+
 
     for (var x in item)
     {

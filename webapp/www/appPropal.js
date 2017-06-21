@@ -65,6 +65,8 @@ function showProposal(item, args)
    
 }
 function getNomClient($container, socid){
+    
+    $("input[name=socid]").val(socid);
     doliDb.setNomClient('thirdparty',socid,['id_dolibarr'],$container);
     
 }
@@ -134,7 +136,7 @@ function editProposal(item) {
     propalProductList=[];
     $("#tableListeProduitsBodyEdit").empty();
     $("#totaltableEdit").val("");
-   $('#proposal-card-edit #nom_client').children('input[name=nom-client]').val($('#proposal-card h1[rel=nom-client]').children('p').html());
+   $('#proposal-card-edit #nom_client').children('input[name=nom-client]').val($('#proposal-card p[rel=nom-client]').children('p').html());
 
     for (var x in item) {
         if(x){

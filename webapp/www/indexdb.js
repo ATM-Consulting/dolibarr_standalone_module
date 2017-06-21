@@ -364,12 +364,14 @@ var fk_thirdparty;
             {
                 $.extend(true, item, TValue);
                 if(storename == 'proposal'){
-                    if(item['lines'].length != TValue['lines'].length){
-                        item['lines'] = [];
-                        TValue['lines'].forEach(function(line){
-                            item['lines'].push(line);
-                        });
-                        
+                    if(TValue['lines']!= null ){
+                        if(item['lines'].length != TValue['lines'].length){
+                            item['lines'] = [];
+                            TValue['lines'].forEach(function(line){
+                                item['lines'].push(line);
+                            });
+
+                        }
                     }
                 }
                 
@@ -662,7 +664,7 @@ var fk_thirdparty;
             } else
             {
                 $container.empty();
-               var $li = $('<p >'+TItem[0].nom+'</p>');
+               var $li = $('<p name="nom-client" >'+TItem[0].nom+'</p>');
               
                 $container.append($li);
             }

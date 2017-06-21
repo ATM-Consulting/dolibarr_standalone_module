@@ -634,6 +634,7 @@ function addContact(item, contact) {
 function updateItem($container, type)
 {
     console.log('container', $container);
+
     var id = $container.children('input[name=id]').val();
     var $TInput = $container.find('form').find('input, textarea, select');
     var TValue = {};
@@ -675,6 +676,7 @@ function updateItem($container, type)
             var callback = showProduct;
             break;
         case 'thirdparty':
+            
             var callback = showThirdparty;
             break;
         case 'proposal':
@@ -749,37 +751,15 @@ function validateItem($container,type)
 function signedItem($container,type)
 {   
     var id = $container.children('input[name=id]').val();
-    var $TInput = $container.find('form').find('input, textarea, select');
+
     var TValue = {};
-    
-    $TInput.each(function(i,input) {
-        $input = $(input);
+   
+   
 
-        TValue[$input.attr('name')] = $input.val();
-
-    });
-    
-
-    if($("div.active").attr('id') == 'proposal-card'){
-
-      var $Tr = $container.find('tbody').find('tr');
-      TValue['statut_libelle']="Signée";
-      TValue['statut']=2;
-      TValue['lines'] =[];
-          $Tr.each(function(i,input){
-              $input =$(input);
-              if($input.children('td[name="libelle"]').text().length != 0){
-                  console.log("ONPASSEDANSLE LIBELLE");
-                TValue['lines'][i] = {};
-                TValue['lines'][i].ref=$input.children('td[name="libelle"]').text();
-                TValue['lines'][i].subprice=$input.children('td[name="price"]').text();
-                TValue['lines'][i].qty=$input.children('td[name="qty"]').text();
-                TValue['lines'][i].tva_tx=$input.children('td[name="tva_tx"]').text();
-                TValue['lines'][i].remise_percent=$input.children('td[name="remise_percent"]').text();
-            }
-          });
-    }
-    
+   
+    TValue['statut_libelle']="Signée";
+    TValue['statut']=2;
+      
     
 
 
@@ -804,37 +784,15 @@ function signedItem($container,type)
 function unsignedItem($container,type)
 {   
     var id = $container.children('input[name=id]').val();
-    var $TInput = $container.find('form').find('input, textarea, select');
+
     var TValue = {};
-    
-    $TInput.each(function(i,input) {
-        $input = $(input);
+   
+   
 
-        TValue[$input.attr('name')] = $input.val();
-
-    });
-    
-
-    if($("div.active").attr('id') == 'proposal-card-edit'){
-
-      var $Tr = $container.find('tbody').find('tr');
-      TValue['statut_libelle']="Non Signée";
-      TValue['statut']=3;
-      TValue['lines'] =[];
-          $Tr.each(function(i,input){
-              $input =$(input);
-              if($input.children('td[name="libelle"]').text().length != 0){
-                  console.log("ONPASSEDANSLE LIBELLE");
-                TValue['lines'][i] = {};
-                TValue['lines'][i].ref=$input.children('td[name="libelle"]').text();
-                TValue['lines'][i].subprice=$input.children('td[name="price"]').text();
-                TValue['lines'][i].qty=$input.children('td[name="qty"]').children().val();
-                TValue['lines'][i].tva_tx=$input.children('td[name="tva_tx"]').text();
-                TValue['lines'][i].remise_percent=$input.children('td[name="remise_percent"]').children().val();
-            }
-          });
-    }
-    
+   
+    TValue['statut_libelle']="Non Signée";
+    TValue['statut']=3;
+      
     
 
 
@@ -981,10 +939,10 @@ function editContact(item)
     }
 }
 
-function dropItem(storename, id, callback)
+function dropItem($container, type)
 {
-    $("#deleted_by_indexedDB").val(1);
-    updateItem($('#proposal-card-edit'), 'proposal');
-    doliDb.dropItem(storename, id, callback);
-    $("#deleted_by_indexedDB").val(0);
+    $(".active #deleted_by_indexedDB").val(1);
+    updateItem($container, type);
+   
+    $(".active #deleted_by_indexedDB").val(0);
 }
