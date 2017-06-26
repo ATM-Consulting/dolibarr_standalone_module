@@ -22,6 +22,7 @@ function showContact(item, args)
         
         if(contact.id == args.fk_contact) {
             setItemInHTML(container, contact);
+            $("#fk_thirdparthy_contact_card").val(item.id);
             find = true;
             break;
         }

@@ -634,8 +634,13 @@ function addContact(item, contact) {
 function updateItem($container, type)
 {
     console.log('container', $container);
+    if(type == 'contact'){
+        var id = $container.children('input[name=fk_thirdparty]').val();
+    
+    }else {
+        var id = $container.children('input[name=id]').val();
 
-    var id = $container.children('input[name=id]').val();
+    }
     var $TInput = $container.find('form').find('input, textarea, select');
     var TValue = {};
     
@@ -666,6 +671,15 @@ function updateItem($container, type)
                 TValue['lines'][i-1].remise_percent=$input.children('td[name="remise_percent"]').children().val();
             }
           });
+    }else if($("div.active").attr('id') == 'contact-card-edit'){
+        temp = TValue;
+        console.log("temp",temp);
+        TValue = {};
+        TValue['TContact']=[];
+        TValue['TContact'][$container.children('input[name=pos]').val()] = {};
+        TValue['TContact'][$container.children('input[name=pos]').val()] = temp;
+        
+        console.log(TValue);
     }
     
     
@@ -683,7 +697,7 @@ function updateItem($container, type)
             var callback = showProposal;
             break;
         case 'contact' : //on ne passe probablement jamais dans ce cas la
-            var callback = showContact;
+            var callback = showThirdparty;
             break;
     }
 
@@ -928,16 +942,29 @@ if (window.addEventListener)
 }
 
 
-function editContact(item)
+function editContact(item,args)
 {
     var $container = $('#contact-card-edit');
-    $container.children('input[name=id]').val(item.id_dolibarr);
     console.log("itemCONTACT");
     console.log(item);
-    for (var x in item)
-    {
-        $container.find('[name=' + x + ']').val(item[x]);
-    }
+    var find = false;
+    for(x1 in item.TContact) {
+        contact = item.TContact[x1];
+        
+        if(contact.id == args.fk_contact) {
+            for (var x in contact)
+            {
+                $container.find('[name=' + x + ']').val(contact[x]);
+                $container.children('input[name=pos]').val(x1);
+            }
+            find = true;
+            break;
+        }
+    }    
+    $container.children('input[name=fk_thirdparty]').val(item.id);
+    
+
+    
 }
 
 function dropItem($container, type)
