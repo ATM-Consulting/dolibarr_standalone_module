@@ -44,21 +44,39 @@ function showProposal(item, args)
     refreshProposalLines($('#proposal-card .lines_propal'), item.lines);
     getNomClient($('#proposal-card #nomDuClient'), item.socid);
     setItemInHTML(container, item);
+    
+    if(item.signature != 'undefined'){
+        $("#signatureJSON").val(item.signature);
+    }
     $("#total_ttc").html(parseFloat($("#total_ttc").html()).toFixed(2));
     $("#total_ht").html(parseFloat($("#total_ht").html()).toFixed(2));
     $("#total_tva").html(parseFloat($("#total_tva").html()).toFixed(2));
     $('li.active').removeClass('active').addClass('visible');
     
     $('a#last-proposal').html(item.ref).closest('li').removeClass('hidden').addClass('active');
-
+    
+    
 
     if(item.statut > 1){
+        $("#defaultSignature").show();
+        console.log(' $("#signatureJSON").val()');
+        console.log( $("#signatureJSON").val());
+        $("#defaultSignature").signature({color: '#ffffff'});
+        $("#defaultSignature").signature('draw', $('#signatureJSON').val());
+       $('#defaultSignature').signature('disable'); 
         $(".btn-edit").hide();
         $(".signed").hide();
     } else if(item.statut == 1){
+        $("#defaultSignature").show();
+
+        $("#defaultSignature").signature({syncField: '#signatureJSON',color: '#ffffff'});
+        $('#defaultSignature').signature('enable'); 
+
         $(".signed").show();
         $(".btn-edit").hide();
     }else {
+         $("#defaultSignature").hide();
+
         $(".signed").hide();
         $(".btn-edit").show();
     }
@@ -193,7 +211,7 @@ function majTableau(bodyWillUpdated){
         bodyUpdated.append('<tr name="line">'+
         '<td name=libelle>'+element.libelle+'</td>'+
         '<td id=pUprod name=price>'+element.prix+'</td>'+
-        '<td id=nbprod name=qty><input class="inputQu" type="number" min="1" size="5" value="'+element.quantite+'" onChange=majQuantity("'+bodyWillUpdated+'")></td>'+
+        '<td id=nbprod name=qty><input class="inputQu" type="number" min="1"  max="99999" value="'+element.quantite+'" onChange=majQuantity("'+bodyWillUpdated+'")></td>'+
         '<td id=tva_tx name=tva_tx>'+element.tva_tx+'</td>'+
         '<td id=remise_percent name=remise_percent><input class="inputRemise" type="number" min="1" max="100" size="4" value="'+element.remise_percent+'" onChange=majRemise("'+bodyWillUpdated+'")></td>'+
         '<td><span class="glyphicon glyphicon-remove" onClick="removePropalLines($(this));"></span></td>'+

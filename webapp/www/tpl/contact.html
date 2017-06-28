@@ -69,7 +69,8 @@
 
 		<form class="form-horizontal">
 			<div class="form-group">
-				
+				<input type="hidden" id="deleted_by_indexedDB" name="deleted_by_indexedDB" rel="deleted_by_indexedDB" value=""/>
+
 				<!-- Nom -->
 				<label for="name" class="col-sm-2 control-label"><langs trans="Name"></langs></label>
 				<div class="col-sm-10">
@@ -141,8 +142,9 @@
 	</div>
 	
 	<div class="row navbar-fixed-bottom">
+      		<a data-toggle="tab" href="#contact-card" onclick="updateItem($('#contact-card-edit'), 'contact');" class="btn btn-success col-xs-12 move_tab"><langs trans="Update"></langs></a>
 		<a data-toggle="tab" href="#contact-card" class="btn btn-default col-xs-6 move_tab"><langs trans="Cancel"></langs></a>
-		<a data-toggle="tab" href="#contact-card" onclick="updateItem($('#contact-card-edit'), 'contact');" class="btn btn-success col-xs-6 move_tab"><langs trans="Update"></langs></a>
+		<a data-toggle="tab" href="#contact-card" onclick="dropItem($('#contact-card-edit'), 'contact');" class="btn btn-danger col-xs-6 move_tab"><langs trans="Delete"></langs></a>
 	</div>	
 </div>
 

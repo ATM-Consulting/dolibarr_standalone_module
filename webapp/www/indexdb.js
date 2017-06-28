@@ -347,9 +347,7 @@ var fk_thirdparty;
 
 
     DoliDb.prototype.updateItem = function (storename, id, TValue, callback) {
-        if(storename=="contact"){
-            storename="thirdparty"; 
-        }
+        
         var transaction = this.db.transaction(storename, "readwrite");
         var objectStore = transaction.objectStore(storename);
 

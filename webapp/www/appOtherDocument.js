@@ -57,6 +57,14 @@ function refreshAssociateProposalList($container, TPropal)
 {
 	var x = 0; 
 	$container.empty();
+        if(!TPropal){
+            $("#title-proposals").addClass("hidden");
+            console.log("UNDEFINEEED");
+        }
+        else {
+            $("#title-proposals").removeClass("hidden");
+            console.log("OR NO");
+        }
 	for (var i in TPropal)
 	{
 
@@ -118,12 +126,16 @@ function refreshAssociateContactList($container, item)
     $container.empty();
     for (var i in TContact)
     {
-        var $li = $('<li class="list-group-item"><a data-toggle="tab" href="#contact-card" onclick="javascript:showItem(\'contact\', ' + TContact[i].id + ', showContact , {fk_thirdparty : '+item.id+', fk_contact:'+ TContact[i].id +'})">' + TContact[i].firstname + '     ' + TContact[i].lastname + '<br>'+TContact[i].address+', '+TContact[i].town+'<br>'+TContact[i].phone_pro+'</a></li>');
-        $container.append($li);
-
-        if (x > 10)
+        if(TContact[i].deleted_by_indexedDB != 1) {
+            var $li = $('<li class="list-group-item"><a data-toggle="tab" href="#contact-card" onclick="javascript:showItem(\'contact\', ' + TContact[i].id + ', showContact , {fk_thirdparty : '+item.id+', fk_contact:'+ TContact[i].id +'})">' + TContact[i].firstname + '     ' + TContact[i].lastname + '<br>'+TContact[i].address+', '+TContact[i].town+'<br>'+TContact[i].phone_pro+'</a></li>');
+            $container.append($li);
+            if (x > 10)
             return;
-        else
+            else
             x++;
+        }
+        
+
+        
     }
 }

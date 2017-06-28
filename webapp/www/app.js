@@ -697,6 +697,7 @@ function updateItem($container, type)
             var callback = showProposal;
             break;
         case 'contact' : //on ne passe probablement jamais dans ce cas la
+            type = "thirdparty";
             var callback = showThirdparty;
             break;
     }
@@ -764,6 +765,7 @@ function validateItem($container,type)
 }
 function signedItem($container,type)
 {   
+    
     var id = $container.children('input[name=id]').val();
 
     var TValue = {};
@@ -773,7 +775,10 @@ function signedItem($container,type)
    
     TValue['statut_libelle']="Signée";
     TValue['statut']=2;
-      
+    TValue['signature']=$("#signatureJSON").val();
+    console.log('$("#defaultSignature").toDataURL()');
+    var canvas = $("#defaultSignature").children();
+    console.log(canvas[0].toDataURL());
     
 
 

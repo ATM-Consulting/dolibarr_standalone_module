@@ -57,6 +57,7 @@ function showThirdparty(item)
         $('#home').addClass("active");
         $('#thirdparty-card').removeClass("active");
     }
+    
 }
 
 

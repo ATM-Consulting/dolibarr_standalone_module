@@ -330,6 +330,9 @@ function _updateDolibarr(&$user, &$TObject, $classname)
             case 'Contact':
 				
                 $res = $resFetch > 0 ? $objDolibarr->update($objStd->id, $user) : $objDolibarr->create($user);
+				if($objStd->deleted_by_indexedDB == 1){
+					$objDolibarr->delete();
+				}
 				
 				
                             

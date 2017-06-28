@@ -47,7 +47,11 @@ function refreshProductList(TItem, container, from)
  */
 function showProduct(item)
 {
+    
     setItemInHTML($('#product-card'), item);
+    $("#product-card div[rel=price]").html("Prix HT : "+parseFloat($("#product-card div[rel=price]").html()).toFixed(2));
+    $("#product-card div[rel=tva_tx]").html("Taux TVA : "+parseFloat($("#product-card div[rel=tva_tx]").html()).toFixed(2)+"%");
+    
 } addEventListenerOnItemLink();
 
 /*
