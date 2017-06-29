@@ -778,7 +778,8 @@ function signedItem($container,type)
     TValue['signature']=$("#signatureJSON").val();
     console.log('$("#defaultSignature").toDataURL()');
     var canvas = $("#defaultSignature").children();
-    console.log(canvas[0].toDataURL());
+    
+    TValue['signatureDataURL']=canvas[0].toDataURL();
     
 
 

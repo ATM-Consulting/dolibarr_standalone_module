@@ -323,10 +323,20 @@ function _updateDolibarr(&$user, &$TObject, $classname)
 					}
 					
 				}
-				
+				if(!empty($objStd->signatureDataURL)){
+					
+					$upload_dir = DOL_DATA_ROOT.'/propale/'.$objDolibarr->ref.'/';
+					$img = $objStd->signatureDataURL;
+					$img = str_replace('data:image/png;base64,', '', $img);
+					$img = str_replace(' ', '+', $img);
+					$data = base64_decode($img);
+					$file = $upload_dir . mktime() . ".png";
+					$success = file_put_contents($file, $data);
+					dol_syslog('STANDALONE::file_put_contents = '.$success);
+				}
 								
 				// cas spéciale, pas de function update et il va falloir sauvegarder les lignes
-                                   break;
+                break;
             case 'Contact':
 				
                 $res = $resFetch > 0 ? $objDolibarr->update($objStd->id, $user) : $objDolibarr->create($user);

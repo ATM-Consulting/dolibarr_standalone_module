@@ -57,28 +57,30 @@ function showProposal(item, args)
     
     
 
-    if(item.statut > 1){
-        $("#defaultSignature").show();
-        console.log(' $("#signatureJSON").val()');
-        console.log( $("#signatureJSON").val());
-        $("#defaultSignature").signature({color: '#ffffff'});
-        $("#defaultSignature").signature('draw', $('#signatureJSON').val());
-       $('#defaultSignature').signature('disable'); 
-        $(".btn-edit").hide();
+    if(item.statut >1 ){
+        if($('#signatureJSON').val().length != 0){
+            $("#defaultSignature").show();
+            $("#defaultSignature").signature({color: '#ffffff'});
+       
+            $("#defaultSignature").signature('draw', $('#signatureJSON').val()).signature('disable');
+        } else {
+             $("#defaultSignature").hide();
+        }
+        $("#proposal-card .btn-edit:first").hide();
+        
         $(".signed").hide();
     } else if(item.statut == 1){
         $("#defaultSignature").show();
-
-        $("#defaultSignature").signature({syncField: '#signatureJSON',color: '#ffffff'});
+        $("#defaultSignature").signature({syncField: '#signatureJSON',color: '#000000'});
         $('#defaultSignature').signature('enable'); 
 
         $(".signed").show();
-        $(".btn-edit").hide();
+        $("#proposal-card .btn-edit:first").hide();
     }else {
-         $("#defaultSignature").hide();
+        $("#defaultSignature").hide();
 
         $(".signed").hide();
-        $(".btn-edit").show();
+        $("#proposal-card .btn-edit:first").show();
     }
    
 }
