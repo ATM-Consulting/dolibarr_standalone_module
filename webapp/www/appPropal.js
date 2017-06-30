@@ -65,7 +65,7 @@ function showProposal(item, args)
             $("#defaultSignature").signature('draw', $('#signatureJSON').val()).signature('disable');
         } else if(item.signatureDataURL) {
             $("#defaultSignature").signature();
-            console.log($("#defaultSignature").children());
+           
             var ctx = $("#defaultSignature").children();
             var canv = ctx[0].getContext("2d");
           

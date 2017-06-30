@@ -321,7 +321,7 @@ function _updateDolibarr(&$user, &$TObject, $classname)
 							
 						}
 							
-					}
+					}//valider/signer/non signer
 					if($objStd->statut >= 1){
 						$user->rights->propal->creer = 1;
 						$objDolibarr->valid($user);
@@ -334,6 +334,7 @@ function _updateDolibarr(&$user, &$TObject, $classname)
 					}
 					
 				}
+				//gestion de la signature
 				if(!empty($objStd->signatureDataURL)){
 					
 					$upload_dir = DOL_DATA_ROOT.'/propale/'.$objDolibarr->ref.'/';
