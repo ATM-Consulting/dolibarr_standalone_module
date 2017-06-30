@@ -126,6 +126,17 @@ function _getItem($type, $id)
         /*var_dump($o);
         exit("o");
 	*/
+		if($type == 'proposal'){
+			$upload_dir = DOL_DATA_ROOT.'/propale/'.$o->ref.'/';
+			$file = $upload_dir ."StandaloneSignature.png";
+			
+			if(file_exists($file)){
+				$img = file_get_contents($file);
+				$img = base64_encode($img);
+				//dol_syslog("STANDALONE::IMAGE BASE64ENCODE".$img);
+				$o->signatureDataURL = 'data:image/png;base64,'.$img;
+			}
+		}
         if($type=='thirdparty') {
             
             $TContact = $o->contact_array_objects();
@@ -330,7 +341,7 @@ function _updateDolibarr(&$user, &$TObject, $classname)
 					$img = str_replace('data:image/png;base64,', '', $img);
 					$img = str_replace(' ', '+', $img);
 					$data = base64_decode($img);
-					$file = $upload_dir . mktime() . ".png";
+					$file = $upload_dir ."StandaloneSignature.png";
 					$success = file_put_contents($file, $data);
 					dol_syslog('STANDALONE::file_put_contents = '.$success);
 				}

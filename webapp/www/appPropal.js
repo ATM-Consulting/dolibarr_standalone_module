@@ -63,6 +63,21 @@ function showProposal(item, args)
             $("#defaultSignature").signature({color: '#ffffff'});
        
             $("#defaultSignature").signature('draw', $('#signatureJSON').val()).signature('disable');
+        } else if(item.signatureDataURL) {
+            $("#defaultSignature").signature();
+            console.log($("#defaultSignature").children());
+            var ctx = $("#defaultSignature").children();
+            var canv = ctx[0].getContext("2d");
+          
+           var image = new Image();
+            image.onload = function() {
+                 canv.drawImage(image, 0, 0);
+            };
+            image.src = item.signatureDataURL;
+           
+             $("#defaultSignature").signature('disable');
+            
+            
         } else {
              $("#defaultSignature").hide();
         }
